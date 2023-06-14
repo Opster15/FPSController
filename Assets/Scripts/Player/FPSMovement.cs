@@ -23,6 +23,8 @@ public class FPSMovement : MonoBehaviour
 
     #endregion
 
+
+
     #region MOVEMENT VARIABLES
 
     [Tooltip("Max speed the controller can achive with just WASD movement")]
@@ -503,7 +505,10 @@ public class FPSMovement : MonoBehaviour
 
         if (_inputManager.m_Dash.InputPressed && m_canDash)
         {
-            DashCheck();
+            if (!_isDashing)
+            {
+                StartCoroutine(Dash());
+            }
         }
     }
 
@@ -900,14 +905,6 @@ public class FPSMovement : MonoBehaviour
     #endregion
 
     #region DASH FUNCTIONS
-
-    public void DashCheck()
-    {
-        if (_currentDashCount > 0 && !_isDashing)
-        {
-            StartCoroutine(Dash());
-        }
-    }
 
     public IEnumerator Dash()
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Unity.VisualScripting;
 
 [System.Serializable]
 [CustomEditor(typeof(FPSMovement))]
@@ -15,6 +16,7 @@ public class FPSMovementEditor : Editor
     {
         serializedObject.Update();
         FPSMovement x = target as FPSMovement;
+
 
         EditorGUILayout.BeginVertical();
         currentTab = GUILayout.SelectionGrid(currentTab, tabs.ToArray(), 4);
@@ -48,6 +50,14 @@ public class FPSMovementEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canCrouch"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canSlide"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canSprint"));
+
+                    if (!x.GetComponent<ExampleMovementMechanic>())
+                    {
+                        if(GUILayout.Button("Add Dash"))
+                        {
+                            x.AddComponent<ExampleMovementMechanic>();
+                        }
+                    }
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canDash"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canWallInteract"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canRocketJump"));
