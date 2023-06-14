@@ -24,7 +24,6 @@ public class FPSMovementEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
 
         CheckBool(x.m_canJump, "Jump");
-        CheckBool(x.m_canSprint, "Sprint");
         CheckBool(x.m_canCrouch, "Crouch/Slide");
         CheckBool(x.m_canDash, "Dash");
         CheckBool(x.m_canWallInteract, "Wall Interact");
@@ -64,7 +63,10 @@ public class FPSMovementEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_absoluteMaxSpeed"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampup"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampdown"));
-                    //EditorGUILayout.PropertyField(serializedObject.FindProperty("m_momentumBasedMovement"));
+                    if (x.m_canSprint)
+                    {
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
+                    }
                     EditorGUI.indentLevel--;
 
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMove"));
@@ -124,13 +126,6 @@ public class FPSMovementEditor : Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentGravityForce"));
                     }
 
-
-                    break;
-                case "Sprint":
-
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
-                    EditorGUI.indentLevel--;
 
                     break;
                 case "Jump":
