@@ -7,15 +7,32 @@ using Unity.VisualScripting;
 
 [System.Serializable]
 [CustomEditor(typeof(FPSMovement))]
+[CanEditMultipleObjects]
 public class FPSMovementEditor : Editor
 {
     private List<string> tabs = new() { "Assignables", "Movement", "Gravity", "Misc" };
+    private List<AdditionalMovementMechanic> _mechanics;
+
     private int currentTab = 0;
+
+    FPSMovement x;
+
+    private void OnEnable()
+    {
+        x = target as FPSMovement;
+        _mechanics = new List<AdditionalMovementMechanic>();
+        x.GetComponents(_mechanics);
+        Debug.Log(_mechanics[0]);
+    }
+
+    private void OnValidate()
+    {
+        
+    }
 
     override public void OnInspectorGUI()
     {
         serializedObject.Update();
-        FPSMovement x = target as FPSMovement;
 
 
         EditorGUILayout.BeginVertical();
@@ -27,7 +44,7 @@ public class FPSMovementEditor : Editor
 
         CheckBool(x.m_canJump, "Jump");
         CheckBool(x.m_canCrouch, "Crouch/Slide");
-        CheckBool(x.m_canDash, "Dash");
+        CheckBool(x.GetComponent<Dash>(), "Dash");
         CheckBool(x.m_canWallInteract, "Wall Interact");
 
 
@@ -58,7 +75,7 @@ public class FPSMovementEditor : Editor
                             x.AddComponent<ExampleMovementMechanic>();
                         }
                     }
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canDash"));
+                    //EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canDash"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canWallInteract"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canRocketJump"));
                     EditorGUI.indentLevel--;
@@ -319,7 +336,7 @@ public class FPSMovementEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSprinting"));
                         }
 
-                        if (x.m_canDash)
+                        if (x.GetComponent<Dash>())
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isDashing"));
                         }

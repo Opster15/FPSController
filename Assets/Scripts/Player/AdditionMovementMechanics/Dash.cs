@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Dash : AdditionalMovementMechanic
 {
-    public bool m_canDash;
-
     [Tooltip("Force applied to character when dashing")]
     public float m_dashForce;
 
@@ -22,42 +20,65 @@ public class Dash : AdditionalMovementMechanic
 
     public float _startTime, _dashTimer;
 
-    public void DashCheck()
+    private void Start()
     {
-        if (_currentDashCount > 0)
+        _currentDashCount = m_maxDashCount;
+        _dashTimer = m_dashCooldown;
+    }
+
+    public void UpdateCall()
+    {
+        //dash cooldown
+        if (_currentDashCount < m_maxDashCount)
         {
-            //StartCoroutine(Dah());
+            _dashTimer -= Time.deltaTime;
+            if (_dashTimer <= 0)
+            {
+                _currentDashCount++;
+                _dashTimer = m_dashCooldown;
+            }
         }
     }
 
-    /*
-    public IEnumerator Dah()
+    public void DashCheck()
+    {
+        Debug.Log("AD");
+        if (_currentDashCount > 0)
+        {
+            StartCoroutine(DashCall());
+            Debug.Log("AD");
+        }
+    }
+
+    
+    public IEnumerator DashCall()
     {
         //apllies force for m_dashTime duration, while slowly reducing max speed
         //to create a gradual decrease in speed.
         _currentDashCount--;
 
         _startTime = Time.time;
-        _currentMaxSpeed = 100f;
+        m_movement._currentMaxSpeed = 100f;
         while (Time.time < _startTime + m_dashTime)
         {
-            DecreaseSpeed(50 / m_dashTime);
-            if (_input.x == 0 && _input.z == 0)
+            Debug.Log("DASHING");
+            m_movement.DecreaseSpeed(50 / m_dashTime);
+            if (m_movement._input.x == 0 && m_movement._input.z == 0)
             {
-                _move += m_dashForce * m_orientation.transform.forward;
+                m_movement._move += m_dashForce * m_movement.m_orientation.transform.forward;
             }
             else
             {
-                _move.x += m_dashForce * _input.x;
-                _move.z += m_dashForce * _input.z;
+                m_movement._move.x += m_dashForce * m_movement._input.x;
+                m_movement._move.z += m_dashForce * m_movement._input.z;
             }
 
-            _isDashing = true;
+            m_movement._isDashing = true;
             yield return null;
         }
 
-        _currentMaxSpeed = m_baseMaxSpeed;
-        _isDashing = false;
+        m_movement._currentMaxSpeed = m_movement.m_baseMaxSpeed;
+        m_movement._isDashing = false;
     }
-    */
+    
 }
