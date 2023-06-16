@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class FPSMovement : MonoBehaviour
 {
+    #region VARIABLES
     [Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
     public bool m_debugMode;
+    
 
     #region ASSIGNABLE VARIABLES
 
@@ -22,8 +24,6 @@ public class FPSMovement : MonoBehaviour
     CharacterController _cc;
 
     #endregion
-
-    public Dash m_dash;
 
     #region MOVEMENT VARIABLES
 
@@ -175,7 +175,7 @@ public class FPSMovement : MonoBehaviour
     #endregion
 
     #region DASH VARIABLES
-    /*
+
     public bool m_canDash;
 
     [Tooltip("Force applied to character when dashing")]
@@ -193,7 +193,7 @@ public class FPSMovement : MonoBehaviour
     public int _currentDashCount;
 
     public float _startTime, _dashTimer;
-    */
+
     #endregion
 
     #region WALL INTERACT VARIABLES
@@ -296,18 +296,21 @@ public class FPSMovement : MonoBehaviour
 
     #endregion
 
+    #endregion
+
     #region START & AWAKE FUNCTIONS
     void Awake()
     {
         _cc = GetComponent<CharacterController>();
         _inputManager = GetComponent<InputManager>();
         _cineCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        m_dash = GetComponent<Dash>();
     }
 
     void Start()
     {
         _currentMaxSpeed = m_baseMaxSpeed;
+        _currentDashCount = m_maxDashCount;
+        _dashTimer = m_dashCooldown;
         _forwardDirection = m_orientation.forward;
         _currentGravityForce = m_baseGravityForce;
         m_canLook = true;
@@ -359,6 +362,19 @@ public class FPSMovement : MonoBehaviour
         else
         {
             RocketJumpMovement();
+        }
+
+
+
+        //dash cooldown
+        if (_currentDashCount < m_maxDashCount)
+        {
+            _dashTimer -= Time.deltaTime;
+            if (_dashTimer <= 0)
+            {
+                _currentDashCount++;
+                _dashTimer = m_dashCooldown;
+            }
         }
 
 
@@ -489,13 +505,9 @@ public class FPSMovement : MonoBehaviour
             _yVelocity.y /= 2;
         }
 
-        if (_inputManager.m_Dash.InputPressed/* && m_canDash */)
+        if (_inputManager.m_Dash.InputPressed && m_canDash)
         {
-            if (!_isDashing)
-            {
-                m_dash.DashCheck();
-                //StartCoroutine(Dash());
-            }
+            DashCheck();
         }
     }
 
@@ -620,7 +632,7 @@ public class FPSMovement : MonoBehaviour
         _currentMaxSpeed += speedIncrease;
     }
 
-    public void DecreaseSpeed(float speedDecrease)
+    void DecreaseSpeed(float speedDecrease)
     {
         _currentMaxSpeed -= speedDecrease * Time.deltaTime;
     }
@@ -892,7 +904,15 @@ public class FPSMovement : MonoBehaviour
     #endregion
 
     #region DASH FUNCTIONS
-    /*
+
+    public void DashCheck()
+    {
+        if (_currentDashCount > 0 && !_isDashing)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
     public IEnumerator Dash()
     {
         //apllies force for m_dashTime duration, while slowly reducing max speed
@@ -921,7 +941,7 @@ public class FPSMovement : MonoBehaviour
         _currentMaxSpeed = m_baseMaxSpeed;
         _isDashing = false;
     }
-    */
+
 
     #endregion
 

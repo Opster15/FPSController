@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 127369170}
   - component: {fileID: 127369171}
   - component: {fileID: 127369172}
-  - component: {fileID: 127369175}
   - component: {fileID: 127369174}
+  - component: {fileID: 127369175}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127369169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a76cfa0f6beccad42a8f059299d9bb60, type: 3}
   m_Name: 
@@ -386,7 +386,6 @@ MonoBehaviour:
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
   m_orientation: {fileID: 1935623665}
-  m_dash: {fileID: 0}
   m_baseMaxSpeed: 11
   m_groundSpeedRampup: 0.1
   m_groundSpeedRampdown: 0.5
@@ -410,7 +409,7 @@ MonoBehaviour:
   m_gravityMultiplier: 1
   _yVelocity: {x: 0, y: 0, z: 0}
   _currentGravityForce: 0
-  m_canSprint: 0
+  m_canSprint: 1
   m_sprintMaxSpeed: 20
   m_canJump: 1
   m_jumpForce: 50
@@ -430,7 +429,7 @@ MonoBehaviour:
   m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
-  m_canSlide: 0
+  m_canSlide: 1
   m_slideType: 0
   m_slideMaxSpeed: 0
   m_maxSlideTimer: 0
@@ -438,7 +437,15 @@ MonoBehaviour:
   m_canGroundPound: 0
   m_groundPoundForce: 0
   _slideTimer: 0
-  m_canWallInteract: 0
+  m_canDash: 1
+  m_dashForce: 0
+  m_dashTime: 0
+  m_dashCooldown: 2
+  m_maxDashCount: 0
+  _currentDashCount: 0
+  _startTime: 0
+  _dashTimer: 0
+  m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
     m_Bits: 0
@@ -509,9 +516,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 127369169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7695c3786e0dff04cad1d2d94842bd91, type: 3}
+  m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
+  m_playerCam: {fileID: 851155032}
+  m_playerCamParent: {fileID: 250482727}
+  m_orientation: {fileID: 1935623665}
+  _cc: {fileID: 0}
+  _timeMoving: 0
+  _currentMaxSpeed: 0
+  _currentSpeed: 0
+  _move: {x: 0, y: 0, z: 0}
+  _forwardDirection: {x: 0, y: 0, z: 0}
+  _input: {x: 0, y: 0, z: 0}
+  _lastInput: {x: 0, y: 0, z: 0}
+  _yVelocity: {x: 0, y: 0, z: 0}
+  _currentGravityForce: 0
+  m_canJump: 0
+  _jumpCooldown: 0.25
+  _jumpCounter: 0
+  _readyToJump: 1
+  _currentJumpCount: 0
+  _slideTimer: 0
+  _currentDashCount: 0
+  _startTime: 0
+  _dashTimer: 0
+  _isWallLeft: 0
+  _isWallRight: 0
+  _isWallFront: 0
+  _isWallBack: 0
+  _wallNormal: {x: 0, y: 0, z: 0}
+  _canWallCheck: 1
+  _hasWallRun: 0
+  m_sensitivity: 1
+  m_sensMultiplier: 1
+  _isCrouching: 0
+  _isGrounded: 0
+  _isInputing: 0
+  _isSprinting: 0
+  _isDashing: 0
+  _isWallRunning: 0
+  _isSliding: 0
+  _isJumping: 0
+  _isWallRunJumping: 0
+  _isWallSliding: 0
+  _disableGroundCheck: 0
+  _warpPosition: {x: 0, y: 0, z: 0}
+  _canLook: 0
 --- !u!114 &127369175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,17 +573,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 127369169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e2d97724bcd54caee44a27577c55e, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d12edbe2d9d9348b83d738f868766e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movement: {fileID: 127369172}
-  m_dashForce: 5
-  m_dashTime: 0.1
-  m_dashCooldown: 2
-  m_maxDashCount: 2
-  _currentDashCount: 0
-  _startTime: 0
-  _dashTimer: 1
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
 --- !u!1 &127382734
 GameObject:
   m_ObjectHideFlags: 0

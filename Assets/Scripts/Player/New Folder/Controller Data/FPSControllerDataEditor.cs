@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEditor;
 
 [System.Serializable]
-[CustomEditor(typeof(FPSMovement))]
-public class FPSMovementEditor : Editor
+[CustomEditor(typeof(FPSControllerData))]
+public class FPSControllerDataEditor : Editor
 {
     private List<string> tabs = new() { "Assignables", "Movement", "Gravity", "Misc" };
     private int currentTab = 0;
@@ -14,7 +14,7 @@ public class FPSMovementEditor : Editor
     override public void OnInspectorGUI()
     {
         serializedObject.Update();
-        FPSMovement x = target as FPSMovement;
+        FPSControllerData x = target as FPSControllerData;
 
         EditorGUILayout.BeginVertical();
         currentTab = GUILayout.SelectionGrid(currentTab, tabs.ToArray(), 4);
@@ -50,7 +50,6 @@ public class FPSMovementEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canSprint"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canDash"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canWallInteract"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canRocketJump"));
                     EditorGUI.indentLevel--;
 
 
@@ -79,10 +78,6 @@ public class FPSMovementEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airSpeedRampup"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airSpeedRampdown"));
                     EditorGUI.indentLevel--;
-                    if (x.m_canRocketJump)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_rocketJumpSpeedIncrease"));
-                    }
 
                     if (x.m_debugMode)
                     {
@@ -103,10 +98,6 @@ public class FPSMovementEditor : Editor
 
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseGravityForce"));
-                    if (x.m_canRocketJump)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_rocketJumpingGravity"));
-                    }
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_gravityMultiplier"));
 
                     if (x.m_canWallRun)
@@ -329,10 +320,6 @@ public class FPSMovementEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallSliding"));
                         }
 
-                        if (x.m_canRocketJump)
-                        {
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_isRocketJumping"));
-                        }
                     }
                     break;
             }
