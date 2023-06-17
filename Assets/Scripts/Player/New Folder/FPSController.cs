@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FPSController : MonoBehaviour
 {
+    [Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
+    public bool m_debugMode;
     public FPSControllerData m_data;
 
     BaseMovement _baseMovement;
@@ -24,6 +26,9 @@ public class FPSController : MonoBehaviour
     #endregion
 
     #region MOVEMENT VARIABLES
+
+    public bool m_canSprint;
+
     public float _timeMoving, _currentMaxSpeed, _currentSpeed;
 
 
@@ -59,12 +64,18 @@ public class FPSController : MonoBehaviour
 
     #region CROUCHING/SLIDE VARIABLES
 
+    public bool m_canCrouch;
+
+    public bool m_canSlide;
+
     [Tooltip("Timer for m_maxSlideTimer")]
     public float _slideTimer;
 
     #endregion
 
     #region DASH VARIABLES
+
+    public bool m_canDash;
 
     public int _currentDashCount;
 
@@ -74,6 +85,13 @@ public class FPSController : MonoBehaviour
 
     #region WALL INTERACT VARIABLES
 
+    public bool m_canWallInteract;
+
+    public bool m_canWallRun;
+
+    public bool m_canWallJump;
+
+    public bool m_canWallSlide;
     public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
 
     public bool _isWallLeft, _isWallRight, _isWallFront, _isWallBack;
@@ -245,7 +263,7 @@ public class FPSController : MonoBehaviour
         _isInputing = _input.x != 0 || _input.y != 0;
 
 
-        if (m_data.m_canSprint)
+        if (m_canSprint)
         {
             if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_isSliding)
             {

@@ -61,6 +61,7 @@ public class FPSControllerData : ScriptableObject
     #endregion
 
     #region JUMPING VARIABLES
+
     public bool m_canJump;
 
     [Tooltip("Jump force applied upwards to controller")]

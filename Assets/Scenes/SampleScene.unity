@@ -519,11 +519,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_debugMode: 0
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
   m_orientation: {fileID: 1935623665}
   _cc: {fileID: 0}
+  m_canSprint: 0
   _timeMoving: 0
   _currentMaxSpeed: 0
   _currentSpeed: 0
@@ -538,10 +540,17 @@ MonoBehaviour:
   _jumpCounter: 0
   _readyToJump: 1
   _currentJumpCount: 0
+  m_canCrouch: 0
+  m_canSlide: 0
   _slideTimer: 0
+  m_canDash: 0
   _currentDashCount: 0
   _startTime: 0
   _dashTimer: 0
+  m_canWallInteract: 0
+  m_canWallRun: 0
+  m_canWallJump: 0
+  m_canWallSlide: 0
   _isWallLeft: 0
   _isWallRight: 0
   _isWallFront: 0
