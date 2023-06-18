@@ -26,7 +26,7 @@ MonoBehaviour:
   m_wallRunGravityForce: 2
   m_wallSlideGravityForce: 0
   m_gravityMultiplier: 1
-  m_canSprint: 0
+  m_canSprint: 1
   m_sprintMaxSpeed: 20
   m_canJump: 0
   m_jumpForce: 550
@@ -39,13 +39,13 @@ MonoBehaviour:
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
   m_slowOnJumpLand: 0
-  m_canCrouch: 0
+  m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
-  m_canSlide: 0
+  m_canSlide: 1
   m_slideType: 0
-  m_slideMaxSpeed: 0
-  m_maxSlideTimer: 0
+  m_slideMaxSpeed: 30
+  m_maxSlideTimer: 1
   m_autoSlide: 0
   m_canGroundPound: 0
   m_groundPoundForce: 0

@@ -152,4 +152,35 @@ public class BaseMovement : MovementMechanic
 
     #endregion
 
+    #region SPRINT FUNCTIONS
+
+    public void StartSprint()
+    {
+        //if controller has groundspeed rampup _timeMoving is reduced
+        //to give a gradual speed increase when sprinting
+
+        if (m_data.m_groundSpeedRampup > 0)
+        {
+            m_con._timeMoving = m_data.m_groundSpeedRampup * (m_con._currentMaxSpeed / m_data.m_sprintMaxSpeed);
+        }
+
+        m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
+        m_con._isSprinting = true;
+    }
+
+    public void StopSprint()
+    {
+        if (m_con._isSliding)
+        {
+            m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
+        }
+        else
+        {
+            m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
+        }
+        m_con._isSprinting = false;
+    }
+
+    #endregion
+
 }

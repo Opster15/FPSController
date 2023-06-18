@@ -10,6 +10,11 @@ public class FPSController : MonoBehaviour
     public FPSControllerData m_data;
 
     BaseMovement _baseMovement;
+
+    Crouch _crouch;
+
+    List<MovementMechanic> _mechanics;
+
     #region ASSIGNABLE VARIABLES
 
     [Tooltip("Transform of Camera")]
@@ -137,6 +142,7 @@ public class FPSController : MonoBehaviour
         _inputManager = GetComponent<InputManager>();
         _cineCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _baseMovement = GetComponent<BaseMovement>();
+        _crouch = GetComponent<Crouch>();
     }
 
     void Start()
@@ -267,13 +273,13 @@ public class FPSController : MonoBehaviour
         {
             if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_isSliding)
             {
-                //StartSprint();
+                _baseMovement.StartSprint();
             }
             else if (_isSprinting)
             {
                 if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_isJumping && _isInputing) || _isSliding)
                 {
-                    //StopSprint();
+                    _baseMovement.StopSprint();
                 }
             }
         }
@@ -284,11 +290,11 @@ public class FPSController : MonoBehaviour
             {
                 if (_isGrounded)
                 {
-                    //StartCrouch();
+                    _crouch.StartCrouch();
                 }
                 else if (!_isGrounded && m_data.m_canGroundPound)
                 {
-                    //StartGroundPound();
+                    _crouch.StartGroundPound();
                 }
             }
 
@@ -296,11 +302,11 @@ public class FPSController : MonoBehaviour
             {
                 if (_isSliding && m_data.m_canSlide)
                 {
-                    //StopSlide();
+                    _crouch.StopSlide();
                 }
                 else
                 {
-                    //StopCrouch();
+                    _crouch.StopCrouch();
                 }
             }
         }

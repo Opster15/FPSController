@@ -20,7 +20,7 @@ public class FPSControllerEditor : Editor
 
     private void OnValidate()
     {
-        if (x.m_data.m_canJump && )
+        if (x.m_data.m_canJump)
         {
 
         }
@@ -37,6 +37,9 @@ public class FPSControllerEditor : Editor
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));
 
 
         CheckBool(x.m_canJump, "Jump");
