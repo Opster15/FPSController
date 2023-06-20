@@ -22,18 +22,18 @@ MonoBehaviour:
   m_airSpeedRampdown: 0.5
   m_airControl: 0.5
   m_momentumBasedMovement: 0
-  m_baseGravityForce: -15
+  m_baseGravityForce: -35
   m_wallRunGravityForce: 2
   m_wallSlideGravityForce: 0
   m_gravityMultiplier: 1
   m_canSprint: 1
   m_sprintMaxSpeed: 20
-  m_canJump: 0
-  m_jumpForce: 550
+  m_canJump: 1
+  m_jumpForce: 5
   m_maxJumpCount: 1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483647
   m_varientJumpHeight: 0
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
@@ -49,28 +49,28 @@ MonoBehaviour:
   m_autoSlide: 0
   m_canGroundPound: 0
   m_groundPoundForce: 0
-  m_canDash: 0
-  m_dashForce: 0
-  m_dashTime: 0
+  m_canDash: 1
+  m_dashForce: 5
+  m_dashTime: 0.5
   m_dashCooldown: 2
-  m_maxDashCount: 0
-  m_canWallInteract: 0
+  m_maxDashCount: 5
+  m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
-    m_Bits: 0
-  m_wallCheckDist: 0
-  m_canWallRun: 0
-  m_wallRunMaxSpeed: 0
-  m_canWallJump: 0
-  m_maxWallJumpCount: 0
-  m_canJumpFromWallRun: 0
-  m_wallJumpUpForce: 0
-  m_wallJumpSideForce: 0
+    m_Bits: 2147483647
+  m_wallCheckDist: 1
+  m_canWallRun: 1
+  m_wallRunMaxSpeed: 15
+  m_canWallJump: 1
+  m_maxWallJumpCount: 2
+  m_canJumpFromWallRun: 1
+  m_wallJumpUpForce: 50
+  m_wallJumpSideForce: 50
   m_wallCheckTime: 0.25
-  m_wallJumpTime: 0
+  m_wallJumpTime: 1
   m_doubleJumpFromWallRun: 0
   m_maxWallAngle: 0
-  m_canWallSlide: 0
+  m_canWallSlide: 1
   m_sensitivity: 1
   m_sensMultiplier: 1
   m_playerScale: {x: 1, y: 1, z: 1}

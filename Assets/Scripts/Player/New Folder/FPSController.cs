@@ -9,11 +9,17 @@ public class FPSController : MonoBehaviour
     public bool m_debugMode;
     public FPSControllerData m_data;
 
-    BaseMovement _baseMovement;
+    public BaseMovement _baseMovement;
 
-    Crouch _crouch;
+    public Jump _jump;
 
-    List<MovementMechanic> _mechanics;
+    public Crouch _crouch;
+
+    public Dash _dash;
+
+    public WallInteract _wallInteract;
+
+    public MovementMechanic[] m_mechanics = new MovementMechanic[5];
 
     #region ASSIGNABLE VARIABLES
 
@@ -24,15 +30,14 @@ public class FPSController : MonoBehaviour
     [Tooltip("Empty game object that rotates with controller")]
     public Transform m_orientation;
 
-    CinemachineVirtualCamera _cineCam;
-    InputManager _inputManager;
+    public CinemachineVirtualCamera _cineCam;
+    public InputManager _inputManager;
     public CharacterController _cc;
 
     #endregion
 
     #region MOVEMENT VARIABLES
 
-    public bool m_canSprint;
 
     public float _timeMoving, _currentMaxSpeed, _currentSpeed;
 
@@ -50,7 +55,6 @@ public class FPSController : MonoBehaviour
     #endregion
 
     #region JUMPING VARIABLES
-    public bool m_canJump;
 
     [Tooltip("How long until next jump can be performed")]
     public float _jumpCooldown = 0.25f;
@@ -69,9 +73,6 @@ public class FPSController : MonoBehaviour
 
     #region CROUCHING/SLIDE VARIABLES
 
-    public bool m_canCrouch;
-
-    public bool m_canSlide;
 
     [Tooltip("Timer for m_maxSlideTimer")]
     public float _slideTimer;
@@ -80,7 +81,6 @@ public class FPSController : MonoBehaviour
 
     #region DASH VARIABLES
 
-    public bool m_canDash;
 
     public int _currentDashCount;
 
@@ -90,20 +90,14 @@ public class FPSController : MonoBehaviour
 
     #region WALL INTERACT VARIABLES
 
-    public bool m_canWallInteract;
 
-    public bool m_canWallRun;
-
-    public bool m_canWallJump;
-
-    public bool m_canWallSlide;
     public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
 
     public bool _isWallLeft, _isWallRight, _isWallFront, _isWallBack;
 
     public Vector3 _wallNormal;
 
-    Vector3 _lastWall;
+    public Vector3 _lastWall;
 
     public bool _canWallCheck = true, _hasWallRun;
 
@@ -184,15 +178,15 @@ public class FPSController : MonoBehaviour
             }
             else if ((!_isGrounded && !_isWallRunning) && !_isCrouching)
             {
-                //AirMovement();
+                _baseMovement.AirMovement();
             }
             else if (_isSliding)
             {
-                //SlideMovement();
+                _crouch.SlideMovement();
             }
             else if (_isWallRunning)
             {
-                //WallRunMovement();
+                _wallInteract.WallRunMovement();
             }
         }
 
@@ -217,7 +211,7 @@ public class FPSController : MonoBehaviour
             if (_slideTimer <= 0)
             {
                 _isSliding = false;
-                //StopSlide();
+                _crouch.StopSlide();
             }
         }
 
@@ -269,7 +263,7 @@ public class FPSController : MonoBehaviour
         _isInputing = _input.x != 0 || _input.y != 0;
 
 
-        if (m_canSprint)
+        if (m_data.m_canSprint)
         {
             if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_isSliding)
             {
@@ -324,12 +318,12 @@ public class FPSController : MonoBehaviour
 
         if (m_data.m_canWallInteract)
         {
-            //WallDetect();
+            _wallInteract.WallDetect();
         }
 
-        if (_inputManager.m_jump.InputPressed && m_canJump && _jumpCounter <= 0)
+        if (_inputManager.m_jump.InputPressed && m_data.m_canJump && _jumpCounter <= 0)
         {
-            //JumpCheck();
+            _jump.JumpCheck();
         }
 
         //reduces your current y velocity if you release jump button before jump is finished
@@ -340,7 +334,7 @@ public class FPSController : MonoBehaviour
 
         if (_inputManager.m_Dash.InputPressed && m_data.m_canDash)
         {
-            //DashCheck();
+            _dash.DashCheck();
         }
     }
 
@@ -388,4 +382,18 @@ public class FPSController : MonoBehaviour
     }
 
     #endregion
+
+    public void IncreaseSpeed(float speedIncrease)
+    {
+        if (_currentMaxSpeed >= m_data.m_absoluteMaxSpeed)
+        {
+            return;
+        }
+        _currentMaxSpeed += speedIncrease;
+    }
+
+    public void DecreaseSpeed(float speedDecrease)
+    {
+        _currentMaxSpeed -= speedDecrease * Time.deltaTime;
+    }
 }

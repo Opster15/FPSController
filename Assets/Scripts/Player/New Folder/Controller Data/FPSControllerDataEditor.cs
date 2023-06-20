@@ -11,11 +11,6 @@ public class FPSControllerDataEditor : Editor
     private List<string> tabs = new() { "Add Movement", "Movement", "Gravity", "Misc" };
     private int currentTab = 0;
 
-    public void OnEnable()
-    {
-        
-    }
-
     override public void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -25,8 +20,6 @@ public class FPSControllerDataEditor : Editor
         currentTab = GUILayout.SelectionGrid(currentTab, tabs.ToArray(), 4);
         EditorGUILayout.Space(5f);
         EditorGUILayout.EndVertical();
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
 
         CheckBool(x.m_canJump, "Jump");
         CheckBool(x.m_canCrouch, "Crouch/Slide");
@@ -148,19 +141,6 @@ public class FPSControllerDataEditor : Editor
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airSpeedRampdown"));
                 EditorGUI.indentLevel--;
 
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentSpeed"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeMoving"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentMaxSpeed"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_move"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_input"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_yVelocity"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_forwardDirection"));
-                }
-
                 if (x.m_canSprint)
                 {
                     if (GUILayout.Button("Remove Sprint"))
@@ -189,11 +169,7 @@ public class FPSControllerDataEditor : Editor
                 }
 
                 EditorGUI.indentLevel--;
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentGravityForce"));
-                }
+
 
 
                 break;
@@ -225,16 +201,6 @@ public class FPSControllerDataEditor : Editor
                         
                 }
 
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCounter"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCooldown"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_readyToJump"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
-                }
-
                 break;
             case "Crouch/Slide":
                 EditorGUILayout.LabelField("CROUCH VARIABLES", EditorStyles.boldLabel);
@@ -262,15 +228,6 @@ public class FPSControllerDataEditor : Editor
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundPoundForce"));
                     EditorGUI.indentLevel--;
-                }
-
-                if (x.m_canCrouch && x.m_canSlide)
-                {
-                    if (x.m_debugMode)
-                    {
-                        EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideTimer"));
-                    }
                 }
 
                 if (x.m_canCrouch)
@@ -302,13 +259,6 @@ public class FPSControllerDataEditor : Editor
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashCooldown"));
                 EditorGUI.indentLevel--;
 
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentDashCount"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_startTime"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_dashTimer"));
-                }
 
                 if (x.m_canDash)
                 {
@@ -365,17 +315,6 @@ public class FPSControllerDataEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canWallSlide"));
                 }
 
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallLeft"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRight"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallFront"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallBack"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
-                }
                 if (x.m_canWallInteract)
                 {
                     if (GUILayout.Button("Remove Wall Interact"))
@@ -391,7 +330,6 @@ public class FPSControllerDataEditor : Editor
                     {
                         if (GUILayout.Button("Remove Wall Jump"))
                         {
-                            x.m_canWallInteract = false;
                             x.m_canWallJump = false;
                         }
                     }
@@ -422,51 +360,6 @@ public class FPSControllerDataEditor : Editor
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerScale"));
                 EditorGUI.indentLevel--;
 
-
-                if (x.m_debugMode)
-                {
-                    EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_warpPosition"));
-
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isJumping"));
-
-                    if (x.m_canCrouch)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isCrouching"));
-                        if (x.m_canSlide)
-                        {
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSliding"));
-                        }
-                    }
-                    /*
-                    if (x.m_canSprint)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSprinting"));
-                    }*/
-
-                    if (x.m_canDash)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isDashing"));
-                    }
-
-                    if (x.m_canWallRun)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunning"));
-                    }
-
-                    if (x.m_canWallJump || x.m_canWallInteract)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunJumping"));
-                    }
-
-                    if (x.m_canWallSlide)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallSliding"));
-                    }
-
-                }
                 break;
             }
         }

@@ -104,10 +104,6 @@ public class BaseMovement : MovementMechanic
         m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
     }
 
-    void DecreaseSpeed(float speedDecrease)
-    {
-        m_con._currentMaxSpeed -= speedDecrease * Time.deltaTime;
-    }
     public void AddGravityForce()
     {
         m_con._yVelocity.y += m_con._currentGravityForce * Time.deltaTime * m_data.m_gravityMultiplier;
