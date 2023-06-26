@@ -35,8 +35,6 @@ public class FPSControllerData : ScriptableObject
     [Range(0.0f, 1f)]
     public float m_airControl = .5f;
 
-    public bool m_momentumBasedMovement;
-
     #endregion
 
     #region GRAVITY VARIABLES
@@ -84,9 +82,6 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("Max upwards velocity that can be applied to the controller")]
     public float m_maxYVelocity = 50f;
-
-    [Tooltip("Reduce controller speed after landing a jump")]
-    public bool m_slowOnJumpLand;
 
 
     #endregion

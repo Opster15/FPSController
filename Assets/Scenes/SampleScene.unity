@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76cfa0f6beccad42a8f059299d9bb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debugMode: 1
+  m_debugMode: 0
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
   m_orientation: {fileID: 1935623665}

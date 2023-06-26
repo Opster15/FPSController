@@ -21,7 +21,6 @@ MonoBehaviour:
   m_airSpeedRampup: 0.5
   m_airSpeedRampdown: 0.5
   m_airControl: 0.5
-  m_momentumBasedMovement: 0
   m_baseGravityForce: -35
   m_wallRunGravityForce: 2
   m_wallSlideGravityForce: 0
@@ -38,7 +37,6 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
-  m_slowOnJumpLand: 0
   m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}

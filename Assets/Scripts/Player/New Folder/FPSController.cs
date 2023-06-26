@@ -309,10 +309,6 @@ public class FPSController : MonoBehaviour
         if (_isJumping && _isGrounded && _readyToJump)
         {
             _isJumping = false;
-            if (m_data.m_slowOnJumpLand)
-            {
-                _timeMoving = 0;
-            }
             _currentJumpCount = 0;
         }
 

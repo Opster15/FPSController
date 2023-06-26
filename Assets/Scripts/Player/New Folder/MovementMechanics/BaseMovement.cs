@@ -20,18 +20,9 @@ public class BaseMovement : MovementMechanic
 
         if (m_con._isInputing)
         {
-            if (m_data.m_momentumBasedMovement)
-            {
-                m_con._timeMoving += Time.fixedDeltaTime;
-                m_con._move.z += m_con._currentSpeed * Time.fixedDeltaTime * m_con._input.z;
-                m_con._move.x += m_con._currentSpeed * Time.fixedDeltaTime * m_con._input.x;
-            }
-            else
-            {
-                m_con._timeMoving += Time.fixedDeltaTime;
-                m_con._move.z = m_con._currentSpeed * m_con._input.z;
-                m_con._move.x = m_con._currentSpeed * m_con._input.x;
-            }
+            m_con._timeMoving += Time.fixedDeltaTime;
+            m_con._move.z = m_con._currentSpeed * m_con._input.z;
+            m_con._move.x = m_con._currentSpeed * m_con._input.x;
 
         }
         else
