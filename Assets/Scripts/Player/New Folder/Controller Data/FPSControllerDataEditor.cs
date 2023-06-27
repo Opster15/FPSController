@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +8,12 @@ using UnityEditor;
 [CustomEditor(typeof(FPSControllerData))]
 public class FPSControllerDataEditor : Editor
 {
-    private List<string> tabs = new() { "Add Movement", "Movement", "Gravity", "Misc" };
+    private List<string> tabs = new() { "Movement", "Gravity", "Misc" };
     private int currentTab = 0;
     private List<string> wallTabs = new() { "Wall", "Run", "Jump"};
     private int currentWallTab = 0;
+
+    bool showAdd;
 
     override public void OnInspectorGUI()
     {
@@ -32,89 +34,6 @@ public class FPSControllerDataEditor : Editor
         {
             switch (tabs[currentTab])
             {
-                case "Add Movement":
-                    EditorGUILayout.LabelField("ADD MOVEMENT SYSTEMS", EditorStyles.boldLabel);
-
-                    EditorGUI.indentLevel++;
-
-                    if (!x.m_canSprint)
-                    {
-                        if (GUILayout.Button("Add Sprint"))
-                        {
-                            x.m_canSprint = true;
-                        }
-                    }
-
-                    if (!x.m_canJump)
-                    {
-                        if(GUILayout.Button("Add Jump") )
-                        {
-                            x.m_canJump = true;
-                        }
-                    }
-
-                    if (!x.m_canCrouch)
-                    {
-                        if (GUILayout.Button("Add Crouch"))
-                        {
-                            x.m_canCrouch = true;
-                        }
-                    }
-
-                    if (!x.m_canSlide)
-                    {
-                        if (GUILayout.Button("Add Slide"))
-                        {
-                            x.m_canCrouch = true;
-                            x.m_canSlide = true;
-                        }
-                    }
-
-                    if (!x.m_canDash)
-                    {
-                        if (GUILayout.Button("Add Dash"))
-                        {
-                            x.m_canDash = true;
-                        }
-                    }
-
-                    if (!x.m_canWallInteract)
-                    {
-                        if (GUILayout.Button("Add Wall Interact"))
-                        {
-                            x.m_canWallInteract = true;
-                        }
-                    }
-
-                    if (!x.m_canWallJump)
-                    {
-                        if (GUILayout.Button("Add Wall Jump"))
-                        {
-                            x.m_canWallInteract = true;
-                            x.m_canWallJump = true;
-                        }
-                    }
-
-                    if (!x.m_canWallRun)
-                    {
-                        if (GUILayout.Button("Add Wall Run"))
-                        {
-                            x.m_canWallInteract = true;
-                            x.m_canWallRun = true;
-                        }
-                    }
-
-                    if (!x.m_canWallSlide)
-                    {
-                        if (GUILayout.Button("Add Wall Slide"))
-                        {
-                            x.m_canWallInteract = true;
-                            x.m_canWallSlide = true;
-                        }
-                    }
-
-                    EditorGUI.indentLevel--;
-                    break;
                 case "Movement":
                     EditorGUILayout.LabelField("GROUND MOVEMENT VARIABLES", EditorStyles.boldLabel);
 
@@ -366,6 +285,96 @@ public class FPSControllerDataEditor : Editor
                     break;
             }
         }
+
+        EditorGUILayout.Space(55f);
+        EditorGUILayout.TextArea("", GUI.skin.horizontalSlider);
+        EditorGUILayout.Space(5f);
+
+        EditorGUILayout.BeginVertical();
+        showAdd = EditorGUILayout.Foldout(showAdd, "ADD MOVEMENT SYSTEMS");
+
+        if (showAdd)
+        {
+            EditorGUI.indentLevel++;
+
+            if (!x.m_canSprint)
+            {
+                if (GUILayout.Button("Add Sprint"))
+                {
+                    x.m_canSprint = true;
+                }
+            }
+
+            if (!x.m_canJump)
+            {
+                if (GUILayout.Button("Add Jump"))
+                {
+                    x.m_canJump = true;
+                }
+            }
+
+            if (!x.m_canCrouch)
+            {
+                if (GUILayout.Button("Add Crouch"))
+                {
+                    x.m_canCrouch = true;
+                }
+            }
+
+            if (!x.m_canSlide)
+            {
+                if (GUILayout.Button("Add Slide"))
+                {
+                    x.m_canCrouch = true;
+                    x.m_canSlide = true;
+                }
+            }
+
+            if (!x.m_canDash)
+            {
+                if (GUILayout.Button("Add Dash"))
+                {
+                    x.m_canDash = true;
+                }
+            }
+
+            if (!x.m_canWallInteract)
+            {
+                if (GUILayout.Button("Add Wall Interact"))
+                {
+                    x.m_canWallInteract = true;
+                }
+            }
+
+            if (!x.m_canWallJump)
+            {
+                if (GUILayout.Button("Add Wall Jump"))
+                {
+                    x.m_canWallInteract = true;
+                    x.m_canWallJump = true;
+                }
+            }
+
+            if (!x.m_canWallRun)
+            {
+                if (GUILayout.Button("Add Wall Run"))
+                {
+                    x.m_canWallInteract = true;
+                    x.m_canWallRun = true;
+                }
+            }
+
+            if (!x.m_canWallSlide)
+            {
+                if (GUILayout.Button("Add Wall Slide"))
+                {
+                    x.m_canWallInteract = true;
+                    x.m_canWallSlide = true;
+                }
+            }
+        }
+
+        EditorGUILayout.EndVertical();
 
         serializedObject.ApplyModifiedProperties();
     }
