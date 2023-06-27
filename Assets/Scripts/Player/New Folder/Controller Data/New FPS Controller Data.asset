@@ -61,14 +61,13 @@ MonoBehaviour:
   m_wallRunMaxSpeed: 15
   m_canWallJump: 1
   m_maxWallJumpCount: 2
-  m_canJumpFromWallRun: 1
   m_wallJumpUpForce: 50
   m_wallJumpSideForce: 50
   m_wallCheckTime: 0.25
-  m_wallJumpTime: 1
+  m_wallJumpTime: -0.003538113
   m_doubleJumpFromWallRun: 0
   m_maxWallAngle: 0
   m_canWallSlide: 1
-  m_sensitivity: 1
+  m_sensitivity: 2
   m_sensMultiplier: 1
   m_playerScale: {x: 1, y: 1, z: 1}
