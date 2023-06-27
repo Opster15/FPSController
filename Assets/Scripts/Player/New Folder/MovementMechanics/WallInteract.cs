@@ -112,7 +112,7 @@ public class WallInteract : MovementMechanic
         m_con._currentMaxSpeed = m_data.m_wallRunMaxSpeed;
         m_con._currentJumpCount = 1;
 
-        if (m_data.m_canJumpFromWallRun)
+        if (m_data.m_canWallJump)
         {
             m_con._currentJumpCount--;
             if (m_con._currentJumpCount < 0)

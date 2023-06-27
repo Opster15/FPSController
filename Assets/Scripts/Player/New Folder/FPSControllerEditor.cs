@@ -36,8 +36,6 @@ public class FPSControllerEditor : Editor
     {
         serializedObject.Update();
 
-
-
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_mechanics"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
@@ -155,12 +153,6 @@ public class FPSControllerEditor : Editor
                         break;
                     case "Misc":
                         EditorGUILayout.LabelField("MISCELLANEOUS VARIABLES", EditorStyles.boldLabel);
-                        EditorGUI.indentLevel++;
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensitivity"));
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensMultiplier"));
-                        EditorGUI.indentLevel--;
-
-
                         if (x.m_debugMode)
                         {
                             EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);

@@ -167,9 +167,6 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Amount of times the controller can wall jump before touching ground")]
     public float m_maxWallJumpCount;
 
-    [Tooltip("Allows for controller to jump from wall run")]
-    public bool m_canJumpFromWallRun;
-
     [Tooltip("Upwards force applied to controller when wall jumping")]
     public float m_wallJumpUpForce;
 

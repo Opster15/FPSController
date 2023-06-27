@@ -105,11 +105,6 @@ public class FPSController : MonoBehaviour
 
     #region MISC VARIABLES
 
-    [Tooltip("Controls sensitivity of mouse")]
-    public float m_sensitivity = 1f;
-    [Tooltip("Sensitivity multiplier of mouse")]
-    public float m_sensMultiplier = 1f;
-
     public bool _isCrouching, _isGrounded, _isInputing,
         _isSprinting, _isDashing, _isWallRunning,
         _isSliding, _isJumping, _isWallRunJumping,
@@ -341,8 +336,8 @@ public class FPSController : MonoBehaviour
     private float desiredX;
     private void Look()
     {
-        float mouseX = _inputManager.m_mousePositionInput.x * m_sensitivity * Time.fixedDeltaTime * m_sensMultiplier;
-        float mouseY = _inputManager.m_mousePositionInput.y * m_sensitivity * Time.fixedDeltaTime * m_sensMultiplier;
+        float mouseX = _inputManager.m_mousePositionInput.x * m_data.m_sensitivity * Time.fixedDeltaTime * m_data.m_sensMultiplier;
+        float mouseY = _inputManager.m_mousePositionInput.y * m_data.m_sensitivity * Time.fixedDeltaTime * m_data.m_sensMultiplier;
 
         //Find current look rotation
         Vector3 rot = m_playerCam.transform.localRotation.eulerAngles;

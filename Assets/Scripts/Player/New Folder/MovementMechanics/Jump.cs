@@ -8,9 +8,9 @@ public class Jump : MovementMechanic
     #region JUMP FUNCTIONS
     public void JumpCheck()
     {
-        if ((m_data.m_canWallJump || m_data.m_canJumpFromWallRun) && (m_con._isWallRunning || m_con._isWallSliding))
+        if ((m_data.m_canWallJump) && (m_con._isWallRunning || m_con._isWallSliding))
         {
-            //CheckWallJump();
+            m_con._wallInteract.CheckWallJump();
             return;
         }
 
@@ -22,9 +22,9 @@ public class Jump : MovementMechanic
                 {
                     StartJump();
                 }
-                else if (m_data.m_canJumpFromWallRun && m_con._isWallRunning)
+                else if (m_data.m_canWallJump && m_con._isWallRunning)
                 {
-                    //CheckWallJump();
+                    m_con._wallInteract.CheckWallJump();
                 }
             }
             else if (m_data.m_maxJumpCount > 1)
@@ -46,12 +46,12 @@ public class Jump : MovementMechanic
 
         if (m_data.m_jumpAddsSpeed)
         {
-            //IncreaseSpeed(m_data.m_jumpSpeedIncrease);
+            m_con.IncreaseSpeed(m_data.m_jumpSpeedIncrease);
         }
 
         if (m_con._isSliding && m_con._isGrounded)
         {
-            //StopSlide();
+            m_con._crouch.StopSlide();
         }
 
         Invoke(nameof(ResetJump), m_con._jumpCooldown);
