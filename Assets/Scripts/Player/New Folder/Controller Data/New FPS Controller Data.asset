@@ -22,8 +22,7 @@ MonoBehaviour:
   m_airSpeedRampdown: 0.5
   m_airControl: 0.5
   m_baseGravityForce: -35
-  m_wallRunGravityForce: 2
-  m_wallSlideGravityForce: 0
+  m_wallRunGravityForce: -2
   m_gravityMultiplier: 1
   m_canSprint: 1
   m_sprintMaxSpeed: 20
@@ -58,16 +57,14 @@ MonoBehaviour:
     m_Bits: 2147483647
   m_wallCheckDist: 1
   m_canWallRun: 1
-  m_wallRunMaxSpeed: 15
+  m_wallRunMaxSpeed: 0
   m_canWallJump: 1
   m_maxWallJumpCount: 2
-  m_wallJumpUpForce: 50
-  m_wallJumpSideForce: 50
+  m_wallJumpUpForce: 10
+  m_wallJumpSideForce: 10
   m_wallCheckTime: 0.25
-  m_wallJumpTime: -0.003538113
   m_doubleJumpFromWallRun: 0
   m_maxWallAngle: 0
-  m_canWallSlide: 1
   m_sensitivity: 2
   m_sensMultiplier: 1
   m_playerScale: {x: 1, y: 1, z: 1}

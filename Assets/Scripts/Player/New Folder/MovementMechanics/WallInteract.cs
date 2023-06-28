@@ -26,18 +26,6 @@ public class WallInteract : MovementMechanic
                     StopWallRun();
                 }
             }
-            else if (m_data.m_canWallSlide)
-            {
-                if ((m_con._isWallLeft || m_con._isWallRight || m_con._isWallFront || m_con._isWallBack) && m_con._yVelocity.y < 0 && m_con._isJumping)
-                {
-                    CheckWallSlide();
-                }
-                else if (!(m_con._isWallLeft && m_con._isWallRight && m_con._isWallFront && m_con._isWallBack) && m_con._isWallSliding)
-                {
-                    StopWallSlide();
-                }
-            }
-
         }
     }
 
@@ -143,53 +131,6 @@ public class WallInteract : MovementMechanic
 
     #endregion
 
-    //Wall Slide- slide down the wall, can wall jump from wall slide
-    #region WALL SLIDE
-
-    public void CheckWallSlide()
-    {
-        if (m_con._isGrounded && m_con._isWallSliding)
-        {
-            StopWallSlide();
-            return;
-        }
-
-        if (m_con._isWallRight && m_con._inputManager.Movement.x > 0)
-        {
-            WallSlide();
-        }
-        else if (m_con._isWallLeft && m_con._inputManager.Movement.x < 0)
-        {
-            WallSlide();
-        }
-        else if (m_con._isWallFront && m_con._inputManager.Movement.y > 0)
-        {
-            WallSlide();
-        }
-        else if (m_con._isWallBack && m_con._inputManager.Movement.y < 0)
-        {
-            WallSlide();
-        }
-        else
-        {
-            StopWallSlide();
-        }
-    }
-
-    public void WallSlide()
-    {
-        m_con._isWallSliding = true;
-        m_con._currentGravityForce = m_data.m_wallSlideGravityForce;
-    }
-
-    public void StopWallSlide()
-    {
-        m_con._isWallSliding = false;
-        m_con._currentGravityForce = m_data.m_baseGravityForce;
-    }
-
-    #endregion
-
 
     public void CheckWallJump()
     {
@@ -209,7 +150,7 @@ public class WallInteract : MovementMechanic
             m_con._move += m_con._wallNormal * m_data.m_wallJumpSideForce;
 
             m_con._isWallRunJumping = true;
-            m_data.m_wallJumpTime = .25f;
+            m_con._wallJumpTime = .25f;
             m_con._canWallCheck = false;
             m_con._isWallRight = false;
             m_con._isWallLeft = false;

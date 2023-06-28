@@ -56,8 +56,8 @@ public class BaseMovement : MovementMechanic
             m_con._move += m_con._wallNormal * m_data.m_wallJumpSideForce;
             m_con._move += m_con._forwardDirection * m_con._currentMaxSpeed;
 
-            m_data.m_wallJumpTime -= 1f * Time.deltaTime;
-            if (m_data.m_wallJumpTime <= 0)
+            m_con._wallJumpTime -= 1f * Time.deltaTime;
+            if (m_con._wallJumpTime <= 0)
             {
                 m_con._isWallRunJumping = false;
                 m_con._timeMoving = 0;

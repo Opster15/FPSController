@@ -190,11 +190,6 @@ public class FPSControllerEditor : Editor
                             {
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunJumping"));
                             }
-
-                            if (x.m_data.m_canWallSlide)
-                            {
-                                EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallSliding"));
-                            }
                         }
                         break;
                 }

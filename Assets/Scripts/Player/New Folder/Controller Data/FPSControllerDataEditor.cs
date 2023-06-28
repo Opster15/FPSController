@@ -83,11 +83,6 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunGravityForce"));
                     }
 
-                    if (x.m_canWallSlide)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallSlideGravityForce"));
-                    }
-
                     EditorGUI.indentLevel--;
 
 
@@ -225,7 +220,6 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpSideForce"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpUpForce"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckTime"));
-                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallJumpCount"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_doubleJumpFromWallRun"));
@@ -244,7 +238,6 @@ public class FPSControllerDataEditor : Editor
                             x.m_canWallInteract = false;
                             x.m_canWallJump = false;
                             x.m_canWallRun = false;
-                            x.m_canWallSlide = false;
                             currentTab--;
                         }
 
@@ -261,14 +254,6 @@ public class FPSControllerDataEditor : Editor
                             if (GUILayout.Button("Remove Wall Run"))
                             {
                                 x.m_canWallRun = false;
-                            }
-                        }
-
-                        if (x.m_canWallSlide)
-                        {
-                            if (GUILayout.Button("Remove Wall Slide"))
-                            {
-                                x.m_canWallSlide = false;
                             }
                         }
                     }
@@ -361,15 +346,6 @@ public class FPSControllerDataEditor : Editor
                 {
                     x.m_canWallInteract = true;
                     x.m_canWallRun = true;
-                }
-            }
-
-            if (!x.m_canWallSlide)
-            {
-                if (GUILayout.Button("Add Wall Slide"))
-                {
-                    x.m_canWallInteract = true;
-                    x.m_canWallSlide = true;
                 }
             }
         }

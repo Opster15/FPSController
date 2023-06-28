@@ -101,6 +101,8 @@ public class FPSController : MonoBehaviour
 
     public bool _canWallCheck = true, _hasWallRun;
 
+    public float _wallJumpTime;
+
     #endregion
 
     #region MISC VARIABLES

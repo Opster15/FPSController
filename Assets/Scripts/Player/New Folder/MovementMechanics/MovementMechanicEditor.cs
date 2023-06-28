@@ -5,8 +5,7 @@ using UnityEditor;
 using UnityEditor.TerrainTools;
 using UnityEngine;
 
-[System.Serializable]
-[CustomEditor(typeof(MovementMechanic))]
+[CustomEditor(typeof(MovementMechanic), editorForChildClasses: true)]
 public class MovementMechanicEditor : Editor
 {
 

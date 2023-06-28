@@ -44,9 +44,6 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Gravity applied to controller when wall running")]
     public float m_wallRunGravityForce = 2f;
 
-    [Tooltip("Gravity applied to controller when wall sliding")]
-    public float m_wallSlideGravityForce = 0f;
-
     [Tooltip("Multiplier affecting how quickly the current gravity force is reached")]
     public float m_gravityMultiplier = 1f;
     #endregion
@@ -176,9 +173,6 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Time (seconds) from last wall jump when controller cannot detect walls")]
     public float m_wallCheckTime = .25f;
 
-    [Tooltip("Time (seconds) until the controller is allowed to be '_isWallJumping'")]
-    public float m_wallJumpTime;
-
     [Tooltip("Allows for controller to gain an extra jump after wall jumping")]
     public bool m_doubleJumpFromWallRun;
 
@@ -187,8 +181,6 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("difference in wall angle to be treated as a new wall")]
     public float m_maxWallAngle;
-
-    public bool m_canWallSlide;
 
     #endregion
 
