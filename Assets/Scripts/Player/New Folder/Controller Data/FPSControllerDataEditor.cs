@@ -10,7 +10,7 @@ public class FPSControllerDataEditor : Editor
 {
     private List<string> tabs = new() { "Movement", "Gravity", "Misc" };
     private int currentTab = 0;
-    private List<string> wallTabs = new() { "Wall", "Run", "Jump"};
+    private List<string> wallTabs = new() { "Wall", "Run", "Jump", "Climb"};
     private int currentWallTab = 0;
 
     bool showAdd;
@@ -41,7 +41,9 @@ public class FPSControllerDataEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseMaxSpeed"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_absoluteMaxSpeed"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampup"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundAccelerationCurve"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampdown"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundDecelerationCurve"));
 
                     if (x.m_canSprint)
                     {
@@ -187,7 +189,7 @@ public class FPSControllerDataEditor : Editor
                 case "Wall Interact":
 
                     EditorGUILayout.BeginVertical();
-                    currentWallTab = GUILayout.SelectionGrid(currentWallTab, wallTabs.ToArray(), 3);
+                    currentWallTab = GUILayout.SelectionGrid(currentWallTab, wallTabs.ToArray(), 4);
                     EditorGUILayout.Space(5f);
                     EditorGUILayout.EndVertical();
 
@@ -226,6 +228,15 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUI.indentLevel--;
                                 }
                                 break;
+                            case "Climb":
+                                if (x.m_canWallClimb)
+                                {
+                                    EditorGUILayout.LabelField("WALL CLIMB VARIABLES", EditorStyles.boldLabel);
+                                    EditorGUI.indentLevel++;
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbSpeed"));
+                                    EditorGUI.indentLevel--;
+                                }
+                                break;
                         }
                     }
 
@@ -254,6 +265,14 @@ public class FPSControllerDataEditor : Editor
                             if (GUILayout.Button("Remove Wall Run"))
                             {
                                 x.m_canWallRun = false;
+                            }
+                        }
+
+                        if (x.m_canWallClimb)
+                        {
+                            if (GUILayout.Button("Remove Wall Climb"))
+                            {
+                                x.m_canWallClimb = false;
                             }
                         }
                     }
@@ -331,23 +350,36 @@ public class FPSControllerDataEditor : Editor
                 }
             }
 
-            if (!x.m_canWallJump)
+            if (x.m_canWallInteract)
             {
-                if (GUILayout.Button("Add Wall Jump"))
+                if (!x.m_canWallJump)
                 {
-                    x.m_canWallInteract = true;
-                    x.m_canWallJump = true;
+                    if (GUILayout.Button("Add Wall Jump"))
+                    {
+                        x.m_canWallInteract = true;
+                        x.m_canWallJump = true;
+                    }
+                }
+
+                if (!x.m_canWallRun)
+                {
+                    if (GUILayout.Button("Add Wall Run"))
+                    {
+                        x.m_canWallInteract = true;
+                        x.m_canWallRun = true;
+                    }
+                }
+
+                if (!x.m_canWallClimb)
+                {
+                    if (GUILayout.Button("Add Wall Climb"))
+                    {
+                        x.m_canWallInteract = true;
+                        x.m_canWallClimb = true;
+                    }
                 }
             }
 
-            if (!x.m_canWallRun)
-            {
-                if (GUILayout.Button("Add Wall Run"))
-                {
-                    x.m_canWallInteract = true;
-                    x.m_canWallRun = true;
-                }
-            }
         }
 
         EditorGUILayout.EndVertical();

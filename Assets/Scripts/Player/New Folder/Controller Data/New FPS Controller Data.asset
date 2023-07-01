@@ -13,16 +13,64 @@ MonoBehaviour:
   m_Name: New FPS Controller Data
   m_EditorClassIdentifier: 
   m_debugMode: 0
-  m_baseMaxSpeed: 11
+  m_baseMaxSpeed: 15
   m_groundSpeedRampup: 0.1
+  m_groundAccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_groundSpeedRampdown: 0.5
+  m_groundDecelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.1653854
+      outSlope: 1.1653854
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15877625
+    - serializedVersion: 3
+      time: 2.4971619
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_absoluteMaxSpeed: 30
   m_leanOnMove: 0
   m_airSpeedRampup: 0.5
   m_airSpeedRampdown: 0.5
-  m_airControl: 0.5
+  m_airControl: 0.1
   m_baseGravityForce: -35
-  m_wallRunGravityForce: -2
+  m_wallRunGravityForce: 0
   m_gravityMultiplier: 1
   m_canSprint: 1
   m_sprintMaxSpeed: 20
@@ -35,7 +83,7 @@ MonoBehaviour:
   m_varientJumpHeight: 0
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
-  m_maxYVelocity: 50
+  m_maxYVelocity: 12
   m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
@@ -54,16 +102,18 @@ MonoBehaviour:
   m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 64
   m_wallCheckDist: 1
   m_canWallRun: 1
-  m_wallRunMaxSpeed: 0
+  m_wallRunMaxSpeed: 12
   m_canWallJump: 1
   m_maxWallJumpCount: 2
   m_wallJumpUpForce: 10
   m_wallJumpSideForce: 10
   m_wallCheckTime: 0.25
   m_doubleJumpFromWallRun: 0
+  m_canWallClimb: 1
+  m_wallClimbSpeed: 3
   m_maxWallAngle: 0
   m_sensitivity: 2
   m_sensMultiplier: 1

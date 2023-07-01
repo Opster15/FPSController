@@ -16,8 +16,12 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Time (seconds) for ground movement to reach full speed")]
     public float m_groundSpeedRampup = .1f;
 
+    public AnimationCurve m_groundAccelerationCurve;
+
     [Tooltip("Time (seconds) for ground movement to reach 0")]
     public float m_groundSpeedRampdown = .5f;
+
+    public AnimationCurve m_groundDecelerationCurve;
 
     [Tooltip("Max speed the controller can reach regardless of any other factor")]
     public float m_absoluteMaxSpeed = 30f;
@@ -178,6 +182,15 @@ public class FPSControllerData : ScriptableObject
 
     #endregion
 
+    #region Wall Climb Variables
+
+    public bool m_canWallClimb;
+
+    public float m_wallClimbSpeed;
+
+
+
+    #endregion
 
     [Tooltip("difference in wall angle to be treated as a new wall")]
     public float m_maxWallAngle;

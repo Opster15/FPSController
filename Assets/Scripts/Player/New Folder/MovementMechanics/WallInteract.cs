@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WallInteract : MovementMechanic
 {
-
-    #region WALL INTERACT FUNCTIONS
     public void WallDetect()
     {
         if (m_con._canWallCheck)
@@ -17,13 +15,31 @@ public class WallInteract : MovementMechanic
 
             if (m_data.m_canWallRun)
             {
-                if ((m_con._isWallLeft || m_con._isWallRight) && m_con._inputManager.m_movementInput.y > 0 && m_con._isJumping && m_con._jumpCounter < 0)
+                if (!m_con._isWallRunning)
                 {
-                    WallRunCheck();
+                    if ((m_con._isWallLeft || m_con._isWallRight) && m_con._inputManager.m_movementInput.y > 0 && m_con._isJumping && m_con._jumpCounter < 0)
+                    {
+                        WallRunCheck();
+                    }
                 }
-                else if ((!m_con._isWallLeft || !m_con._isWallRight) && m_con._isWallRunning)
+                else
+                {   
+                    if ((!m_con._isWallLeft && !m_con._isWallRight) || m_con._inputManager.m_movementInput.y <= 0)
+                    {
+                        StopWallRun();
+                    }
+                }
+            }
+            
+            if (m_data.m_canWallClimb)
+            {
+                if (m_con._isWallFront && m_con._inputManager.m_movementInput.y > 0 && !m_con._isWallClimbing)
                 {
-                    StopWallRun();
+                    StartWallClimb();
+                }
+                else if(m_con._isWallClimbing && (!m_con._isWallFront || m_con._inputManager.m_movementInput.y <= 0))
+                {
+                    EndWallClimb();
                 }
             }
         }
@@ -46,6 +62,13 @@ public class WallInteract : MovementMechanic
     #region WALL RUN
     public void WallRunMovement()
     {
+        m_con._forwardDirection = Vector3.Cross(m_con._wallNormal, Vector3.up);
+
+        if (Vector3.Dot(m_con._forwardDirection, m_con.m_orientation.transform.forward) < .5f)
+        {
+            m_con._forwardDirection = -m_con._forwardDirection;
+        }
+
         if (m_con._input.z > (m_con._forwardDirection.z - 10f) && m_con._input.z < (m_con._forwardDirection.z + 10f))
         {
             m_con._move += m_con._forwardDirection;
@@ -69,28 +92,13 @@ public class WallInteract : MovementMechanic
             float wallAngle = Vector3.Angle(m_con._wallNormal, m_con._lastWall);
             if (wallAngle >= m_data.m_maxWallAngle)
             {
-                WallRun();
+                StartWallRun();
             }
         }
         else
         {
             m_con._hasWallRun = true;
-            WallRun();
-        }
-    }
-
-    public void WallRun()
-    {
-        if (!m_con._isWallRunning)
-        {
             StartWallRun();
-        }
-
-        m_con._forwardDirection = Vector3.Cross(m_con._wallNormal, Vector3.up);
-
-        if (Vector3.Dot(m_con._forwardDirection, m_con.m_orientation.transform.forward) < .5f)
-        {
-            m_con._forwardDirection = -m_con._forwardDirection;
         }
     }
 
@@ -158,6 +166,24 @@ public class WallInteract : MovementMechanic
             StopWallRun();
         }
 
+    }
+
+    #region Wall Climb
+
+    public void StartWallClimb()
+    {
+        m_con._isWallClimbing = true;
+    }
+
+    public void EndWallClimb()
+    {
+        m_con._isWallClimbing = false;
+
+    }
+
+    public void WallClimbMovement()
+    {
+        m_con._yVelocity.y += Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
     }
 
     #endregion

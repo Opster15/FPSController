@@ -16,17 +16,18 @@ public class BaseMovement : MovementMechanic
         //timemoving / groundspeedRampup gives a value that is multiplied onto
         //_currentMaxSpeed to give controller a gradual speed increase if needed
 
-        m_con._currentSpeed = m_data.m_groundSpeedRampup > 0 ? Mathf.Clamp(m_con._currentMaxSpeed * m_con._timeMoving / m_data.m_groundSpeedRampup, 0, m_con._currentMaxSpeed) : m_con._currentMaxSpeed;
 
         if (m_con._isInputing)
         {
-            m_con._timeMoving += Time.fixedDeltaTime;
+            m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(m_con._timeMoving);
+            m_con._timeMoving += Time.deltaTime;
             m_con._move.z = m_con._currentSpeed * m_con._input.z;
             m_con._move.x = m_con._currentSpeed * m_con._input.x;
 
         }
         else
         {
+            m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_groundDecelerationCurve.Evaluate(m_con._timeMoving);
             if (m_con._timeMoving <= 0)
             {
                 m_con._move.x = 0;
@@ -40,7 +41,8 @@ public class BaseMovement : MovementMechanic
             }
             else
             {
-                m_con._timeMoving = Mathf.Clamp(m_con._timeMoving - Time.deltaTime, 0, m_data.m_groundSpeedRampdown);
+                Debug.Log("AD");
+                m_con._timeMoving -= Time.deltaTime;
                 m_con._move.z = m_con._currentSpeed * Mathf.Clamp(m_con._lastInput.z, -1, 1);
                 m_con._move.x = m_con._currentSpeed * Mathf.Clamp(m_con._lastInput.x, -1, 1);
             }
@@ -81,8 +83,8 @@ public class BaseMovement : MovementMechanic
         {
             if (m_con._timeMoving == 0)
             {
-                m_con._move.z -= m_data.m_airSpeedRampdown * Time.deltaTime * Mathf.Clamp(m_con._lastInput.z, -1, 1);
-                m_con._move.x -= m_data.m_airSpeedRampdown * Time.deltaTime * Mathf.Clamp(m_con._lastInput.x, -1, 1);
+                m_con._move.z -= m_data.m_airSpeedRampdown * Mathf.Clamp(m_con._lastInput.z, -1, 1);
+                m_con._move.x -= m_data.m_airSpeedRampdown * Mathf.Clamp(m_con._lastInput.x, -1, 1);
             }
             else
             {
@@ -95,13 +97,13 @@ public class BaseMovement : MovementMechanic
         m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
     }
 
-    public void AddGravityForce()
+    public void AddYVelocityForce()
     {
         m_con._yVelocity.y += m_con._currentGravityForce * Time.deltaTime * m_data.m_gravityMultiplier;
 
         //if controller is grounded, a smaller gravity force is applied
         //allows for a slow gradual fall if stepping off an edge
-        if (m_con._isGrounded && !m_con._isJumping)
+        if (m_con._isGrounded && !m_con._isJumping && !m_con._isWallClimbing)
         {
             m_con._yVelocity.y = -1;
         }

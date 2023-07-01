@@ -110,7 +110,7 @@ public class FPSController : MonoBehaviour
     public bool _isCrouching, _isGrounded, _isInputing,
         _isSprinting, _isDashing, _isWallRunning,
         _isSliding, _isJumping, _isWallRunJumping,
-        _isWallSliding;
+        _isWallSliding, _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
     public bool _disableGroundCheck;
@@ -185,6 +185,11 @@ public class FPSController : MonoBehaviour
             {
                 _wallInteract.WallRunMovement();
             }
+            
+            if (_isWallClimbing)
+            {
+                _wallInteract.WallClimbMovement();
+            }
         }
 
 
@@ -225,7 +230,7 @@ public class FPSController : MonoBehaviour
             _cc.Move(_move * Time.deltaTime);
         }
 
-        _baseMovement.AddGravityForce();
+        _baseMovement.AddYVelocityForce();
     }
 
     private void LateUpdate()
@@ -246,7 +251,10 @@ public class FPSController : MonoBehaviour
     private void InputsCheck()
     {
         //sets lastinput to _input before this frames input is set
-        _lastInput = _input;
+        if(_input != Vector3.zero)
+        {
+            _lastInput = _input;
+        }
         //sets _input depending on your player orientation
         _input = new Vector3(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
         _input = m_orientation.transform.TransformDirection(_input);

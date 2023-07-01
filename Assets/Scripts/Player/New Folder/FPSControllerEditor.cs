@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 [CustomEditor(typeof(FPSController))]
 public class FPSControllerEditor : Editor
 {
-    private List<string> tabs = new() { "Assignables", "Movement", "Gravity", "Misc" };
+    private List<string> tabs = new() { "Movement", "Gravity", "Misc" };
     private int currentTab = 0;
 
     private FPSController x;
@@ -76,6 +76,7 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentMaxSpeed"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_move"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_input"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastInput"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_yVelocity"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_forwardDirection"));
                         }
