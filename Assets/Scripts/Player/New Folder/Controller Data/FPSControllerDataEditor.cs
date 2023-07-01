@@ -40,9 +40,7 @@ public class FPSControllerDataEditor : Editor
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseMaxSpeed"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_absoluteMaxSpeed"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampup"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundAccelerationCurve"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundSpeedRampdown"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundDecelerationCurve"));
 
                     if (x.m_canSprint)
@@ -61,8 +59,8 @@ public class FPSControllerDataEditor : Editor
 
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airControl"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airSpeedRampup"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airSpeedRampdown"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airAccelerationCurve"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airDecelerationCurve"));
                     EditorGUI.indentLevel--;
 
                     if (x.m_canSprint)
@@ -100,7 +98,6 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpForce"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxJumpCount"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxYVelocity"));
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_varientJumpHeight"));
 
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpAddsSpeed"));
                         if (x.m_jumpAddsSpeed)
@@ -202,6 +199,7 @@ public class FPSControllerDataEditor : Editor
                                 EditorGUILayout.LabelField("WALL INTERACTION VARIABLES", EditorStyles.boldLabel);
                                 EditorGUI.indentLevel++;
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsWall"));
+                                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDirection"));
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDist"));
                                 EditorGUI.indentLevel--;
                                 break;
@@ -211,6 +209,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUI.indentLevel++;
                                     EditorGUILayout.LabelField("WALLRUN VARIABLES", EditorStyles.boldLabel);
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxTime"));
                                     EditorGUI.indentLevel--;
                                 }
                                 break;

@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class FPSController : MonoBehaviour
 {
@@ -98,6 +99,8 @@ public class FPSController : MonoBehaviour
     public Vector3 _wallNormal;
 
     public Vector3 _lastWall;
+
+    public float _wallRunTime;
 
     public bool _canWallCheck = true, _hasWallRun;
 
@@ -327,12 +330,6 @@ public class FPSController : MonoBehaviour
             _jump.JumpCheck();
         }
 
-        //reduces your current y velocity if you release jump button before jump is finished
-        if (_inputManager.m_jump.InputReleased && _isJumping && m_data.m_varientJumpHeight)
-        {
-            _yVelocity.y /= 2;
-        }
-
         if (_inputManager.m_Dash.InputPressed && m_data.m_canDash)
         {
             _dash.DashCheck();
@@ -397,4 +394,36 @@ public class FPSController : MonoBehaviour
     {
         _currentMaxSpeed -= speedDecrease * Time.deltaTime;
     }
+
+    #region DEBUG FUNCTIONS
+
+    private void OnDrawGizmos()
+    {
+        if(m_debugMode)
+        {
+            Gizmos.color = Color.red;
+
+            if(m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Forward)
+            {
+                Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
+            }
+
+            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Right)
+            {
+                Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
+            }
+
+            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Left)
+            {
+                Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
+            }
+
+            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Backward)
+            {
+                Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
+            }
+        }
+    }
+
+    #endregion
 }

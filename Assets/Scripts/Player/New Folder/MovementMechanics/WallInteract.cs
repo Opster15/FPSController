@@ -26,7 +26,7 @@ public class WallInteract : MovementMechanic
                 {   
                     if ((!m_con._isWallLeft && !m_con._isWallRight) || m_con._inputManager.m_movementInput.y <= 0)
                     {
-                        StopWallRun();
+                        EndWallRun();
                     }
                 }
             }
@@ -62,6 +62,16 @@ public class WallInteract : MovementMechanic
     #region WALL RUN
     public void WallRunMovement()
     {
+        if(m_con._wallRunTime <= 0)
+        {
+            EndWallRun();
+            return;
+        }
+        else
+        {
+            m_con._wallRunTime -= Time.deltaTime;
+        }
+
         m_con._forwardDirection = Vector3.Cross(m_con._wallNormal, Vector3.up);
 
         if (Vector3.Dot(m_con._forwardDirection, m_con.m_orientation.transform.forward) < .5f)
@@ -75,9 +85,7 @@ public class WallInteract : MovementMechanic
         }
         else if (m_con._input.z < (m_con._forwardDirection.z - 10f) && m_con._input.z > (m_con._forwardDirection.z + 10f))
         {
-            m_con._move.x = 0;
-            m_con._move.z = 0;
-            StopWallRun();
+            EndWallRun();
         }
         m_con._move.x += m_con._input.x * m_data.m_airControl;
 
@@ -107,6 +115,7 @@ public class WallInteract : MovementMechanic
         m_con._isWallRunning = true;
         m_con._currentMaxSpeed = m_data.m_wallRunMaxSpeed;
         m_con._currentJumpCount = 1;
+        m_con._wallRunTime = m_data.m_wallRunMaxTime;
 
         if (m_data.m_canWallJump)
         {
@@ -123,7 +132,7 @@ public class WallInteract : MovementMechanic
         m_con._cineCam.m_Lens.Dutch = m_con._isWallRight ? 3f : -3f;
     }
 
-    public void StopWallRun()
+    public void EndWallRun()
     {
         if (m_con._isWallRunning)
         {
@@ -139,7 +148,7 @@ public class WallInteract : MovementMechanic
 
     #endregion
 
-
+    #region Wall Jump
     public void CheckWallJump()
     {
         if (m_con._currentJumpCount >= m_data.m_maxWallJumpCount + m_data.m_maxJumpCount)
@@ -163,10 +172,12 @@ public class WallInteract : MovementMechanic
             m_con._isWallRight = false;
             m_con._isWallLeft = false;
             Invoke(nameof(ResetWallCheck), m_data.m_wallCheckTime);
-            StopWallRun();
+            EndWallRun();
         }
 
     }
+
+    #endregion
 
     #region Wall Climb
 

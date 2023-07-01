@@ -1,26 +1,20 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "FPS Controller Data")]
 public class FPSControllerData : ScriptableObject
 {
-    [Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
-    public bool m_debugMode;
-
     #region MOVEMENT VARIABLES
 
     [Tooltip("Max speed the controller can achive with just WASD movement")]
     public float m_baseMaxSpeed = 11f;
 
-    [Tooltip("Time (seconds) for ground movement to reach full speed")]
-    public float m_groundSpeedRampup = .1f;
-
+    [Tooltip("Curve reprisenting time to reach max speed")]
     public AnimationCurve m_groundAccelerationCurve;
 
-    [Tooltip("Time (seconds) for ground movement to reach 0")]
-    public float m_groundSpeedRampdown = .5f;
-
+    [Tooltip("Curve reprisenting time to reach 0 speed")]
     public AnimationCurve m_groundDecelerationCurve;
 
     [Tooltip("Max speed the controller can reach regardless of any other factor")]
@@ -29,11 +23,11 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Mimic the camera leaning in the direction the controller is moving")]
     public bool m_leanOnMove;
 
-    [Tooltip("Time (seconds) for air movement to reach full speed")]
-    public float m_airSpeedRampup = .5f;
+    [Tooltip("Curve for time to reach max speed")]
+    public AnimationCurve m_airAccelerationCurve;
 
-    [Tooltip("Time (seconds) for air movement to reach 0")]
-    public float m_airSpeedRampdown = .5f;
+    [Tooltip("Curve for time to reach 0 speed")]
+    public AnimationCurve m_airDecelerationCurve;
 
     [Tooltip("Multiplier of movement when in the air")]
     [Range(0.0f, 1f)]
@@ -71,9 +65,6 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("Layer on which the controller is considered grounded")]
     public LayerMask m_whatIsGround;
-
-    [Tooltip("Holding down the Jump key results in a bigger jump")]
-    public bool m_varientJumpHeight;
 
     [Tooltip("Increases the max speed after jumping")]
     public bool m_jumpAddsSpeed;
@@ -154,12 +145,26 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Distance for raycasts that detect wall layer")]
     public float m_wallCheckDist;
 
+    [Flags]
+    public enum WallCheckDirections
+    {
+        None = 0,
+        Forward = 1,
+        Backward = 2,
+        Left = 4,
+        Right = 8
+    }
+
+    public WallCheckDirections m_wallCheckDirection;
+
     #region WALL RUN VARIABLES
 
     public bool m_canWallRun;
 
     [Tooltip("Max speed controller can achive when wall running")]
     public float m_wallRunMaxSpeed;
+
+    public float m_wallRunMaxTime;
     #endregion
 
     #region WALL JUMP VARIABLES
