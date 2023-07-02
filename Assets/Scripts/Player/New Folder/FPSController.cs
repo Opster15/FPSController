@@ -2,7 +2,6 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class FPSController : MonoBehaviour
 {
@@ -403,22 +402,22 @@ public class FPSController : MonoBehaviour
         {
             Gizmos.color = Color.red;
 
-            if(m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Forward)
+            if(m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
             {
                 Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
             }
 
-            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Right)
+            if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
             {
                 Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
             }
 
-            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Left)
+            if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
             {
                 Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
             }
 
-            if (m_data.m_wallCheckDirection == FPSControllerData.WallCheckDirections.Backward)
+            if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
             {
                 Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
             }

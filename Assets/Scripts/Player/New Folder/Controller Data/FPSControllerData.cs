@@ -145,16 +145,6 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Distance for raycasts that detect wall layer")]
     public float m_wallCheckDist;
 
-    [Flags]
-    public enum WallCheckDirections
-    {
-        None = 0,
-        Forward = 1,
-        Backward = 2,
-        Left = 4,
-        Right = 8
-    }
-
     public WallCheckDirections m_wallCheckDirection;
 
     #region WALL RUN VARIABLES
@@ -165,6 +155,9 @@ public class FPSControllerData : ScriptableObject
     public float m_wallRunMaxSpeed;
 
     public float m_wallRunMaxTime;
+
+    [Tooltip("difference in wall angle to be treated as a new wall")]
+    public float m_maxWallAngle;
     #endregion
 
     #region WALL JUMP VARIABLES
@@ -197,8 +190,6 @@ public class FPSControllerData : ScriptableObject
 
     #endregion
 
-    [Tooltip("difference in wall angle to be treated as a new wall")]
-    public float m_maxWallAngle;
 
     #endregion
 

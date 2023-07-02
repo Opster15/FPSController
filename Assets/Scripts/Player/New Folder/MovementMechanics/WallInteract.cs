@@ -8,10 +8,10 @@ public class WallInteract : MovementMechanic
     {
         if (m_con._canWallCheck)
         {
-            m_con._isWallLeft = IsWall(-m_con.m_orientation.right, m_con._leftWallHit);
-            m_con._isWallRight = IsWall(m_con.m_orientation.right, m_con._rightWallHit);
-            m_con._isWallFront = IsWall(m_con.m_orientation.forward, m_con._frontWallHit);
-            m_con._isWallBack = IsWall(-m_con.m_orientation.forward, m_con._backWallHit);
+            m_con._isWallLeft = IsWall(-m_con.m_orientation.right, m_con._leftWallHit, WallCheckDirections.Left);
+            m_con._isWallRight = IsWall(m_con.m_orientation.right, m_con._rightWallHit, WallCheckDirections.Right);
+            m_con._isWallFront = IsWall(m_con.m_orientation.forward, m_con._frontWallHit, WallCheckDirections.Forward);
+            m_con._isWallBack = IsWall(-m_con.m_orientation.forward, m_con._backWallHit,WallCheckDirections.Backward);
 
             if (m_data.m_canWallRun)
             {
@@ -45,10 +45,15 @@ public class WallInteract : MovementMechanic
         }
     }
 
-    public bool IsWall(Vector3 direction, RaycastHit hit)
+    public bool IsWall(Vector3 directionVec, RaycastHit hit, WallCheckDirections directionCheck)
     {
+        if (!m_data.m_wallCheckDirection.HasFlag(directionCheck))
+        {
+            return false;
+        }
+
         bool x;
-        x = Physics.Raycast(m_con.m_orientation.transform.position, direction, out hit, m_data.m_wallCheckDist, m_data.m_whatIsWall);
+        x = Physics.Raycast(m_con.m_orientation.transform.position, directionVec, out hit, m_data.m_wallCheckDist, m_data.m_whatIsWall);
         if (x) { m_con._wallNormal = hit.normal; }
         return x;
     }

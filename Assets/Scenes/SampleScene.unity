@@ -565,6 +565,7 @@ MonoBehaviour:
   _isWallBack: 0
   _wallNormal: {x: 0, y: 0, z: 0}
   _lastWall: {x: 0, y: 0, z: 0}
+  _wallRunTime: 0
   _canWallCheck: 1
   _hasWallRun: 0
   _wallJumpTime: 0
@@ -747,7 +748,7 @@ GameObject:
   - component: {fileID: 225623905}
   - component: {fileID: 225623904}
   - component: {fileID: 225623903}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1522,7 +1523,7 @@ GameObject:
   - component: {fileID: 1985618573}
   - component: {fileID: 1985618572}
   - component: {fileID: 1985618571}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

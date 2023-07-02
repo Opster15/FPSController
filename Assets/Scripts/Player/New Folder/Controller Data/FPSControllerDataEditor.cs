@@ -8,7 +8,7 @@ using UnityEditor;
 [CustomEditor(typeof(FPSControllerData))]
 public class FPSControllerDataEditor : Editor
 {
-    private List<string> tabs = new() { "Movement", "Gravity", "Misc" };
+    private List<string> tabs = new() { "Movement", "Gravity","Input", "Misc" };
     private int currentTab = 0;
     private List<string> wallTabs = new() { "Wall", "Run", "Jump", "Climb"};
     private int currentWallTab = 0;
@@ -86,6 +86,25 @@ public class FPSControllerDataEditor : Editor
                     EditorGUI.indentLevel--;
 
 
+
+                    break;
+                case "Input":
+                    EditorGUILayout.LabelField("INPUT VARIABLES", EditorStyles.boldLabel);
+
+                    EditorGUI.indentLevel++;
+
+                    EditorGUI.indentLevel--;
+
+
+
+                    break;
+                case "Misc":
+                    EditorGUILayout.LabelField("MISCELLANEOUS VARIABLES", EditorStyles.boldLabel);
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensitivity"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensMultiplier"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerScale"));
+                    EditorGUI.indentLevel--;
 
                     break;
                 case "Jump":
@@ -200,7 +219,10 @@ public class FPSControllerDataEditor : Editor
                                 EditorGUI.indentLevel++;
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsWall"));
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDirection"));
-                                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDist"));
+                                if(x.m_wallCheckDirection != 0)
+                                {
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDist"));
+                                }
                                 EditorGUI.indentLevel--;
                                 break;
                             case "Run":
@@ -210,6 +232,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.LabelField("WALLRUN VARIABLES", EditorStyles.boldLabel);
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxTime"));
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
                                     EditorGUI.indentLevel--;
                                 }
                                 break;
@@ -222,7 +245,6 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpUpForce"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallJumpCount"));
-                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_doubleJumpFromWallRun"));
                                     EditorGUI.indentLevel--;
                                 }
@@ -275,15 +297,6 @@ public class FPSControllerDataEditor : Editor
                             }
                         }
                     }
-
-                    break;
-                case "Misc":
-                    EditorGUILayout.LabelField("MISCELLANEOUS VARIABLES", EditorStyles.boldLabel);
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensitivity"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sensMultiplier"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerScale"));
-                    EditorGUI.indentLevel--;
 
                     break;
             }

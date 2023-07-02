@@ -118,11 +118,6 @@ public class FPSControllerEditor : Editor
                             }
                         }
 
-
-
-
-
-
                         break;
                     case "Dash":
                         EditorGUILayout.LabelField("DASH VARIABLES", EditorStyles.boldLabel);
@@ -138,7 +133,6 @@ public class FPSControllerEditor : Editor
                     case "Wall Interact":
 
                         EditorGUILayout.LabelField("WALL INTERACTION VARIABLES", EditorStyles.boldLabel);
-
 
                         if (x.m_debugMode)
                         {
