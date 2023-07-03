@@ -121,11 +121,7 @@ public class FPSControllerData : ScriptableObject
 
     public bool m_canDash;
 
-    [Tooltip("Force applied to character when dashing")]
-    public float m_dashForce;
-
-    [Tooltip("Time (seconds) of dash")]
-    public float m_dashTime;
+    public AnimationCurve m_dashSpeedCurve;
 
     [Tooltip("Time (seconds) until dash is available")]
     public float m_dashCooldown = 2;

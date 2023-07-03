@@ -13,17 +13,12 @@ public class BaseMovement : MovementMechanic
 
     public void GroundMovement()
     {
-        //timemoving / groundspeedRampup gives a value that is multiplied onto
-        //_currentMaxSpeed to give controller a gradual speed increase if needed
-
-
         if (m_con._isInputing)
         {
             m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(m_con._timeMoving);
             m_con._timeMoving += Time.deltaTime;
             m_con._move.z = m_con._currentSpeed * m_con._input.z;
             m_con._move.x = m_con._currentSpeed * m_con._input.x;
-
         }
         else
         {

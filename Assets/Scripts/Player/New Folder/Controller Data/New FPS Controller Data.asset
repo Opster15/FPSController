@@ -137,8 +137,39 @@ MonoBehaviour:
   m_canGroundPound: 0
   m_groundPoundForce: 0
   m_canDash: 1
-  m_dashForce: 5
-  m_dashTime: 0.5
+  m_dashSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.28450677
+      outSlope: 0.28450677
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20825516
+    - serializedVersion: 3
+      time: 0.049999997
+      value: 69.96462
+      inSlope: -0.04483154
+      outSlope: -0.04483154
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.0000066161156
+      inSlope: 0.0032889815
+      outSlope: 0.0032889815
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.48405257
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 5
   m_canWallInteract: 1

@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 127369173}
   - component: {fileID: 127369170}
   - component: {fileID: 127369171}
-  - component: {fileID: 127369172}
   - component: {fileID: 127369174}
   - component: {fileID: 127369180}
   - component: {fileID: 127369184}
@@ -374,125 +373,6 @@ MonoBehaviour:
   m_movementInput: {x: 0, y: 0}
   m_mousePositionInput: {x: 0, y: 0}
   m_lastMovementInput: {x: 0, y: 0}
---- !u!114 &127369172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369169}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a76cfa0f6beccad42a8f059299d9bb60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_debugMode: 0
-  m_playerCam: {fileID: 851155032}
-  m_playerCamParent: {fileID: 250482727}
-  m_orientation: {fileID: 1935623665}
-  m_baseMaxSpeed: 11
-  m_groundSpeedRampup: 0.1
-  m_groundSpeedRampdown: 0.5
-  m_absoluteMaxSpeed: 30
-  m_leanOnMove: 0
-  m_airSpeedRampup: 0.5
-  m_airSpeedRampdown: 0.5
-  m_airControl: 0.5
-  m_momentumBasedMovement: 0
-  _timeMoving: 0
-  _currentMaxSpeed: 0
-  _currentSpeed: 0
-  _move: {x: 0, y: 0, z: 0}
-  _forwardDirection: {x: 0, y: 0, z: 0}
-  _input: {x: 0, y: 0, z: 0}
-  _lastInput: {x: 0, y: 0, z: 0}
-  m_baseGravityForce: -15
-  m_wallRunGravityForce: 2
-  m_wallSlideGravityForce: 0
-  m_rocketJumpingGravity: -25
-  m_gravityMultiplier: 1
-  _yVelocity: {x: 0, y: 0, z: 0}
-  _currentGravityForce: 0
-  m_canSprint: 1
-  m_sprintMaxSpeed: 20
-  m_canJump: 1
-  m_jumpForce: 50
-  m_maxJumpCount: 1
-  m_whatIsGround:
-    serializedVersion: 2
-    m_Bits: 2147483647
-  m_varientJumpHeight: 0
-  m_jumpAddsSpeed: 0
-  m_jumpSpeedIncrease: 1
-  m_maxYVelocity: 50
-  m_slowOnJumpLand: 0
-  _jumpCooldown: 0.25
-  _jumpCounter: 0
-  _readyToJump: 1
-  _currentJumpCount: 0
-  m_canCrouch: 1
-  m_crouchMaxSpeed: 4
-  m_crouchScale: {x: 1, y: 0.5, z: 1}
-  m_canSlide: 1
-  m_slideType: 0
-  m_slideMaxSpeed: 0
-  m_maxSlideTimer: 0
-  m_autoSlide: 0
-  m_canGroundPound: 0
-  m_groundPoundForce: 0
-  _slideTimer: 0
-  m_canDash: 1
-  m_dashForce: 0
-  m_dashTime: 0
-  m_dashCooldown: 2
-  m_maxDashCount: 0
-  _currentDashCount: 0
-  _startTime: 0
-  _dashTimer: 0
-  m_canWallInteract: 1
-  m_whatIsWall:
-    serializedVersion: 2
-    m_Bits: 0
-  m_wallCheckDist: 0
-  m_canWallRun: 0
-  m_wallRunMaxSpeed: 0
-  m_canWallJump: 0
-  m_maxWallJumpCount: 0
-  m_canJumpFromWallRun: 0
-  m_wallJumpUpForce: 0
-  m_wallJumpSideForce: 0
-  m_wallCheckTime: 0.25
-  m_wallJumpTime: 0
-  m_doubleJumpFromWallRun: 0
-  m_maxWallAngle: 0
-  m_canWallSlide: 0
-  _isWallLeft: 0
-  _isWallRight: 0
-  _isWallFront: 0
-  _isWallBack: 0
-  _wallNormal: {x: 0, y: 0, z: 0}
-  _canWallCheck: 1
-  _hasWallRun: 0
-  m_sensitivity: 1
-  m_sensMultiplier: 1
-  m_canRocketJump: 0
-  m_maxRocketJumpSpeed: 0
-  m_rocketJumpSpeedIncrease: 0
-  m_playerScale: {x: 1, y: 1, z: 1}
-  _isCrouching: 0
-  _isGrounded: 0
-  _isInputing: 0
-  _isSprinting: 0
-  _isDashing: 0
-  _isWallRunning: 0
-  _isSliding: 0
-  _isJumping: 0
-  _isWallRunJumping: 0
-  _isRocketJumping: 0
-  _isWallSliding: 0
-  _disableGroundCheck: 0
-  _warpPosition: {x: 0, y: 0, z: 0}
-  m_canLook: 0
 --- !u!4 &127369173
 Transform:
   m_ObjectHideFlags: 0
@@ -558,7 +438,7 @@ MonoBehaviour:
   _slideTimer: 0
   _currentDashCount: 0
   _startTime: 0
-  _dashTimer: 0
+  _dashCooldownTimer: 0
   _isWallLeft: 0
   _isWallRight: 0
   _isWallFront: 0
@@ -1165,6 +1045,7 @@ Transform:
   - {fileID: 1985618570}
   - {fileID: 1240533290}
   - {fileID: 225623902}
+  - {fileID: 1855843110}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1395,7 +1276,7 @@ GameObject:
   - component: {fileID: 1240533293}
   - component: {fileID: 1240533292}
   - component: {fileID: 1240533291}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1479,6 +1360,103 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240533289}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1855843109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1855843110}
+  - component: {fileID: 1855843113}
+  - component: {fileID: 1855843112}
+  - component: {fileID: 1855843111}
+  m_Layer: 7
+  m_Name: Cube (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1855843110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855843109}
+  m_LocalRotation: {x: -0.38268274, y: -0, z: -0, w: 0.9238798}
+  m_LocalPosition: {x: -13, y: 1.4947926, z: -6.7019076}
+  m_LocalScale: {x: 24, y: 7.5515003, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 550400122}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
+--- !u!65 &1855843111
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855843109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1855843112
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855843109}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1855843113
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855843109}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1935623664
 GameObject:

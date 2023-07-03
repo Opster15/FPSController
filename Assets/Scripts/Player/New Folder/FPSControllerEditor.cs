@@ -127,7 +127,7 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentDashCount"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_startTime"));
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_dashTimer"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_dashCooldownTimer"));
                         }
                         break;
                     case "Wall Interact":
@@ -181,10 +181,17 @@ public class FPSControllerEditor : Editor
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunning"));
                             }
 
-                            if (x.m_data.m_canWallJump || x.m_data.m_canWallInteract)
+                            if (x.m_data.m_canWallJump)
                             {
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunJumping"));
                             }
+
+                            if (x.m_data.m_canWallClimb)
+                            {
+                                EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallClimbing"));
+                            }
+
+
                         }
                         break;
                 }

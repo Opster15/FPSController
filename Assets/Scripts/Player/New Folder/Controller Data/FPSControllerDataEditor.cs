@@ -186,8 +186,7 @@ public class FPSControllerDataEditor : Editor
 
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxDashCount"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashForce"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashTime"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashSpeedCurve"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashCooldown"));
                     EditorGUI.indentLevel--;
 

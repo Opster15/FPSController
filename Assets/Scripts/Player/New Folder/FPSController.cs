@@ -84,7 +84,7 @@ public class FPSController : MonoBehaviour
 
     public int _currentDashCount;
 
-    public float _startTime, _dashTimer;
+    public float _startTime, _dashCooldownTimer;
 
     #endregion
 
@@ -142,7 +142,7 @@ public class FPSController : MonoBehaviour
     {
         _currentMaxSpeed = m_data.m_baseMaxSpeed;
         _currentDashCount = m_data.m_maxDashCount;
-        _dashTimer = m_data.m_dashCooldown;
+        _dashCooldownTimer = m_data.m_dashCooldown;
         _forwardDirection = m_orientation.forward;
         _currentGravityForce = m_data.m_baseGravityForce;
         _canLook = true;
@@ -200,11 +200,11 @@ public class FPSController : MonoBehaviour
         //dash cooldown
         if (_currentDashCount < m_data.m_maxDashCount)
         {
-            _dashTimer -= Time.deltaTime;
-            if (_dashTimer <= 0)
+            _dashCooldownTimer -= Time.deltaTime;
+            if (_dashCooldownTimer <= 0)
             {
                 _currentDashCount++;
-                _dashTimer = m_data.m_dashCooldown;
+                _dashCooldownTimer = m_data.m_dashCooldown;
             }
         }
 
