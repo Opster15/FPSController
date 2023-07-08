@@ -433,8 +433,8 @@ MonoBehaviour:
   _currentGravityForce: 0
   _jumpCooldown: 0.25
   _jumpCounter: 0
-  _readyToJump: 1
   _currentJumpCount: 0
+  _cyoteTimer: 0
   _slideTimer: 0
   _currentDashCount: 0
   _startTime: 0
@@ -458,7 +458,6 @@ MonoBehaviour:
   _isSliding: 0
   _isJumping: 0
   _isWallRunJumping: 0
-  _isWallSliding: 0
   _isWallClimbing: 0
   _disableGroundCheck: 0
   _warpPosition: {x: 0, y: 0, z: 0}

@@ -163,10 +163,9 @@ public class WallInteract : MovementMechanic
 
         if ((m_con._isWallLeft || m_con._isWallRight || m_con._isWallFront || m_con._isWallBack))
         {
-            if (!m_data.m_doubleJumpFromWallRun)
-            {
-                m_con._currentJumpCount++;
-            }
+            
+            m_con._currentJumpCount++;
+            
 
             m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallJumpUpForce * m_data.m_baseGravityForce);
             m_con._move += m_con._wallNormal * m_data.m_wallJumpSideForce;

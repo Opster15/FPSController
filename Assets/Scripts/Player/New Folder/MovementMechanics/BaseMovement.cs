@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseMovement : MovementMechanic
-{   
-    
-    // Start is called before the first frame update
+{
     public override void Start()
     {
         base.Start();
@@ -128,6 +126,7 @@ public class BaseMovement : MovementMechanic
         {
             m_con._hasWallRun = false;
             m_con._currentGravityForce = m_data.m_baseGravityForce;
+            m_con._cyoteTimer = m_data.m_cyoteTime;
         }
     }
 
@@ -142,8 +141,7 @@ public class BaseMovement : MovementMechanic
 
     public void StartSprint()
     {
-        
-        //m_con._timeMoving = m_data.m_groundAccelerationCurve.Evaluate(m_con._timeMoving) * (m_con._currentMaxSpeed / m_data.m_sprintMaxSpeed);
+        m_con._timeMoving = m_data.m_groundDecelerationCurve.keys[^1].time * (m_con._currentMaxSpeed / m_data.m_sprintMaxSpeed);
 
         m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
         m_con._isSprinting = true;

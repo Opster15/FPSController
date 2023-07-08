@@ -116,6 +116,7 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsGround"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpForce"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxJumpCount"));
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_cyoteTime"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxYVelocity"));
 
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpAddsSpeed"));

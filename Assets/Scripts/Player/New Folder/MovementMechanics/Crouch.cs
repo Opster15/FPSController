@@ -38,6 +38,7 @@ public class Crouch : MovementMechanic
         m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
         m_con._slideTimer = m_data.m_maxSlideTimer;
     }
+
     public void StopCrouch()
     {
         m_con._isCrouching = false;

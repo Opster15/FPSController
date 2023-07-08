@@ -66,6 +66,8 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Layer on which the controller is considered grounded")]
     public LayerMask m_whatIsGround;
 
+    public float m_cyoteTime;
+
     [Tooltip("Increases the max speed after jumping")]
     public bool m_jumpAddsSpeed;
 
@@ -170,9 +172,6 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("Time (seconds) from last wall jump when controller cannot detect walls")]
     public float m_wallCheckTime = .25f;
-
-    [Tooltip("Allows for controller to gain an extra jump after wall jumping")]
-    public bool m_doubleJumpFromWallRun;
 
     #endregion
 

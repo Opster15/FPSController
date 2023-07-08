@@ -101,7 +101,7 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCounter"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCooldown"));
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_readyToJump"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_cyoteTimer"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
                         }

@@ -123,6 +123,7 @@ MonoBehaviour:
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  m_cyoteTime: 1
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 12
@@ -187,7 +188,6 @@ MonoBehaviour:
   m_wallJumpUpForce: 10
   m_wallJumpSideForce: 10
   m_wallCheckTime: 0.25
-  m_doubleJumpFromWallRun: 0
   m_canWallClimb: 1
   m_wallClimbSpeed: 3
   m_sensitivity: 2

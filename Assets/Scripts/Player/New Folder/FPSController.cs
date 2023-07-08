@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class FPSController : MonoBehaviour
 {
@@ -62,11 +63,10 @@ public class FPSController : MonoBehaviour
     [Tooltip("Timer for jump Cooldown")]
     public float _jumpCounter;
 
-    [Tooltip("Controls if the controller can Currently Jump")]
-    public bool _readyToJump = true;
-
     [Tooltip("Current amount of jumps performed")]
     public int _currentJumpCount;
+
+    public float _cyoteTimer;
 
 
     #endregion
@@ -112,7 +112,7 @@ public class FPSController : MonoBehaviour
     public bool _isCrouching, _isGrounded, _isInputing,
         _isSprinting, _isDashing, _isWallRunning,
         _isSliding, _isJumping, _isWallRunJumping,
-        _isWallSliding, _isWallClimbing;
+        _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
     public bool _disableGroundCheck;
@@ -194,9 +194,6 @@ public class FPSController : MonoBehaviour
             }
         }
 
-
-
-
         //dash cooldown
         if (_currentDashCount < m_data.m_maxDashCount)
         {
@@ -224,6 +221,11 @@ public class FPSController : MonoBehaviour
         if (_jumpCounter > 0)
         {
             _jumpCounter -= Time.deltaTime;
+        }
+
+        if(_cyoteTimer > 0 && !_isGrounded)
+        {
+            _cyoteTimer -= Time.deltaTime;
         }
 
         //dont call move function if _move variable hasnt been changed
@@ -312,21 +314,32 @@ public class FPSController : MonoBehaviour
             }
         }
 
-
-        if (_isJumping && _isGrounded && _readyToJump)
+        if (m_data.m_canJump)
         {
-            _isJumping = false;
-            _currentJumpCount = 0;
+            if (_isJumping && _isGrounded && _jumpCounter <= 0)
+            {
+                _isJumping = false;
+                _currentJumpCount = 0;
+            }
+
+
+            if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
+            {
+                _jump.JumpCheck();
+            }
         }
+
+
 
         if (m_data.m_canWallInteract)
         {
             _wallInteract.WallDetect();
-        }
 
-        if (_inputManager.m_jump.InputPressed && m_data.m_canJump && _jumpCounter <= 0)
-        {
-            _jump.JumpCheck();
+            if (m_data.m_canWallJump && _isWallRunning)
+            {
+                _wallInteract.CheckWallJump();
+                return;
+            }
         }
 
         if (_inputManager.m_Dash.InputPressed && m_data.m_canDash)
@@ -360,25 +373,6 @@ public class FPSController : MonoBehaviour
 
     #endregion
 
-    #region GROUND FUNCTIONS
-
-    public void CheckGrounded()
-    {
-        _isGrounded = _cc.isGrounded;
-
-        if (_isGrounded)
-        {
-            _hasWallRun = false;
-            _currentGravityForce = m_data.m_baseGravityForce;
-        }
-    }
-
-    public void DisableGC()
-    {
-        _disableGroundCheck = false;
-    }
-
-    #endregion
 
     public void IncreaseSpeed(float speedIncrease)
     {
