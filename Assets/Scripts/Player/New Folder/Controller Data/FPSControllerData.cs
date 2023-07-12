@@ -42,8 +42,9 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Gravity applied to controller when wall running")]
     public float m_wallRunGravityForce = 2f;
 
-    [Tooltip("Multiplier affecting how quickly the current gravity force is reached")]
-    public float m_gravityMultiplier = 1f;
+    [Tooltip("Multiplier for current gravity force, y axis should always be 1")]
+    public AnimationCurve m_gravityCurve;
+
     #endregion
 
     #region SPRINT VARIABLES
@@ -58,7 +59,7 @@ public class FPSControllerData : ScriptableObject
     public bool m_canJump;
 
     [Tooltip("Jump force applied upwards to controller")]
-    public float m_jumpForce = 550f;
+    public float m_jumpForce = 5f;
 
     [Tooltip("Amount of jumps the controller can perform before becoming grounded")]
     public int m_maxJumpCount = 1;
@@ -91,12 +92,6 @@ public class FPSControllerData : ScriptableObject
     public Vector3 m_crouchScale = new(1, 0.5f, 1);
 
     public bool m_canSlide;
-
-    public enum SlideType
-    {
-        FacingSlide,
-        MultiDirectionalSlide
-    }
 
     [Tooltip("FacingSlide slides controller in its facing direction." +
         "\nMultiDirectionalSlide slides controller in its moving direction")]

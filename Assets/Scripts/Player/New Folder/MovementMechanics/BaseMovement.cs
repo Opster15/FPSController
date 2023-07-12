@@ -92,30 +92,6 @@ public class BaseMovement : MovementMechanic
         m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
     }
 
-    public void AddYVelocityForce()
-    {
-        m_con._yVelocity.y += m_con._currentGravityForce * Time.deltaTime * m_data.m_gravityMultiplier;
-
-        //if controller is grounded, a smaller gravity force is applied
-        //allows for a slow gradual fall if stepping off an edge
-        if (m_con._isGrounded && !m_con._isJumping && !m_con._isWallClimbing)
-        {
-            m_con._yVelocity.y = -1;
-        }
-
-        if (m_con._yVelocity.y < m_con._currentGravityForce)
-        {
-            m_con._yVelocity.y = m_con._currentGravityForce;
-        }
-
-        if (m_con._yVelocity.y > m_data.m_maxYVelocity)
-        {
-            m_con._yVelocity.y = m_data.m_maxYVelocity;
-        }
-
-        m_con._cc.Move(m_con._yVelocity * Time.deltaTime);
-    }
-
     #region GROUND FUNCTIONS
 
     public void CheckGrounded()

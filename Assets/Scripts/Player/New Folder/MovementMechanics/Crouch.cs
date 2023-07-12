@@ -85,12 +85,12 @@ public class Crouch : MovementMechanic
     {
         //Facing slide only applies force in the facing direction you started the slide in
         //Multi Direction Slide applies force in the direction you're moving
-        if (m_data.m_slideType == FPSControllerData.SlideType.FacingSlide)
+        if (m_data.m_slideType == SlideType.FacingSlide)
         {
             m_con._move += m_con._forwardDirection;
             m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
         }
-        else if (m_data.m_slideType == FPSControllerData.SlideType.MultiDirectionalSlide)
+        else if (m_data.m_slideType == SlideType.MultiDirectionalSlide)
         {
             if (m_con._isInputing)
             {

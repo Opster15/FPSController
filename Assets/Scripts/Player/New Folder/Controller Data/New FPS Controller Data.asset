@@ -114,7 +114,30 @@ MonoBehaviour:
   m_airControl: 0.1
   m_baseGravityForce: -35
   m_wallRunGravityForce: 0
-  m_gravityMultiplier: 1
+  m_gravityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0047302246
+      inSlope: 10.314675
+      outSlope: 10.314675
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.037523456
+    - serializedVersion: 3
+      time: 0.29999998
+      value: 1
+      inSlope: 0.01941434
+      outSlope: 0.01941434
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.4859287
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_canSprint: 1
   m_sprintMaxSpeed: 20
   m_canJump: 1

@@ -52,7 +52,10 @@ public class FPSController : MonoBehaviour
     #region GRAVITY VARIABLES
 
     public Vector3 _yVelocity;
+
     public float _currentGravityForce;
+
+    public float _timeFalling;
     #endregion
 
     #region JUMPING VARIABLES
@@ -234,7 +237,7 @@ public class FPSController : MonoBehaviour
             _cc.Move(_move * Time.deltaTime);
         }
 
-        _baseMovement.AddYVelocityForce();
+        AddYVelocityForce();
     }
 
     private void LateUpdate()
@@ -386,6 +389,34 @@ public class FPSController : MonoBehaviour
     public void DecreaseSpeed(float speedDecrease)
     {
         _currentMaxSpeed -= speedDecrease * Time.deltaTime;
+    }
+
+    public void AddYVelocityForce()
+    {
+        _yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
+
+
+        if (_isGrounded && !_isJumping && !_isWallClimbing)
+        {
+            _yVelocity.y = -1;
+            _timeFalling = 0;
+        }
+        else
+        {
+            _timeFalling += Time.deltaTime;
+        }
+
+        if (_yVelocity.y < _currentGravityForce)
+        {
+            _yVelocity.y = _currentGravityForce;
+        }
+
+        if (_yVelocity.y > m_data.m_maxYVelocity)
+        {
+            _yVelocity.y = m_data.m_maxYVelocity;
+        }
+
+        _cc.Move(_yVelocity * Time.deltaTime);
     }
 
     #region DEBUG FUNCTIONS

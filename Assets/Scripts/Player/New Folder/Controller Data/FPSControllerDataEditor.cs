@@ -76,7 +76,7 @@ public class FPSControllerDataEditor : Editor
 
                     EditorGUI.indentLevel++;
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseGravityForce"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_gravityMultiplier"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_gravityCurve"));
 
                     if (x.m_canWallRun)
                     {
@@ -245,7 +245,6 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpUpForce"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallJumpCount"));
-                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_doubleJumpFromWallRun"));
                                     EditorGUI.indentLevel--;
                                 }
                                 break;

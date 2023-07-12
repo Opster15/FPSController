@@ -89,6 +89,7 @@ public class FPSControllerEditor : Editor
                         {
                             EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentGravityForce"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeFalling"));
                         }
 
 
