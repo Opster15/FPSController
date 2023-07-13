@@ -161,6 +161,7 @@ MonoBehaviour:
   m_canGroundPound: 0
   m_groundPoundForce: 0
   m_canDash: 1
+  m_dashType: 1
   m_dashSpeedCurve:
     serializedVersion: 2
     m_Curve:

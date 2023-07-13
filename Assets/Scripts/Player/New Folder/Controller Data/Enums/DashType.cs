@@ -2,6 +2,6 @@
 public enum DashType
 {
     FacingDash,
-    FacingDashXAxisLocked,
+    TrueFacingDash,
     DirectionalDash
 }

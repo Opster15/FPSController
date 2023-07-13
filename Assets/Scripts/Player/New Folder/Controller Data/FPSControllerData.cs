@@ -118,6 +118,9 @@ public class FPSControllerData : ScriptableObject
 
     public bool m_canDash;
 
+    [Tooltip("TrueFacingDash dashes in the facing direction including y axis")]
+    public DashType m_dashType;
+
     public AnimationCurve m_dashSpeedCurve;
 
     [Tooltip("Time (seconds) until dash is available")]

@@ -186,6 +186,7 @@ public class FPSControllerDataEditor : Editor
                     EditorGUILayout.LabelField("DASH VARIABLES", EditorStyles.boldLabel);
 
                     EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashType"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxDashCount"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashSpeedCurve"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashCooldown"));

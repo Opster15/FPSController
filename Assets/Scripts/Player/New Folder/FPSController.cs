@@ -2,7 +2,6 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class FPSController : MonoBehaviour
 {
@@ -403,7 +402,10 @@ public class FPSController : MonoBehaviour
         }
         else
         {
-            _timeFalling += Time.deltaTime;
+            if (!_isDashing)
+            {
+                _timeFalling += Time.deltaTime;
+            }
         }
 
         if (_yVelocity.y < _currentGravityForce)
