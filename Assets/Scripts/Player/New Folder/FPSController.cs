@@ -101,7 +101,7 @@ public class FPSController : MonoBehaviour
 
     public Vector3 _lastWall;
 
-    public float _wallRunTime;
+    public float _wallRunTime, _wallClimbTime;
 
     public bool _canWallCheck = true, _hasWallRun;
 

@@ -145,6 +145,8 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallRunTime"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallClimbTime"));
                         }
                         break;
                     case "Misc":

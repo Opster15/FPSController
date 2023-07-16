@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WallInteract : MovementMechanic
 {
+    #region Detection functions
     public void WallDetect()
     {
         if (m_con._canWallCheck)
@@ -62,6 +63,7 @@ public class WallInteract : MovementMechanic
     {
         m_con._canWallCheck = true;
     }
+    #endregion
 
     //Wall Run- run along wall angle, can wall jump from wall run
     #region WALL RUN
@@ -92,6 +94,7 @@ public class WallInteract : MovementMechanic
         {
             EndWallRun();
         }
+
         m_con._move.x += m_con._input.x * m_data.m_airControl;
 
         m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
@@ -120,7 +123,7 @@ public class WallInteract : MovementMechanic
         m_con._isWallRunning = true;
         m_con._currentMaxSpeed = m_data.m_wallRunMaxSpeed;
         m_con._currentJumpCount = 1;
-        m_con._wallRunTime = m_data.m_wallRunMaxTime;
+        m_con._wallRunTime = m_data.m_maxWallRunTime;
 
         if (m_data.m_canWallJump)
         {
@@ -188,16 +191,26 @@ public class WallInteract : MovementMechanic
     public void StartWallClimb()
     {
         m_con._isWallClimbing = true;
+        m_con._wallClimbTime = m_data.m_maxWallClimbTime;
     }
 
     public void EndWallClimb()
     {
         m_con._isWallClimbing = false;
-
     }
 
     public void WallClimbMovement()
     {
+        if (m_con._wallClimbTime <= 0)
+        {
+            EndWallClimb();
+            return;
+        }
+        else
+        {
+            m_con._wallClimbTime -= Time.deltaTime;
+        }
+
         m_con._yVelocity.y += Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
     }
 

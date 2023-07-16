@@ -148,9 +148,9 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.LabelField("SLIDE VARIABLES", EditorStyles.boldLabel);
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideType"));
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStartType"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideMaxSpeed"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxSlideTimer"));
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_autoSlide"));
                         EditorGUI.indentLevel--;
                     }
 
@@ -232,7 +232,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUI.indentLevel++;
                                     EditorGUILayout.LabelField("WALLRUN VARIABLES", EditorStyles.boldLabel);
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
-                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxTime"));
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallRunTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
                                     EditorGUI.indentLevel--;
                                 }
@@ -255,6 +255,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.LabelField("WALL CLIMB VARIABLES", EditorStyles.boldLabel);
                                     EditorGUI.indentLevel++;
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbSpeed"));
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallClimbTime"));
                                     EditorGUI.indentLevel--;
                                 }
                                 break;

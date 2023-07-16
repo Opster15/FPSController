@@ -16,13 +16,23 @@ public class Crouch : MovementMechanic
         m_con._cc.center = new Vector3(0, -1f, 0);
         m_con._cc.height = 1f;
 
-
-        //determines if the controller will slide or crouch
-        if (m_data.m_canSlide && (m_con._isSprinting || m_data.m_autoSlide))
+        if (m_data.m_canSlide)
         {
-            StartSlide();
+            if(m_data.m_slideStartType == SlideStartType.Standing)
+            {
+                StartSlide();
+            }
+            else if (m_data.m_slideStartType == SlideStartType.Moving && m_con._isInputing)
+            {
+                StartSlide();
+            }
+            else if(m_data.m_slideStartType == SlideStartType.Sprinting && m_con._isSprinting)
+            {
+                StartSlide();
+            }
         }
-        else
+
+        if(!m_con._isSliding)
         {
             m_con._isCrouching = true;
             m_con._currentMaxSpeed = m_data.m_crouchMaxSpeed;

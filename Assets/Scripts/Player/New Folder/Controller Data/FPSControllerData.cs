@@ -103,8 +103,7 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Time (seconds) slide lasts for")]
     public float m_maxSlideTimer;
 
-    [Tooltip("Allow for sliding even if not sprinting and/or moving")]
-    public bool m_autoSlide;
+    public SlideStartType m_slideStartType;
 
     [Tooltip("When crouching in the air, move towards ground")]
     public bool m_canGroundPound;
@@ -150,7 +149,7 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Max speed controller can achive when wall running")]
     public float m_wallRunMaxSpeed;
 
-    public float m_wallRunMaxTime;
+    public float m_maxWallRunTime;
 
     [Tooltip("difference in wall angle to be treated as a new wall")]
     public float m_maxWallAngle;
@@ -173,11 +172,13 @@ public class FPSControllerData : ScriptableObject
 
     #endregion
 
-    #region Wall Climb Variables
+    #region Wall CLIMB VARIABLES
 
     public bool m_canWallClimb;
 
     public float m_wallClimbSpeed;
+
+    public float m_maxWallClimbTime;
 
 
 
