@@ -57,6 +57,14 @@ public class FPSController : MonoBehaviour
     public float _timeFalling;
     #endregion
 
+    #region STAMINA VARIABLES
+
+    public float _currentStamina;
+
+    public float _staminaDelayTimer;
+
+    #endregion
+
     #region JUMPING VARIABLES
 
     [Tooltip("How long until next jump can be performed")]

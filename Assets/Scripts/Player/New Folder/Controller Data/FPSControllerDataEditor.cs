@@ -26,9 +26,13 @@ public class FPSControllerDataEditor : Editor
         EditorGUILayout.EndVertical();
 
         CheckBool(x.m_canJump, "Jump");
+        CheckBool(x.m_useStamina, "Stamina");
         CheckBool(x.m_canCrouch, "Crouch/Slide");
         CheckBool(x.m_canDash, "Dash");
         CheckBool(x.m_canWallInteract, "Wall Interact");
+        //CheckBool(x.m_canWallRun, "Wall Run");
+        //CheckBool(x.m_canWallJump, "Wall Jump");
+        //CheckBool(x.m_canWallClimb, "Wall Climb");
 
         if (currentTab >= 0 || currentTab < tabs.Count)
         {
@@ -49,6 +53,7 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.LabelField("SPRINT VARIABLES", EditorStyles.boldLabel);
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaCost"));
                     }
                     EditorGUI.indentLevel--;
 
@@ -65,11 +70,9 @@ public class FPSControllerDataEditor : Editor
 
                     if (x.m_canSprint)
                     {
-                        if (GUILayout.Button("Remove Sprint"))
-                        {
-                            x.m_canSprint = false;
-                        }
+                        x.m_canSprint = ShowRemoveButton("Sprint", false);
                     }
+
                     break;
                 case "Gravity":
                     EditorGUILayout.LabelField("GRAVITY VARIABLES", EditorStyles.boldLabel);
@@ -107,6 +110,24 @@ public class FPSControllerDataEditor : Editor
                     EditorGUI.indentLevel--;
 
                     break;
+                case "Stamina":
+                    EditorGUILayout.LabelField("STAMINA VARIABLES", EditorStyles.boldLabel);
+
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaUsingMechanics"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxStamina"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaRechargeRate"));
+
+                    EditorGUI.indentLevel--;
+                    if (x.m_useStamina)
+                    {
+                        x.m_useStamina = ShowRemoveButton("Stamina", true);
+                    }
+                    
+                    
+                    
+
+                    break;
                 case "Jump":
                     EditorGUILayout.LabelField("JUMP VARIABLES", EditorStyles.boldLabel);
 
@@ -126,12 +147,10 @@ public class FPSControllerDataEditor : Editor
                         }
                         EditorGUI.indentLevel--;
 
-                        if (GUILayout.Button("Remove Jump"))
+                        if (x.m_canJump)
                         {
-                            x.m_canJump = false;
-                            currentTab--;
+                            x.m_canJump = ShowRemoveButton("Jump", true);
                         }
-                        
                     }
 
                     break;
@@ -163,23 +182,20 @@ public class FPSControllerDataEditor : Editor
                         EditorGUI.indentLevel--;
                     }
 
-                    if (x.m_canCrouch)
+                    if(x.m_canCrouch)
                     {
-                        if (GUILayout.Button("Remove Crouch"))
+                        x.m_canCrouch = ShowRemoveButton("Crouch", true);
+                        if (!x.m_canCrouch)
                         {
-                            x.m_canCrouch = false;
                             x.m_canSlide = false;
-                            currentTab--;
                         }
                     }
 
                     if (x.m_canSlide)
                     {
-                        if (GUILayout.Button("Remove Slide"))
-                        {
-                            x.m_canSlide = false;
-                        }
+                        x.m_canSlide = ShowRemoveButton("Slide", false);
                     }
+
 
                     break;
                 case "Dash":
@@ -195,11 +211,7 @@ public class FPSControllerDataEditor : Editor
 
                     if (x.m_canDash)
                     {
-                        if (GUILayout.Button("Remove Dash"))
-                        {
-                            x.m_canDash = false;
-                            currentTab--;
-                        }
+                        x.m_canDash = ShowRemoveButton("Dash", true);
                     }
 
                     break;
@@ -266,39 +278,29 @@ public class FPSControllerDataEditor : Editor
 
                     if (x.m_canWallInteract)
                     {
-                        if (GUILayout.Button("Remove Wall Interact"))
+
+                        x.m_canWallInteract = ShowRemoveButton("Wall Interact", true);
+                        if(!x.m_canWallInteract)
                         {
-                            x.m_canWallInteract = false;
                             x.m_canWallJump = false;
                             x.m_canWallRun = false;
-                            currentTab--;
                         }
 
                         if (x.m_canWallJump)
                         {
-                            if (GUILayout.Button("Remove Wall Jump"))
-                            {
-                                x.m_canWallJump = false;
-                            }
+                            x.m_canWallJump = ShowRemoveButton("Wall Jump", false);
                         }
 
                         if (x.m_canWallRun)
                         {
-                            if (GUILayout.Button("Remove Wall Run"))
-                            {
-                                x.m_canWallRun = false;
-                            }
+                            x.m_canWallRun = ShowRemoveButton("Wall Run", false);
                         }
 
                         if (x.m_canWallClimb)
                         {
-                            if (GUILayout.Button("Remove Wall Climb"))
-                            {
-                                x.m_canWallClimb = false;
-                            }
+                            x.m_canWallClimb = ShowRemoveButton("Wall Climb", false);
                         }
                     }
-
                     break;
             }
         }
@@ -319,6 +321,14 @@ public class FPSControllerDataEditor : Editor
                 if (GUILayout.Button("Add Sprint"))
                 {
                     x.m_canSprint = true;
+                }
+            }
+
+            if (!x.m_useStamina)
+            {
+                if (GUILayout.Button("Add Stamina"))
+                {
+                    x.m_useStamina = true;
                 }
             }
 
@@ -436,5 +446,22 @@ public class FPSControllerDataEditor : Editor
             }
         }
     }
+
+    public bool ShowRemoveButton(string mechanicName, bool removedTab)
+    {
+        if (GUILayout.Button("Remove " + mechanicName))
+        {
+            if (removedTab)
+            {
+                currentTab--;
+            }
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
 }
 #endif

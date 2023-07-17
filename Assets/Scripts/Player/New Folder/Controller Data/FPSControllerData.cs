@@ -52,6 +52,8 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("Max speed the controller can achive while sprinting")]
     public float m_sprintMaxSpeed = 20;
+
+    public float m_staminaCost;
     #endregion
 
     #region JUMPING VARIABLES
@@ -183,6 +185,24 @@ public class FPSControllerData : ScriptableObject
 
 
     #endregion
+
+
+    #endregion
+
+    #region STAMINA VARIABLES
+
+    public bool m_useStamina;
+
+    public StaminaUsingMechanics m_staminaUsingMechanics;
+
+    public float m_maxStamina;
+
+    public float m_staminaRechargeRate;
+
+    [Tooltip("Time it takes for stamina to start recharging")]
+    public float m_staminaRechargeDelay;
+
+
 
 
     #endregion
