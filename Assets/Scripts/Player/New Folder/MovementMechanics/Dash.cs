@@ -11,11 +11,20 @@ public class Dash : MovementMechanic
     {
         if (m_con._currentDashCount > 0 && !m_con._isDashing)
         {
+            if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
+            {
+                if (!m_con._stamina.ReduceStamina(m_data.m_dashStaminaCost))
+                {
+                    return;
+                }
+            }
+
             m_con._currentDashCount--;
 
             m_con._startTime = m_data.m_dashSpeedCurve.keys[^1].time;
 
             m_con._isDashing = true;
+
             switch (m_data.m_dashType)
             {
                 case DashType.FacingDash:

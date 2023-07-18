@@ -138,10 +138,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_canSprint: 0
+  m_canSprint: 1
   m_sprintMaxSpeed: 20
-  m_staminaCost: 0
-  m_canJump: 0
+  m_canJump: 1
   m_jumpForce: 5
   m_maxJumpCount: 1
   m_whatIsGround:
@@ -158,7 +157,7 @@ MonoBehaviour:
   m_slideType: 0
   m_slideMaxSpeed: 30
   m_maxSlideTimer: 1
-  m_slideStartType: 2
+  m_slideStartType: 1
   m_canGroundPound: 0
   m_groundPoundForce: 0
   m_canDash: 0
@@ -198,17 +197,17 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 5
-  m_canWallInteract: 0
+  m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
     m_Bits: 128
   m_wallCheckDist: 1
   m_wallCheckDirection: -1
-  m_canWallRun: 0
+  m_canWallRun: 1
   m_wallRunMaxSpeed: 12
   m_maxWallRunTime: 0
   m_maxWallAngle: 0
-  m_canWallJump: 0
+  m_canWallJump: 1
   m_maxWallJumpCount: 2
   m_wallJumpUpForce: 10
   m_wallJumpSideForce: 10
@@ -217,10 +216,17 @@ MonoBehaviour:
   m_wallClimbSpeed: 3
   m_maxWallClimbTime: 0.5
   m_useStamina: 1
-  m_staminaUsingMechanics: 1
   m_maxStamina: 100
-  m_staminaRechargeRate: 1
-  m_staminaRechargeDelay: 0
+  m_staminaRechargeRate: 0.1
+  m_staminaRechargeDelay: 2
+  m_staminaUsingMechanics: 112
+  m_sprintStaminaCost: 0
+  m_jumpStaminaCost: 50
+  m_slideStaminaCost: 1
+  m_dashStaminaCost: 50
+  m_wallRunStaminaCost: 1
+  m_wallJumpStaminaCost: 50
+  m_wallClimbStaminaCost: 1
   m_sensitivity: 2
   m_sensMultiplier: 1
   m_playerScale: {x: 1, y: 1, z: 1}

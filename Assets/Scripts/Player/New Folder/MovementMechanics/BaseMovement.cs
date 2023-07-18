@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class BaseMovement : MovementMechanic
 {
-    public override void Start()
-    {
-        base.Start();
-    }
 
     public void GroundMovement()
     {

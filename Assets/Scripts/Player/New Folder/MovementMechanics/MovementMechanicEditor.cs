@@ -8,12 +8,12 @@ using UnityEngine;
 [CustomEditor(typeof(MovementMechanic), editorForChildClasses: true)]
 public class MovementMechanicEditor : Editor
 {
-
+    /*
     public override void OnInspectorGUI()
     {
 
     }
-
+    */
 }
 
 #endif

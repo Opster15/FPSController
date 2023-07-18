@@ -69,6 +69,14 @@ public class WallInteract : MovementMechanic
     #region WALL RUN
     public void WallRunMovement()
     {
+        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun))
+        {
+            if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost))
+            {
+                return;
+            }
+        }
+
         if(m_con._wallRunTime <= 0)
         {
             EndWallRun();
@@ -166,7 +174,14 @@ public class WallInteract : MovementMechanic
 
         if ((m_con._isWallLeft || m_con._isWallRight || m_con._isWallFront || m_con._isWallBack))
         {
-            
+            if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallJump))
+            {
+                if (!m_con._stamina.ReduceStamina(m_data.m_wallJumpStaminaCost))
+                {
+                    return;
+                }
+            }
+
             m_con._currentJumpCount++;
             
 
@@ -201,6 +216,13 @@ public class WallInteract : MovementMechanic
 
     public void WallClimbMovement()
     {
+        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb))
+        {
+            if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost))
+            {
+                return;
+            }
+        }
         if (m_con._wallClimbTime <= 0)
         {
             EndWallClimb();

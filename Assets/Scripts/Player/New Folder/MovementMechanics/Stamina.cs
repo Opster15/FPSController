@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Stamina : MovementMechanic
 {
+    public override void Start()
+    {
+        base.Start();
+        m_con._currentStamina = m_data.m_maxStamina;
+        m_con._staminaDelayTimer = m_data.m_staminaRechargeDelay;
+    }
+
+    public void Update()
+    {
+        StaminaDelayTimer();
+    }
+
     public void StaminaDelayTimer()
     {
         if(m_con._staminaDelayTimer <= 0)
@@ -32,14 +44,22 @@ public class Stamina : MovementMechanic
         m_con._currentStamina += m_data.m_staminaRechargeRate;
     }
 
-    public void SetStamina(float value)
+    public bool ReduceStamina(float value)
     {
-        if(m_con._currentStamina < 0) 
+        if(m_con._currentStamina - value < 0)
         {
-            m_con._currentStamina = 0;
-            return; 
+            return false;
         }
+        else
+        {
+            m_con._currentStamina -= value;
 
-        m_con._currentStamina += value;
+            if(m_con._currentStamina <= 0)
+            {
+                m_con._currentStamina = 0;
+            }
+            ResetStaminaDelay();
+            return true;
+        }
     }
 }

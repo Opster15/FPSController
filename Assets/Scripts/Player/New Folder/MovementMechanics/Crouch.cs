@@ -93,6 +93,15 @@ public class Crouch : MovementMechanic
 
     public void SlideMovement()
     {
+        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide))
+        {
+            if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost))
+            {
+                StopSlide();
+                return;
+            }
+        }
+
         //Facing slide only applies force in the facing direction you started the slide in
         //Multi Direction Slide applies force in the direction you're moving
         if (m_data.m_slideType == SlideType.FacingSlide)
@@ -112,6 +121,8 @@ public class Crouch : MovementMechanic
                 m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
             }
         }
+
+
     }
 
     public void StartGroundPound()

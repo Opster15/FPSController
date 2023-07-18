@@ -50,6 +50,7 @@ public class FPSControllerEditor : Editor
             CheckBool(x.m_data.m_canCrouch, "Crouch/Slide");
             CheckBool(x.m_data.m_canDash, "Dash");
             CheckBool(x.m_data.m_canWallInteract, "Wall Interact");
+            CheckBool(x.m_data.m_useStamina, "Stamina");
         }
 
 
@@ -105,6 +106,16 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_cyoteTimer"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
+                        }
+                        break;
+                    case "Stamina":
+                        EditorGUILayout.LabelField("Stamina VARIABLES", EditorStyles.boldLabel);
+
+                        if (x.m_debugMode)
+                        {
+                            EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentStamina"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_staminaDelayTimer"));
                         }
                         break;
                     case "Crouch/Slide":
@@ -279,6 +290,11 @@ public class FPSControllerEditor : Editor
                 }
                 break;
             case 5:
+                if (x.m_data.m_useStamina)
+                {
+                    x._stamina = x.AddComponent<Stamina>();
+                    x.m_mechanics[i] = x._stamina;
+                }
                 break;
         }
     }
@@ -318,6 +334,10 @@ public class FPSControllerEditor : Editor
                 }
                 break;
             case 5:
+                if (!x.m_data.m_useStamina)
+                {
+                    DestroyImmediate(x.GetComponent<Stamina>());
+                }
                 break;
         }
     }

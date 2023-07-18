@@ -19,7 +19,9 @@ public class FPSController : MonoBehaviour
 
     public WallInteract _wallInteract;
 
-    public MovementMechanic[] m_mechanics = new MovementMechanic[5];
+    public Stamina _stamina;
+
+    public MovementMechanic[] m_mechanics = new MovementMechanic[6];
 
     #region ASSIGNABLE VARIABLES
 

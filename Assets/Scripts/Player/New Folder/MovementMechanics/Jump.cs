@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Jump : MovementMechanic
 {
@@ -30,6 +31,14 @@ public class Jump : MovementMechanic
 
     private void StartJump()
     {
+        if(m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump))
+        {
+            if (!m_con._stamina.ReduceStamina(m_data.m_jumpStaminaCost))
+            {
+                return;
+            }
+        }
+
         m_con._currentJumpCount++;
         m_con._jumpCounter = m_con._jumpCooldown;
         m_con._isJumping = true;
