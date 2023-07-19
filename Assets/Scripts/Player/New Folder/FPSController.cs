@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FPSController : MonoBehaviour
 {
@@ -139,6 +140,17 @@ public class FPSController : MonoBehaviour
 
     #endregion
 
+    [System.Serializable]
+    public class Events
+    {
+        public UnityEvent m_onMove, m_onMoveStop, m_onJump, m_onLand, m_onCrouchStart,
+            m_onCrouchEnd, m_onSlideStart, m_onSliding, m_onSlideEnd, m_onDashStart,
+            m_onDashing, m_onDashEnd, m_onWallRunStart, m_onWallRunning, m_onWallRunEnd,
+            m_onWallJumpStart, m_onWallJumpEnd, m_onWallClimbStart, m_onWallClimbing,
+            m_onWallClimbEnd;
+    }
+
+    public Events m_events;
 
     #region START & AWAKE FUNCTIONS
     void Awake()
@@ -385,6 +397,7 @@ public class FPSController : MonoBehaviour
 
     #endregion
 
+    #region MOVEMENT FUNCTIONS
 
     public void IncreaseSpeed(float speedIncrease)
     {
@@ -430,6 +443,8 @@ public class FPSController : MonoBehaviour
 
         _cc.Move(_yVelocity * Time.deltaTime);
     }
+
+    #endregion
 
     #region DEBUG FUNCTIONS
 

@@ -213,9 +213,9 @@ MonoBehaviour:
   m_wallJumpSideForce: 10
   m_wallCheckTime: 0.25
   m_canWallClimb: 1
-  m_wallClimbSpeed: 3
+  m_wallClimbSpeed: 1
   m_maxWallClimbTime: 0.5
-  m_useStamina: 1
+  m_useStamina: 0
   m_maxStamina: 100
   m_staminaRechargeRate: 0.1
   m_staminaRechargeDelay: 2

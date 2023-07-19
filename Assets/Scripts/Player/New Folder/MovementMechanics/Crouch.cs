@@ -93,7 +93,7 @@ public class Crouch : MovementMechanic
 
     public void SlideMovement()
     {
-        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide))
+        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && m_con._stamina)
         {
             if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost))
             {

@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 127369174}
   - component: {fileID: 127369180}
   - component: {fileID: 127369182}
-  - component: {fileID: 127369181}
+  - component: {fileID: 127369183}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -401,21 +401,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debugMode: 1
+  m_debugMode: 0
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
   _baseMovement: {fileID: 127369180}
   _jump: {fileID: 127369182}
   _crouch: {fileID: 0}
   _dash: {fileID: 0}
-  _wallInteract: {fileID: 0}
-  _stamina: {fileID: 127369181}
+  _wallInteract: {fileID: 127369183}
+  _stamina: {fileID: 0}
   m_mechanics:
   - {fileID: 127369180}
   - {fileID: 127369182}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 127369183}
   - {fileID: 0}
-  - {fileID: 127369181}
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
   m_orientation: {fileID: 1935623665}
@@ -466,6 +466,67 @@ MonoBehaviour:
   _disableGroundCheck: 0
   _warpPosition: {x: 0, y: 0, z: 0}
   _canLook: 0
+  m_events:
+    m_onMove:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onMoveStop:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onJump:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onLand:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onCrouchStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onCrouchEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onSlideStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onSliding:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onSlideEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onDashStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onDashing:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onDashEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallRunStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallRunning:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallRunEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallJumpStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallJumpEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallClimbStart:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallClimbing:
+      m_PersistentCalls:
+        m_Calls: []
+    m_onWallClimbEnd:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &127369180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,20 +537,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7d12edbe2d9d9348b83d738f868766e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_con: {fileID: 0}
-  m_data: {fileID: 0}
---- !u!114 &127369181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 270b0d4a5f1800a4788fa762b8faa0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
@@ -508,9 +555,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
   m_data: {fileID: 0}
-  m_onJumpStart:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &127369183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a0783faeb696a46bae662b7e7f6513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
 --- !u!1 &127382734
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225623901}
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 3.9999924, z: -12.499998}
+  m_LocalPosition: {x: 0, y: 7.999993, z: -12.499999}
   m_LocalScale: {x: 50, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1269,8 +1327,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240533289}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -9.5}
-  m_LocalScale: {x: 50, y: 5, z: 1}
+  m_LocalPosition: {x: 0, y: 3.5, z: -9.5}
+  m_LocalScale: {x: 50, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 550400122}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 
 [System.Serializable]
 [CustomEditor(typeof(FPSController))]
@@ -13,6 +14,8 @@ public class FPSControllerEditor : Editor
     private int currentTab = 0;
 
     private FPSController x;
+
+    bool showEvents;
 
     private void OnEnable()
     {
@@ -45,7 +48,6 @@ public class FPSControllerEditor : Editor
 
         if(x.m_data != null)
         {
-
             CheckBool(x.m_data.m_canJump, "Jump");
             CheckBool(x.m_data.m_canCrouch, "Crouch/Slide");
             CheckBool(x.m_data.m_canDash, "Dash");
@@ -212,6 +214,13 @@ public class FPSControllerEditor : Editor
             }
         }
 
+
+        showEvents = EditorGUILayout.Foldout(showEvents, "EVENTS");
+
+        if (showEvents)
+        {
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_events"));
+        }
 
         serializedObject.ApplyModifiedProperties();
     }
