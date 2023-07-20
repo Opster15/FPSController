@@ -52,6 +52,8 @@ public class FPSControllerData : ScriptableObject
 
     [Tooltip("Max speed the controller can achive while sprinting")]
     public float m_sprintMaxSpeed = 20;
+
+    public InputType m_sprintInputType;
     #endregion
 
     #region JUMPING VARIABLES
@@ -91,6 +93,8 @@ public class FPSControllerData : ScriptableObject
     [Tooltip("Scale of transform when crouched or sliding")]
     public Vector3 m_crouchScale = new(1, 0.5f, 1);
 
+    public InputType m_crouchInputType;
+
     public bool m_canSlide;
 
     [Tooltip("FacingSlide slides controller in its facing direction." +
@@ -104,12 +108,6 @@ public class FPSControllerData : ScriptableObject
     public float m_maxSlideTimer;
 
     public SlideStartType m_slideStartType;
-
-    [Tooltip("When crouching in the air, move towards ground")]
-    public bool m_canGroundPound;
-
-    [Tooltip("Force applied to controller when ground pounding")]
-    public float m_groundPoundForce;
 
     #endregion
 

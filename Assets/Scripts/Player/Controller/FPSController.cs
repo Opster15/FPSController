@@ -356,10 +356,6 @@ public class FPSController : MonoBehaviour
                 {
                     _crouch.StartCrouch();
                 }
-                else if (!_isGrounded && m_data.m_canGroundPound)
-                {
-                    _crouch.StartGroundPound();
-                }
             }
 
             if (_inputManager.m_crouch.InputReleased)

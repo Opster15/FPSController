@@ -39,16 +39,6 @@ public class Crouch : MovementMechanic
         }
     }
 
-
-
-    public void StartSlide()
-    {
-        m_con._isSliding = true;
-        m_con._forwardDirection = m_con.m_orientation.transform.forward;
-        m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
-        m_con._slideTimer = m_data.m_maxSlideTimer;
-    }
-
     public void StopCrouch()
     {
         m_con._isCrouching = false;
@@ -67,6 +57,19 @@ public class Crouch : MovementMechanic
         transform.localScale = m_data.m_playerScale;
         m_con._cc.center = new Vector3(0, 0, 0);
         m_con._cc.height = 2f;
+    }
+
+   
+    #endregion
+
+    #region SLIDE FUNCTIONS
+
+    public void StartSlide()
+    {
+        m_con._isSliding = true;
+        m_con._forwardDirection = m_con.m_orientation.transform.forward;
+        m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
+        m_con._slideTimer = m_data.m_maxSlideTimer;
     }
 
     public void StopSlide()
@@ -124,12 +127,5 @@ public class Crouch : MovementMechanic
 
 
     }
-
-    public void StartGroundPound()
-    {
-        m_con._currentGravityForce = m_data.m_groundPoundForce;
-    }
-
     #endregion
-
 }

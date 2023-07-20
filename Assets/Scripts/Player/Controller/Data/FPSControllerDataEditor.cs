@@ -52,6 +52,7 @@ public class FPSControllerDataEditor : Editor
                         EditorGUI.indentLevel--;
                         EditorGUILayout.LabelField("SPRINT VARIABLES", EditorStyles.boldLabel);
                         EditorGUI.indentLevel++;
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintInputType"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
 
                         if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint) && x.m_useStamina)
@@ -184,15 +185,6 @@ public class FPSControllerDataEditor : Editor
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStaminaCost"));
                         }
-                        EditorGUI.indentLevel--;
-                    }
-
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_canGroundPound"));
-
-                    if (x.m_canGroundPound)
-                    {
-                        EditorGUI.indentLevel++;
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundPoundForce"));
                         EditorGUI.indentLevel--;
                     }
 
