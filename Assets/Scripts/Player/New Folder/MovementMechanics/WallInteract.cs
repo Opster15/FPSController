@@ -188,7 +188,7 @@ public class WallInteract : MovementMechanic
             m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallJumpUpForce * m_data.m_baseGravityForce);
             m_con._move += m_con._wallNormal * m_data.m_wallJumpSideForce;
 
-            m_con._isWallRunJumping = true;
+            m_con._isWallJumping = true;
             m_con._wallJumpTime = .25f;
             m_con._canWallCheck = false;
             m_con._isWallRight = false;
@@ -235,6 +235,11 @@ public class WallInteract : MovementMechanic
         }
 
         m_con._yVelocity.y += Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
+
+        if(m_data.m_wallClimbType == WallClimbType.lockedUpward)
+        {
+            m_con._move = Vector3.zero;
+        }
     }
 
     #endregion

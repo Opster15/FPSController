@@ -49,6 +49,13 @@ public class FPSController : MonoBehaviour
     public Vector3 _forwardDirection;
     public Vector3 _input;
     public Vector3 _lastInput;
+
+    [System.Serializable]
+    public class MoveEvents
+    {
+        public UnityEvent m_onMove, m_onMoveStop;
+    }
+    public MoveEvents m_moveEvents;
     #endregion
 
     #region GRAVITY VARIABLES
@@ -81,7 +88,12 @@ public class FPSController : MonoBehaviour
 
     public float _cyoteTimer;
 
-
+    [System.Serializable]
+    public class JumpEvents
+    {
+        public UnityEvent m_onJump, m_onLand;
+    }
+    public JumpEvents m_jumpEvents;
     #endregion
 
     #region CROUCHING/SLIDE VARIABLES
@@ -89,6 +101,20 @@ public class FPSController : MonoBehaviour
 
     [Tooltip("Timer for m_maxSlideTimer")]
     public float _slideTimer;
+
+    [System.Serializable]
+    public class CrouchEvents
+    {
+        public UnityEvent m_onCrouchStart, m_onCrouchEnd;
+    }
+    public CrouchEvents m_crouchEvents;
+
+    [System.Serializable]
+    public class SlideEvents
+    {
+        public UnityEvent m_onSlideStart, m_onSliding, m_onSlideEnd;
+    }
+    public CrouchEvents m_slideEvents;
 
     #endregion
 
@@ -98,7 +124,12 @@ public class FPSController : MonoBehaviour
     public int _currentDashCount;
 
     public float _startTime, _dashCooldownTimer;
-
+    [System.Serializable]
+    public class DashEvents
+    {
+        public UnityEvent m_onDashStart, m_onDashing, m_onDashEnd;
+    }
+    public DashEvents m_dashEvents;
     #endregion
 
     #region WALL INTERACT VARIABLES
@@ -118,13 +149,33 @@ public class FPSController : MonoBehaviour
 
     public float _wallJumpTime;
 
+    [System.Serializable]
+    public class WallRunEvents
+    {
+        public UnityEvent m_onWallRunStart, m_onWallRunning, m_onWallRunEnd;
+    }
+    public WallRunEvents m_wallRunEvents;
+
+    [System.Serializable]
+    public class WallJumpEvents
+    {
+        public UnityEvent m_onWallJumpStart, m_onWallJumpEnd;
+    }
+    public WallJumpEvents m_wallJumpEvents;
+    
+    [System.Serializable]
+    public class WallClimbEvents
+    {
+        public UnityEvent  m_onWallClimbStart, m_onWallClimbing, m_onWallClimbEnd;
+    }
+    public WallClimbEvents m_wallClimbEvents;
     #endregion
 
     #region MISC VARIABLES
 
     public bool _isCrouching, _isGrounded, _isInputing,
         _isSprinting, _isDashing, _isWallRunning,
-        _isSliding, _isJumping, _isWallRunJumping,
+        _isSliding, _isJumping, _isWallJumping,
         _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
@@ -137,20 +188,7 @@ public class FPSController : MonoBehaviour
 
     public bool _canLook;
 
-
     #endregion
-
-    [System.Serializable]
-    public class Events
-    {
-        public UnityEvent m_onMove, m_onMoveStop, m_onJump, m_onLand, m_onCrouchStart,
-            m_onCrouchEnd, m_onSlideStart, m_onSliding, m_onSlideEnd, m_onDashStart,
-            m_onDashing, m_onDashEnd, m_onWallRunStart, m_onWallRunning, m_onWallRunEnd,
-            m_onWallJumpStart, m_onWallJumpEnd, m_onWallClimbStart, m_onWallClimbing,
-            m_onWallClimbEnd;
-    }
-
-    public Events m_events;
 
     #region START & AWAKE FUNCTIONS
     void Awake()
@@ -295,7 +333,6 @@ public class FPSController : MonoBehaviour
 
         _isInputing = _input.x != 0 || _input.y != 0;
 
-
         if (m_data.m_canSprint)
         {
             if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_isSliding)
@@ -359,7 +396,7 @@ public class FPSController : MonoBehaviour
         {
             _wallInteract.WallDetect();
 
-            if (m_data.m_canWallJump && _isWallRunning)
+            if (m_data.m_canWallJump && _isWallRunning && _inputManager.m_jump.InputPressed)
             {
                 _wallInteract.CheckWallJump();
                 return;

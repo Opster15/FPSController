@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
+using System.Xml;
 
 [System.Serializable]
 [CustomEditor(typeof(FPSController))]
@@ -123,7 +124,7 @@ public class FPSControllerEditor : Editor
                     case "Crouch/Slide":
                         EditorGUILayout.LabelField("CROUCH VARIABLES", EditorStyles.boldLabel);
 
-                        if (x.m_data.m_canCrouch && x.m_data.m_canSlide)
+                        if (x._crouch && x.m_data.m_canSlide)
                         {
                             if (x.m_debugMode)
                             {
@@ -173,7 +174,7 @@ public class FPSControllerEditor : Editor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isJumping"));
 
-                            if (x.m_data.m_canCrouch)
+                            if (x._crouch)
                             {
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isCrouching"));
                                 if (x.m_data.m_canSlide)
@@ -187,7 +188,7 @@ public class FPSControllerEditor : Editor
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSprinting"));
                             }
 
-                            if (x.m_data.m_canDash)
+                            if (x._dash)
                             {
                                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_isDashing"));
                             }
@@ -219,7 +220,45 @@ public class FPSControllerEditor : Editor
 
         if (showEvents)
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_events"));
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_moveEvents"));
+
+            if (x._jump)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpEvents"));
+            }
+
+            if (x._crouch)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchEvents"));
+                if (x.m_data.m_canSlide)
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideEvents"));
+                }
+            }
+
+            if (x._dash)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashEvents"));
+            }
+
+
+            if (x.m_data.m_canWallRun)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunEvents"));
+            }
+
+            if (x.m_data.m_canWallJump)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpEvents"));
+            }
+
+            if (x.m_data.m_canWallClimb)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbEvents"));
+            }
+
+            EditorGUI.indentLevel--;
         }
 
         serializedObject.ApplyModifiedProperties();

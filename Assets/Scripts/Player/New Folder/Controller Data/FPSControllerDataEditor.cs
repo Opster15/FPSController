@@ -54,7 +54,7 @@ public class FPSControllerDataEditor : Editor
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
 
-                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint))
+                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint) && x.m_useStamina)
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintStaminaCost"));
                         }
@@ -150,7 +150,7 @@ public class FPSControllerDataEditor : Editor
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpSpeedIncrease"));
                         }
-                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump))
+                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && x.m_useStamina)
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpStaminaCost"));
                         }
@@ -180,7 +180,7 @@ public class FPSControllerDataEditor : Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStartType"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideMaxSpeed"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxSlideTimer"));
-                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide))
+                        if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && x.m_useStamina)
                         {
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStaminaCost"));
                         }
@@ -220,7 +220,7 @@ public class FPSControllerDataEditor : Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxDashCount"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashSpeedCurve"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashCooldown"));
-                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
+                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash) && x.m_useStamina)
                     {
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashStaminaCost"));
                     }
@@ -264,7 +264,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallRunTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
-                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun))
+                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && x.m_useStamina)
                                     {
                                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunStaminaCost"));
                                     }
@@ -280,7 +280,7 @@ public class FPSControllerDataEditor : Editor
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpUpForce"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckTime"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallJumpCount"));
-                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallJump))
+                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallJump) && x.m_useStamina)
                                     {
                                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpStaminaCost"));
                                     }
@@ -292,9 +292,10 @@ public class FPSControllerDataEditor : Editor
                                 {
                                     EditorGUILayout.LabelField("WALL CLIMB VARIABLES", EditorStyles.boldLabel);
                                     EditorGUI.indentLevel++;
+                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbType"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbSpeed"));
                                     EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallClimbTime"));
-                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb))
+                                    if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && x.m_useStamina)
                                     {
                                         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbStaminaCost"));
                                     }

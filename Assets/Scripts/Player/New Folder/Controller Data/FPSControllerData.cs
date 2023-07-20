@@ -176,6 +176,8 @@ public class FPSControllerData : ScriptableObject
 
     public bool m_canWallClimb;
 
+    public WallClimbType m_wallClimbType;
+
     public float m_wallClimbSpeed;
 
     public float m_maxWallClimbTime;

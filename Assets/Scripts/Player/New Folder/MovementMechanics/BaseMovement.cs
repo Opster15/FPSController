@@ -41,7 +41,7 @@ public class BaseMovement : MovementMechanic
 
     public void AirMovement()
     {
-        if (m_con._isWallRunJumping)
+        if (m_con._isWallJumping)
         {
             m_con._move += m_con._wallNormal * m_data.m_wallJumpSideForce;
             m_con._move += m_con._forwardDirection * m_con._currentMaxSpeed;
@@ -49,7 +49,7 @@ public class BaseMovement : MovementMechanic
             m_con._wallJumpTime -= 1f * Time.deltaTime;
             if (m_con._wallJumpTime <= 0)
             {
-                m_con._isWallRunJumping = false;
+                m_con._isWallJumping = false;
                 m_con._timeMoving = 0;
             }
             m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
