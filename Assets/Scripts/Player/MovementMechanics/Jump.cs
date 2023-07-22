@@ -27,7 +27,10 @@ public class Jump : MovementMechanic
         if (m_con._isGrounded && m_con._jumpCounter <= 0)
         {
             SwapState(m_con._defMovement);
-            m_con._currentJumpCount = 0;
+        }
+        else
+        {
+            m_con.AirMovement();
         }
     }
 

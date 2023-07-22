@@ -301,41 +301,48 @@ public class FPSControllerEditor : Editor
                 x.m_mechanics[i] = x._defMovement;
                 break;
             case 1:
+                if (x.m_data.m_canSprint)
+                {
+                    x._sprint = x.AddComponent<Sprint>();
+                    x.m_mechanics[i] = x._sprint;
+                }
+                break;
+            case 2:
                 if (x.m_data.m_canJump)
                 {
                     x._jump = x.AddComponent<Jump>();
                     x.m_mechanics[i] = x._jump;
                 }
                 break;
-            case 2:
+            case 3:
                 if (x.m_data.m_canCrouch)
                 {
                     x._crouch = x.AddComponent<Crouch>();
                     x.m_mechanics[i] = x._crouch;
                 }
                 break;
-            case 3:
+            case 4:
                 if (x.m_data.m_canSlide)
                 {
                     x._slide = x.AddComponent<Slide>();
                     x.m_mechanics[i] = x._slide;
                 }
                 break;
-            case 4:
+            case 5:
                 if (x.m_data.m_canDash)
                 {
                     x._dash = x.AddComponent<Dash>();
                     x.m_mechanics[i] = x._dash;
                 }
                 break;
-            case 5:
+            case 6:
                 if (x.m_data.m_canWallInteract)
                 {
                     x._wallInteract = x.AddComponent<WallInteract>();
                     x.m_mechanics[i] = x._wallInteract;
                 }
                 break;
-            case 6:
+            case 7:
                 if (x.m_data.m_useStamina)
                 {
                     x._stamina = x.AddComponent<Stamina>();
@@ -356,36 +363,42 @@ public class FPSControllerEditor : Editor
                 }
                 break;
             case 1:
+                if (!x.m_data.m_canSprint)
+                {
+                    DestroyImmediate(x.GetComponent<Sprint>());
+                }
+                break;
+            case 2:
                 if (!x.m_data.m_canJump)
                 {
                     DestroyImmediate(x.GetComponent<Jump>());
                 }
                 break;
-            case 2:
+            case 3:
                 if (!x.m_data.m_canCrouch)
                 {
                     DestroyImmediate(x.GetComponent<Crouch>());
                 }
                 break;
-            case 3:
+            case 4:
                 if (!x.m_data.m_canSlide)
                 {
                     DestroyImmediate(x.GetComponent<Slide>());
                 }
                 break;
-            case 4:
+            case 5:
                 if (!x.m_data.m_canDash)
                 {
                     DestroyImmediate(x.GetComponent<Dash>());
                 }
                 break;
-            case 5:
+            case 6:
                 if (!x.m_data.m_canWallInteract)
                 {
                     DestroyImmediate(x.GetComponent<WallInteract>());
                 }
                 break;
-            case 6:
+            case 7:
                 if (!x.m_data.m_useStamina)
                 {
                     DestroyImmediate(x.GetComponent<Stamina>());

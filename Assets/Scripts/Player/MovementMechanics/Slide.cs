@@ -28,6 +28,17 @@ public class Slide : MovementMechanic
         }
     }
 
+    public override void SwapState(MovementMechanic newState)
+    {
+        if(newState == m_con._slide)
+        {
+            return;
+        }
+        else
+        {
+            base.SwapState(newState);
+        }
+    }
 
     #endregion
 
@@ -55,11 +66,6 @@ public class Slide : MovementMechanic
         if (m_con._inputManager.m_crouch.InputHeld)
         {
             SwapState(m_con._crouch);
-        }
-        else if (m_con._isSprinting)
-        {
-            m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
-            SwapState(m_con._defMovement);
         }
         else
         {

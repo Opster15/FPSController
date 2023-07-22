@@ -138,9 +138,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_canSprint: 1
+  m_canSprint: 0
   m_sprintMaxSpeed: 20
-  m_canJump: 1
+  m_sprintInputType: 0
+  m_canJump: 0
   m_jumpForce: 5
   m_maxJumpCount: 1
   m_whatIsGround:
@@ -150,17 +151,16 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 12
-  m_canCrouch: 1
+  m_canCrouch: 0
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
-  m_canSlide: 1
+  m_crouchInputType: 0
+  m_canSlide: 0
   m_slideType: 0
   m_slideMaxSpeed: 30
   m_maxSlideTimer: 1
   m_slideStartType: 1
-  m_canGroundPound: 0
-  m_groundPoundForce: 0
-  m_canDash: 1
+  m_canDash: 0
   m_dashType: 1
   m_dashSpeedCurve:
     serializedVersion: 2
@@ -197,17 +197,17 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 5
-  m_canWallInteract: 1
+  m_canWallInteract: 0
   m_whatIsWall:
     serializedVersion: 2
     m_Bits: 128
   m_wallCheckDist: 1
   m_wallCheckDirection: -1
-  m_canWallRun: 1
+  m_canWallRun: 0
   m_wallRunMaxSpeed: 12
   m_maxWallRunTime: 0
   m_maxWallAngle: 0
-  m_canWallJump: 1
+  m_canWallJump: 0
   m_maxWallJumpCount: 2
   m_wallJumpUpForce: 10
   m_wallJumpSideForce: 10

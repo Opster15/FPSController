@@ -8,9 +8,13 @@ public class FPSController : MonoBehaviour
 {
     [Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
     public bool m_debugMode;
+
     public FPSControllerData m_data;
 
+    #region Movement Mechanics
     public DefaultMovement _defMovement;
+
+    public Sprint _sprint;
 
     public Jump _jump;
 
@@ -27,6 +31,8 @@ public class FPSController : MonoBehaviour
     public MovementMechanic[] m_mechanics = new MovementMechanic[6];
 
     public MovementMechanic m_currentMechanic;
+
+    #endregion
 
     #region ASSIGNABLE VARIABLES
 
@@ -177,8 +183,7 @@ public class FPSController : MonoBehaviour
 
     #region MISC VARIABLES
 
-    public bool  _isGrounded, _isInputing,
-        _isSprinting, _isDashing, _isWallRunning,
+    public bool  _isGrounded, _isInputing, _isWallRunning,
         _isWallJumping, _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
@@ -203,7 +208,9 @@ public class FPSController : MonoBehaviour
     }
 
     void Start()
-    {
+    {        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         _currentMaxSpeed = m_data.m_baseMaxSpeed;
         _currentDashCount = m_data.m_maxDashCount;
         _dashCooldownTimer = m_data.m_dashCooldown;
@@ -214,9 +221,6 @@ public class FPSController : MonoBehaviour
         m_currentMechanic = _defMovement;
 
         m_currentMechanic.EnterState();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
     #endregion
 
@@ -241,25 +245,14 @@ public class FPSController : MonoBehaviour
             m_currentMechanic.UpdateState();
         }
 
-        if (!_isDashing)
+        if (_isWallRunning)
         {
-            if (_isGrounded && !_slide.m_inState)
-            {
-                GroundMovement();
-            }
-            else if ((!_isGrounded && !_isWallRunning) && !_crouch.m_inState)
-            {
-                AirMovement();
-            }
-            else if (_isWallRunning)
-            {
-                _wallInteract.WallRunMovement();
-            }
+            _wallInteract.WallRunMovement();
+        }
             
-            if (_isWallClimbing)
-            {
-                _wallInteract.WallClimbMovement();
-            }
+        if (_isWallClimbing)
+        {
+            _wallInteract.WallClimbMovement();
         }
 
         //dash cooldown
@@ -272,10 +265,6 @@ public class FPSController : MonoBehaviour
                 _dashCooldownTimer = m_data.m_dashCooldown;
             }
         }
-
-
-
-
 
         //timer to make sure you can't jump again too soon after jumping
         if (_jumpCounter > 0)
@@ -331,28 +320,26 @@ public class FPSController : MonoBehaviour
 
         _isInputing = _input.x != 0 || _input.y != 0;
 
-        if (m_data.m_canSprint)
+        if (_sprint)
         {
-            if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_slide.m_inState)
+            if (_inputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
             {
-                StartSprint();
+                m_currentMechanic.SwapState(_sprint);
             }
-            else if (_isSprinting)
+            else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && _isInputing))
             {
-                if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_jump.m_inState && _isInputing) || _slide.m_inState)
-                {
-                    StopSprint();
-                }
+                _sprint.StopSprint();
             }
+            
         }
 
-        if (m_data.m_canCrouch)
+        if (_crouch || _slide)
         {
             if (_inputManager.m_crouch.InputPressed)
             {
                 if (_isGrounded)
                 {
-                    _crouch.EnterState();
+                    m_currentMechanic.SwapState(_crouch);
                 }
             }
 
@@ -369,7 +356,7 @@ public class FPSController : MonoBehaviour
             }
         }
 
-        if (m_data.m_canJump)
+        if (_jump)
         {
             if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
             {
@@ -390,10 +377,14 @@ public class FPSController : MonoBehaviour
             }
         }
 
-        if (_inputManager.m_Dash.InputPressed && m_data.m_canDash)
+        if (_dash)
         {
-            _dash.DashCheck();
+            if (_inputManager.m_Dash.InputPressed)
+            {
+                m_currentMechanic.SwapState(_dash);
+            }
         }
+
     }
 
     #endregion
@@ -440,10 +431,9 @@ public class FPSController : MonoBehaviour
                 _move.z = 0;
                 _timeMoving = 0;
 
-                if (!_crouch.m_inState && !_isSprinting)
-                {
-                    _currentMaxSpeed = m_data.m_baseMaxSpeed;
-                }
+
+                _currentMaxSpeed = m_data.m_baseMaxSpeed;
+                
             }
             else
             {
@@ -504,26 +494,7 @@ public class FPSController : MonoBehaviour
 
         _move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
     }
-    public void StartSprint()
-    {
-        _timeMoving = m_data.m_groundDecelerationCurve.keys[^1].time * (_currentMaxSpeed / m_data.m_sprintMaxSpeed);
 
-        _currentMaxSpeed = m_data.m_sprintMaxSpeed;
-        _isSprinting = true;
-    }
-
-    public void StopSprint()
-    {
-        if (_slide.m_inState)
-        {
-            _currentMaxSpeed = m_data.m_slideMaxSpeed;
-        }
-        else
-        {
-            _currentMaxSpeed = m_data.m_baseMaxSpeed;
-        }
-        _isSprinting = false;
-    }
 
     public void IncreaseSpeed(float speedIncrease)
     {
@@ -544,17 +515,18 @@ public class FPSController : MonoBehaviour
         _yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
 
 
-        if (_isGrounded && !_jump.m_inState && !_isWallClimbing)
+        if (_isGrounded)
         {
             _yVelocity.y = -1;
             _timeFalling = 0;
         }
         else
         {
-            if (!_isDashing)
+            if (_dash)
             {
-                _timeFalling += Time.deltaTime;
+                if (_dash.m_inState) { return; }
             }
+                _timeFalling += Time.deltaTime;
         }
 
         if (_yVelocity.y < _currentGravityForce)
@@ -578,11 +550,12 @@ public class FPSController : MonoBehaviour
     {
         _isGrounded = _cc.isGrounded;
 
-        if (_isGrounded)
+        if (_isGrounded && _currentJumpCount != 0)
         {
             _hasWallRun = false;
             _currentGravityForce = m_data.m_baseGravityForce;
             _cyoteTimer = m_data.m_cyoteTime;
+            _currentJumpCount = 0;
         }
     }
 

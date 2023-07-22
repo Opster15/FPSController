@@ -13,11 +13,15 @@ public class MovementMechanic : MonoBehaviour
 
     public bool m_inState;
 
-    // Start is called before the first frame update
-    public virtual void Start()
+    public virtual void Awake()
     {
         m_con = GetComponent<FPSController>();
         m_data = m_con.m_data;
+    }
+
+    public virtual void Start()
+    {
+        
     }
 
     public virtual void EnterState()
@@ -38,8 +42,7 @@ public class MovementMechanic : MonoBehaviour
 
     public virtual void SwapState(MovementMechanic newState)
     {
-        this.m_inState = false;
-        this.ExitState();
+        ExitState();
 
         newState.EnterState();
     }

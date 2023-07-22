@@ -5,11 +5,25 @@ using UnityEngine;
 public class Dash : MovementMechanic
 {
 
+    #region States
+    public override void EnterState()
+    {
+        base.EnterState();
+        DashCheck();
+    }
+
+    public override void UpdateState()
+    {
+        //base.UpdateState();
+    }
+
+    #endregion
+
     #region DASH FUNCTIONS
 
     public void DashCheck()
     {
-        if (m_con._currentDashCount > 0 && !m_con._isDashing)
+        if (m_con._currentDashCount > 0)
         {
             if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
             {
@@ -22,8 +36,6 @@ public class Dash : MovementMechanic
             m_con._currentDashCount--;
 
             m_con._startTime = m_data.m_dashSpeedCurve.keys[^1].time;
-
-            m_con._isDashing = true;
 
             switch (m_data.m_dashType)
             {
@@ -53,7 +65,7 @@ public class Dash : MovementMechanic
             yield return null;
         }
 
-        m_con._isDashing = false;
+        SwapState(m_con._defMovement);
     }
 
     public IEnumerator TrueFacingDash()
@@ -68,7 +80,7 @@ public class Dash : MovementMechanic
             yield return null;
         }
 
-        m_con._isDashing = false;
+        SwapState(m_con._defMovement);
     }
 
     public IEnumerator DirectionalDash()
@@ -90,7 +102,7 @@ public class Dash : MovementMechanic
             yield return null;
         }
 
-        m_con._isDashing = false;
+        SwapState(m_con._defMovement);
     }
 
     #endregion
