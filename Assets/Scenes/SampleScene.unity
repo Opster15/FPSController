@@ -136,9 +136,9 @@ GameObject:
   - component: {fileID: 127369171}
   - component: {fileID: 127369174}
   - component: {fileID: 127369182}
-  - component: {fileID: 127369183}
   - component: {fileID: 127369185}
-  - component: {fileID: 127369184}
+  - component: {fileID: 127369186}
+  - component: {fileID: 127369187}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -404,17 +404,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_debugMode: 1
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
+  _defMovement: {fileID: 127369187}
   _jump: {fileID: 127369182}
   _crouch: {fileID: 127369185}
-  _dash: {fileID: 127369184}
-  _wallInteract: {fileID: 127369183}
+  _slide: {fileID: 127369186}
+  _dash: {fileID: 0}
+  _wallInteract: {fileID: 0}
   _stamina: {fileID: 0}
   m_mechanics:
-  - {fileID: 0}
+  - {fileID: 127369187}
   - {fileID: 127369182}
   - {fileID: 127369185}
-  - {fileID: 127369184}
-  - {fileID: 127369183}
+  - {fileID: 127369186}
+  - {fileID: 0}
   - {fileID: 0}
   m_currentMechanic: {fileID: 0}
   m_playerCam: {fileID: 851155032}
@@ -519,13 +521,11 @@ MonoBehaviour:
     m_onWallClimbEnd:
       m_PersistentCalls:
         m_Calls: []
-  _isCrouching: 0
   _isGrounded: 0
   _isInputing: 0
   _isSprinting: 0
   _isDashing: 0
   _isWallRunning: 0
-  _isSliding: 0
   _isWallJumping: 0
   _isWallClimbing: 0
   _disableGroundCheck: 0
@@ -546,36 +546,6 @@ MonoBehaviour:
   m_con: {fileID: 0}
   m_data: {fileID: 0}
   m_inState: 0
---- !u!114 &127369183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a0783faeb696a46bae662b7e7f6513, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_con: {fileID: 0}
-  m_data: {fileID: 0}
-  m_inState: 0
---- !u!114 &127369184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f027834b34be45649af2034274f44bc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_con: {fileID: 0}
-  m_data: {fileID: 0}
-  m_inState: 0
 --- !u!114 &127369185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +556,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3437dbc30961729459877989f8ba0dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ceacf84ad875f74d8e7160b3b1ef926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5ef858e96d65c74091e678f330f7d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
