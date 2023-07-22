@@ -5,9 +5,36 @@ using UnityEngine.Events;
 
 public class Jump : MovementMechanic
 {
+    #region States
+    public override void EnterState()
+    {
+        base.EnterState();
+        if (JumpCheck())
+        {
+            StartJump();
+        }
+        else
+        {
+            if (!m_con._isGrounded) { return; }
+            SwapState(m_con._defMovement);
+        }
+    }
+
+    public override void UpdateState()
+    {
+        //base.UpdateState();
+
+        if (m_con._isGrounded && m_con._jumpCounter <= 0)
+        {
+            SwapState(m_con._defMovement);
+            m_con._currentJumpCount = 0;
+        }
+    }
+
+    #endregion
 
     #region JUMP FUNCTIONS
-    public void JumpCheck()
+    public bool JumpCheck()
     {
         if (m_con._currentJumpCount < m_data.m_maxJumpCount)
         {
@@ -15,18 +42,20 @@ public class Jump : MovementMechanic
             {
                 if (m_con._isGrounded)
                 {
-                    StartJump();
+                    return true;
                 }
                 else if(m_con._cyoteTimer > 0)
                 {
-                    StartJump();
+                    return true;
                 }
             }
             else if (m_data.m_maxJumpCount > 1)
             {
-                StartJump();
+                return true;
             }
         }
+
+        return false;
     }
 
     private void StartJump()
@@ -41,7 +70,6 @@ public class Jump : MovementMechanic
 
         m_con._currentJumpCount++;
         m_con._jumpCounter = m_con._jumpCooldown;
-        m_con._isJumping = true;
 
         m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_jumpForce * m_con._currentGravityForce);
 
@@ -50,9 +78,9 @@ public class Jump : MovementMechanic
             m_con.IncreaseSpeed(m_data.m_jumpSpeedIncrease);
         }
 
-        if (m_con._isSliding && m_con._isGrounded)
+        if (m_con._slide.m_inState && m_con._isGrounded)
         {
-            m_con._crouch.StopSlide();
+            m_con._slide.StopSlide();
         }
 
     }

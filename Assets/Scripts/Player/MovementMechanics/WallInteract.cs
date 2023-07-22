@@ -18,7 +18,7 @@ public class WallInteract : MovementMechanic
             {
                 if (!m_con._isWallRunning)
                 {
-                    if ((m_con._isWallLeft || m_con._isWallRight) && m_con._inputManager.m_movementInput.y > 0 && m_con._isJumping && m_con._jumpCounter < 0)
+                    if ((m_con._isWallLeft || m_con._isWallRight) && m_con._inputManager.m_movementInput.y > 0 && m_con._jump.m_inState && m_con._jumpCounter < 0)
                     {
                         WallRunCheck();
                     }

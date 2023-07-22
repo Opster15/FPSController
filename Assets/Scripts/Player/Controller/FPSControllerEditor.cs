@@ -42,6 +42,7 @@ public class FPSControllerEditor : Editor
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_mechanics"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_currentMechanic"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
@@ -172,16 +173,6 @@ public class FPSControllerEditor : Editor
 
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("_isJumping"));
-
-                            if (x._crouch)
-                            {
-                                EditorGUILayout.PropertyField(serializedObject.FindProperty("_isCrouching"));
-                                if (x.m_data.m_canSlide)
-                                {
-                                    EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSliding"));
-                                }
-                            }
 
                             if (x.m_data.m_canSprint)
                             {
@@ -306,8 +297,8 @@ public class FPSControllerEditor : Editor
         switch(i)
         {
             case 0:
-                x._baseMovement = x.AddComponent<BaseMovement>();
-                x.m_mechanics[i] = x._baseMovement;
+                x._defMovement = x.AddComponent<DefaultMovement>();
+                x.m_mechanics[i] = x._defMovement;
                 break;
             case 1:
                 if (x.m_data.m_canJump)
@@ -324,20 +315,27 @@ public class FPSControllerEditor : Editor
                 }
                 break;
             case 3:
+                if (x.m_data.m_canSlide)
+                {
+                    x._slide = x.AddComponent<Slide>();
+                    x.m_mechanics[i] = x._slide;
+                }
+                break;
+            case 4:
                 if (x.m_data.m_canDash)
                 {
                     x._dash = x.AddComponent<Dash>();
                     x.m_mechanics[i] = x._dash;
                 }
                 break;
-            case 4:
+            case 5:
                 if (x.m_data.m_canWallInteract)
                 {
                     x._wallInteract = x.AddComponent<WallInteract>();
                     x.m_mechanics[i] = x._wallInteract;
                 }
                 break;
-            case 5:
+            case 6:
                 if (x.m_data.m_useStamina)
                 {
                     x._stamina = x.AddComponent<Stamina>();
@@ -354,7 +352,7 @@ public class FPSControllerEditor : Editor
             case 0:
                 if(x.m_data == null)
                 {
-                    DestroyImmediate(x.GetComponent<BaseMovement>());
+                    DestroyImmediate(x.GetComponent<DefaultMovement>());
                 }
                 break;
             case 1:
@@ -370,18 +368,24 @@ public class FPSControllerEditor : Editor
                 }
                 break;
             case 3:
+                if (!x.m_data.m_canSlide)
+                {
+                    DestroyImmediate(x.GetComponent<Slide>());
+                }
+                break;
+            case 4:
                 if (!x.m_data.m_canDash)
                 {
                     DestroyImmediate(x.GetComponent<Dash>());
                 }
                 break;
-            case 4:
+            case 5:
                 if (!x.m_data.m_canWallInteract)
                 {
                     DestroyImmediate(x.GetComponent<WallInteract>());
                 }
                 break;
-            case 5:
+            case 6:
                 if (!x.m_data.m_useStamina)
                 {
                     DestroyImmediate(x.GetComponent<Stamina>());

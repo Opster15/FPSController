@@ -10,11 +10,13 @@ public class FPSController : MonoBehaviour
     public bool m_debugMode;
     public FPSControllerData m_data;
 
-    public BaseMovement _baseMovement;
+    public DefaultMovement _defMovement;
 
     public Jump _jump;
 
     public Crouch _crouch;
+
+    public Slide _slide;
 
     public Dash _dash;
 
@@ -23,6 +25,8 @@ public class FPSController : MonoBehaviour
     public Stamina _stamina;
 
     public MovementMechanic[] m_mechanics = new MovementMechanic[6];
+
+    public MovementMechanic m_currentMechanic;
 
     #region ASSIGNABLE VARIABLES
 
@@ -173,10 +177,9 @@ public class FPSController : MonoBehaviour
 
     #region MISC VARIABLES
 
-    public bool _isCrouching, _isGrounded, _isInputing,
+    public bool  _isGrounded, _isInputing,
         _isSprinting, _isDashing, _isWallRunning,
-        _isSliding, _isJumping, _isWallJumping,
-        _isWallClimbing;
+        _isWallJumping, _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
     public bool _disableGroundCheck;
@@ -196,7 +199,6 @@ public class FPSController : MonoBehaviour
         _cc = GetComponent<CharacterController>();
         _inputManager = GetComponent<InputManager>();
         _cineCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        _baseMovement = GetComponent<BaseMovement>();
         _crouch = GetComponent<Crouch>();
     }
 
@@ -209,6 +211,10 @@ public class FPSController : MonoBehaviour
         _currentGravityForce = m_data.m_baseGravityForce;
         _canLook = true;
 
+        m_currentMechanic = _defMovement;
+
+        m_currentMechanic.EnterState();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -220,7 +226,7 @@ public class FPSController : MonoBehaviour
     {
         if (!_disableGroundCheck)
         {
-            _baseMovement.CheckGrounded();
+            CheckGrounded();
         }
 
         InputsCheck();
@@ -230,20 +236,20 @@ public class FPSController : MonoBehaviour
             Look();
         }
 
+        if(m_currentMechanic != null)
+        {
+            m_currentMechanic.UpdateState();
+        }
 
         if (!_isDashing)
         {
-            if (_isGrounded && !_isSliding)
+            if (_isGrounded && !_slide.m_inState)
             {
-                _baseMovement.GroundMovement();
+                GroundMovement();
             }
-            else if ((!_isGrounded && !_isWallRunning) && !_isCrouching)
+            else if ((!_isGrounded && !_isWallRunning) && !_crouch.m_inState)
             {
-                _baseMovement.AirMovement();
-            }
-            else if (_isSliding)
-            {
-                _crouch.SlideMovement();
+                AirMovement();
             }
             else if (_isWallRunning)
             {
@@ -268,15 +274,7 @@ public class FPSController : MonoBehaviour
         }
 
 
-        if (m_data.m_maxSlideTimer > 0 && _isSliding)
-        {
-            _slideTimer -= Time.deltaTime;
-            if (_slideTimer <= 0)
-            {
-                _isSliding = false;
-                _crouch.StopSlide();
-            }
-        }
+
 
 
         //timer to make sure you can't jump again too soon after jumping
@@ -335,15 +333,15 @@ public class FPSController : MonoBehaviour
 
         if (m_data.m_canSprint)
         {
-            if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_isSliding)
+            if (_inputManager.m_sprint.InputHeld && _isGrounded && !_isSprinting && _isInputing && !_slide.m_inState)
             {
-                _baseMovement.StartSprint();
+                StartSprint();
             }
             else if (_isSprinting)
             {
-                if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_isJumping && _isInputing) || _isSliding)
+                if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_jump.m_inState && _isInputing) || _slide.m_inState)
                 {
-                    _baseMovement.StopSprint();
+                    StopSprint();
                 }
             }
         }
@@ -354,15 +352,15 @@ public class FPSController : MonoBehaviour
             {
                 if (_isGrounded)
                 {
-                    _crouch.StartCrouch();
+                    _crouch.EnterState();
                 }
             }
 
             if (_inputManager.m_crouch.InputReleased)
             {
-                if (_isSliding && m_data.m_canSlide)
+                if (_slide.m_inState && m_data.m_canSlide)
                 {
-                    _crouch.StopSlide();
+                    _slide.StopSlide();
                 }
                 else
                 {
@@ -373,16 +371,9 @@ public class FPSController : MonoBehaviour
 
         if (m_data.m_canJump)
         {
-            if (_isJumping && _isGrounded && _jumpCounter <= 0)
-            {
-                _isJumping = false;
-                _currentJumpCount = 0;
-            }
-
-
             if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
             {
-                _jump.JumpCheck();
+                m_currentMechanic.SwapState(_jump);
             }
         }
 
@@ -431,6 +422,108 @@ public class FPSController : MonoBehaviour
     #endregion
 
     #region MOVEMENT FUNCTIONS
+    public void GroundMovement()
+    {
+        if (_isInputing)
+        {
+            _currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+            _timeMoving += Time.deltaTime;
+            _move.z = _currentSpeed * _input.z;
+            _move.x = _currentSpeed * _input.x;
+        }
+        else
+        {
+            _currentSpeed = _currentMaxSpeed * m_data.m_groundDecelerationCurve.Evaluate(_timeMoving);
+            if (_timeMoving <= 0)
+            {
+                _move.x = 0;
+                _move.z = 0;
+                _timeMoving = 0;
+
+                if (!_crouch.m_inState && !_isSprinting)
+                {
+                    _currentMaxSpeed = m_data.m_baseMaxSpeed;
+                }
+            }
+            else
+            {
+                _timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, m_data.m_groundDecelerationCurve.keys[^1].time);
+                _move.z = _currentSpeed * Mathf.Clamp(_lastInput.z, -1, 1);
+                _move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
+            }
+        }
+
+        _move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
+    }
+
+    public void AirMovement()
+    {
+        if (_isWallJumping)
+        {
+            _move += _wallNormal * m_data.m_wallJumpSideForce;
+            _move += _forwardDirection * _currentMaxSpeed;
+
+            _wallJumpTime -= 1f * Time.deltaTime;
+            if (_wallJumpTime <= 0)   
+            {
+                _isWallJumping = false;
+                _timeMoving = 0;
+            }
+            _move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
+            return;
+        }
+
+        //timemoving / airSpeedRampup gives a value that is multiplied onto
+        //_currentMaxSpeed to give controller a gradual speed increase if needed
+
+
+        if (_isInputing)
+        {
+            _currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+            _timeMoving += Time.fixedDeltaTime;
+            _move.z += (_currentSpeed * _input.z) * m_data.m_airControl;
+            _move.x += (_currentSpeed * _input.x) * m_data.m_airControl;
+        }
+        else
+        {
+            _currentSpeed = _currentMaxSpeed * m_data.m_groundDecelerationCurve.Evaluate(_timeMoving);
+            if (_timeMoving == 0)
+            {
+                _move.x = 0;
+                _move.z = 0;
+                _timeMoving = 0;
+
+            }
+            else
+            {
+                _timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, m_data.m_airDecelerationCurve.keys[^1].time);
+                _move.z = _currentSpeed * Mathf.Clamp(_lastInput.z, -1, 1);
+                _move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
+            }
+        }
+
+        _move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
+    }
+    public void StartSprint()
+    {
+        _timeMoving = m_data.m_groundDecelerationCurve.keys[^1].time * (_currentMaxSpeed / m_data.m_sprintMaxSpeed);
+
+        _currentMaxSpeed = m_data.m_sprintMaxSpeed;
+        _isSprinting = true;
+    }
+
+    public void StopSprint()
+    {
+        if (_slide.m_inState)
+        {
+            _currentMaxSpeed = m_data.m_slideMaxSpeed;
+        }
+        else
+        {
+            _currentMaxSpeed = m_data.m_baseMaxSpeed;
+        }
+        _isSprinting = false;
+    }
 
     public void IncreaseSpeed(float speedIncrease)
     {
@@ -451,7 +544,7 @@ public class FPSController : MonoBehaviour
         _yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
 
 
-        if (_isGrounded && !_isJumping && !_isWallClimbing)
+        if (_isGrounded && !_jump.m_inState && !_isWallClimbing)
         {
             _yVelocity.y = -1;
             _timeFalling = 0;
@@ -475,6 +568,27 @@ public class FPSController : MonoBehaviour
         }
 
         _cc.Move(_yVelocity * Time.deltaTime);
+    }
+
+    #endregion
+
+    #region GROUND FUNCTIONS
+
+    public void CheckGrounded()
+    {
+        _isGrounded = _cc.isGrounded;
+
+        if (_isGrounded)
+        {
+            _hasWallRun = false;
+            _currentGravityForce = m_data.m_baseGravityForce;
+            _cyoteTimer = m_data.m_cyoteTime;
+        }
+    }
+
+    public void DisableGC()
+    {
+        _disableGroundCheck = false;
     }
 
     #endregion
