@@ -141,8 +141,8 @@ MonoBehaviour:
   m_canSprint: 0
   m_sprintMaxSpeed: 20
   m_sprintInputType: 0
-  m_canJump: 0
-  m_jumpForce: 5
+  m_canJump: 1
+  m_jumpForce: 500
   m_maxJumpCount: 1
   m_whatIsGround:
     serializedVersion: 2
@@ -151,11 +151,11 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 12
-  m_canCrouch: 0
+  m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
   m_crouchInputType: 0
-  m_canSlide: 0
+  m_canSlide: 1
   m_slideType: 0
   m_slideMaxSpeed: 30
   m_maxSlideTimer: 1

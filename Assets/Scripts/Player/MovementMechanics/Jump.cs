@@ -73,17 +73,12 @@ public class Jump : MovementMechanic
 
         m_con._currentJumpCount++;
         m_con._jumpCounter = m_con._jumpCooldown;
-
+        m_con._isGrounded = false;
         m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_jumpForce * m_con._currentGravityForce);
 
         if (m_data.m_jumpAddsSpeed)
         {
             m_con.IncreaseSpeed(m_data.m_jumpSpeedIncrease);
-        }
-
-        if (m_con._slide.m_inState && m_con._isGrounded)
-        {
-            m_con._slide.StopSlide();
         }
 
     }

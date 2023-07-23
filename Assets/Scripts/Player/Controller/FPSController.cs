@@ -270,6 +270,11 @@ public class FPSController : MonoBehaviour
         if (_jumpCounter > 0)
         {
             _jumpCounter -= Time.deltaTime;
+            _disableGroundCheck = true;
+        }
+        else
+        {
+            _disableGroundCheck = false;
         }
 
         if(_cyoteTimer > 0 && !_isGrounded)
@@ -430,10 +435,6 @@ public class FPSController : MonoBehaviour
                 _move.x = 0;
                 _move.z = 0;
                 _timeMoving = 0;
-
-
-                _currentMaxSpeed = m_data.m_baseMaxSpeed;
-                
             }
             else
             {
@@ -526,7 +527,8 @@ public class FPSController : MonoBehaviour
             {
                 if (_dash.m_inState) { return; }
             }
-                _timeFalling += Time.deltaTime;
+
+            _timeFalling += Time.deltaTime;
         }
 
         if (_yVelocity.y < _currentGravityForce)
