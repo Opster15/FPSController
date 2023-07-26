@@ -48,7 +48,10 @@ public class FPSControllerEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));
 
-        if(x.m_data != null)
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_defaultCamYPos"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchCamYPos"));
+
+        if (x.m_data != null)
         {
             CheckBool(x.m_data.m_canJump, "Jump");
             CheckBool(x.m_data.m_canCrouch, "Crouch/Slide");

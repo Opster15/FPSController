@@ -43,6 +43,8 @@ public class FPSController : MonoBehaviour
     [Tooltip("Empty game object that rotates with controller")]
     public Transform m_orientation;
 
+    public float m_defaultCamYPos, m_crouchCamYPos;
+
     public CinemachineVirtualCamera _cineCam;
     public InputManager _inputManager;
     public CharacterController _cc;
