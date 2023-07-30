@@ -12,6 +12,22 @@ public class Slide : MovementMechanic
         StartSlide();
     }
 
+    public override void ExitState()
+    {
+        base.ExitState();
+        
+        m_con.m_slideEvents.m_onCrouchEnd.Invoke();
+
+        m_con._slideTimer = 0;
+
+        //resets height,center and scale of controller
+        //sets position of controller to be at standing position
+        transform.localScale = m_data.m_playerScale;
+        m_con._cc.center = new Vector3(0, 0, 0);
+        m_con._cc.height = 2f;
+
+    }
+
     public override void UpdateState()
     {
         //base.UpdateState();
@@ -46,6 +62,7 @@ public class Slide : MovementMechanic
 
     public void StartSlide()
     {
+        m_con.m_slideEvents.m_onCrouchStart.Invoke();
         m_con._slide.m_inState = true;
         m_con._forwardDirection = m_con.m_orientation.transform.forward;
         m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
@@ -54,14 +71,8 @@ public class Slide : MovementMechanic
 
     public void StopSlide()
     {
-        m_con._slide.m_inState = false;
-        m_con._slideTimer = 0;
+        ExitState();
 
-        //resets height,center and scale of controller
-        //sets position of controller to be at standing position
-        transform.localScale = m_data.m_playerScale;
-        m_con._cc.center = new Vector3(0, 0, 0);
-        m_con._cc.height = 2f;
 
         if (m_con._inputManager.m_crouch.InputHeld)
         {

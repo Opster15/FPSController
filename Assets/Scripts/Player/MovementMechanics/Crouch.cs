@@ -20,6 +20,18 @@ public class Crouch : MovementMechanic
         }
     }
 
+    public override void ExitState()
+    {
+        base.ExitState();
+        m_con.m_crouchEvents.m_onCrouchEnd.Invoke();
+
+        m_con._cc.height = 2f;
+        m_con._cc.center = new Vector3(0, 0, 0);
+
+        m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_con.m_defaultCamYPos;
+
+    }
+
     public override void UpdateState()
     {
         //base.UpdateState();
@@ -74,13 +86,7 @@ public class Crouch : MovementMechanic
     {
         //resets height,center and scale of controller
         //sets position of controller to be at standing position
-
-        m_con._cc.height = 2f;
-        m_con._cc.center = new Vector3(0, 0, 0);
-
-        m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_con.m_defaultCamYPos;
-
-        m_con.m_crouchEvents.m_onCrouchEnd.Invoke();
+        ExitState();
 
         if (m_con._inputManager.m_sprint.InputHeld)
         {

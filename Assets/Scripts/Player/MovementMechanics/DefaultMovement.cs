@@ -22,13 +22,13 @@ public class DefaultMovement : MovementMechanic
         {
             m_con.AirMovement();
         }
+
     }
 
 
     public override void ExitState()
     {
         base.ExitState();
-
     }
     #endregion
 }

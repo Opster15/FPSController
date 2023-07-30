@@ -26,7 +26,9 @@ public class Jump : MovementMechanic
 
         if (m_con._isGrounded && m_con._jumpCounter <= 0)
         {
+            m_con.m_jumpEvents.m_onJumpLand.Invoke();
             SwapState(m_con._defMovement);
+            Debug.Log("LAND");
         }
         else
         {
@@ -70,6 +72,8 @@ public class Jump : MovementMechanic
                 return;
             }
         }
+
+        m_con.m_jumpEvents.m_onJump.Invoke();
 
         m_con._currentJumpCount++;
         m_con._jumpCounter = m_con._jumpCooldown;

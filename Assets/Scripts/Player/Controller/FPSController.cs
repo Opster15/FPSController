@@ -103,7 +103,7 @@ public class FPSController : MonoBehaviour
     [System.Serializable]
     public class JumpEvents
     {
-        public UnityEvent m_onJump, m_onLand;
+        public UnityEvent m_onJump, m_onJumpLand;
     }
     public JumpEvents m_jumpEvents;
     #endregion
