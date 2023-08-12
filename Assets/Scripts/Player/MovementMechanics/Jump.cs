@@ -28,7 +28,6 @@ public class Jump : MovementMechanic
         {
             m_con.m_jumpEvents.m_onJumpLand.Invoke();
             SwapState(m_con._defMovement);
-            Debug.Log("LAND");
         }
         else
         {
