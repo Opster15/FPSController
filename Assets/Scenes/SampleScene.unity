@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 127369190}
   - component: {fileID: 127369189}
   - component: {fileID: 127369188}
+  - component: {fileID: 127369191}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -409,7 +410,7 @@ MonoBehaviour:
   _jump: {fileID: 127369190}
   _crouch: {fileID: 127369189}
   _slide: {fileID: 127369188}
-  _dash: {fileID: 0}
+  _dash: {fileID: 127369191}
   _wallInteract: {fileID: 0}
   _stamina: {fileID: 0}
   m_mechanics:
@@ -418,7 +419,7 @@ MonoBehaviour:
   - {fileID: 127369190}
   - {fileID: 127369189}
   - {fileID: 127369188}
-  - {fileID: 0}
+  - {fileID: 127369191}
   m_currentMechanic: {fileID: 0}
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
@@ -611,6 +612,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07fc0e9b0e7d4884685c36b2e1f1ba6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f027834b34be45649af2034274f44bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
