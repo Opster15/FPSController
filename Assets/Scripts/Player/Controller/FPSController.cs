@@ -174,18 +174,18 @@ public class FPSController : MonoBehaviour
         public UnityEvent m_onWallJumpStart, m_onWallJumpEnd;
     }
     public WallJumpEvents m_wallJumpEvents;
-    
+
     [System.Serializable]
     public class WallClimbEvents
     {
-        public UnityEvent  m_onWallClimbStart, m_onWallClimbing, m_onWallClimbEnd;
+        public UnityEvent m_onWallClimbStart, m_onWallClimbing, m_onWallClimbEnd;
     }
     public WallClimbEvents m_wallClimbEvents;
     #endregion
 
     #region MISC VARIABLES
 
-    public bool  _isGrounded, _isInputing, _isWallRunning,
+    public bool _isGrounded, _isInputing, _isWallRunning,
         _isWallJumping, _isWallClimbing;
 
     [Tooltip("Ground check is blocked while true")]
@@ -210,7 +210,7 @@ public class FPSController : MonoBehaviour
     }
 
     void Start()
-    {        
+    {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         _currentMaxSpeed = m_data.m_baseMaxSpeed;
@@ -227,7 +227,9 @@ public class FPSController : MonoBehaviour
     #endregion
 
     #region UPDATE FUNCTIONS
-
+    
+    
+    
     private void Update()
     {
         if (!_disableGroundCheck)
@@ -236,27 +238,30 @@ public class FPSController : MonoBehaviour
         }
 
         InputsCheck();
+        
 
         if (_canLook)
         {
             Look();
         }
-
-        if(m_currentMechanic != null)
+        
+        
+        
+        if (m_currentMechanic != null)
         {
             m_currentMechanic.UpdateState();
         }
-
+        
         if (_isWallRunning)
         {
             _wallInteract.WallRunMovement();
         }
-            
+        
         if (_isWallClimbing)
         {
             _wallInteract.WallClimbMovement();
         }
-
+        
         //dash cooldown
         if (_currentDashCount < m_data.m_maxDashCount)
         {
@@ -279,7 +284,7 @@ public class FPSController : MonoBehaviour
             _disableGroundCheck = false;
         }
 
-        if(_cyoteTimer > 0 && !_isGrounded)
+        if (_cyoteTimer > 0 && !_isGrounded)
         {
             _cyoteTimer -= Time.deltaTime;
         }
@@ -311,7 +316,7 @@ public class FPSController : MonoBehaviour
     private void InputsCheck()
     {
         //sets lastinput to _input before this frames input is set
-        if(_input != Vector3.zero)
+        if (_input != Vector3.zero)
         {
             _lastInput = _input;
         }
@@ -322,7 +327,7 @@ public class FPSController : MonoBehaviour
 
         if (m_data.m_leanOnMove)
         {
-           //LeanPlayer();
+            //LeanPlayer();
         }
 
         _isInputing = _input.x != 0 || _input.y != 0;
@@ -337,7 +342,7 @@ public class FPSController : MonoBehaviour
             {
                 _sprint.StopSprint();
             }
-            
+
         }
 
         if (_crouch || _slide)
@@ -457,7 +462,7 @@ public class FPSController : MonoBehaviour
             _move += _forwardDirection * _currentMaxSpeed;
 
             _wallJumpTime -= 1f * Time.deltaTime;
-            if (_wallJumpTime <= 0)   
+            if (_wallJumpTime <= 0)
             {
                 _isWallJumping = false;
                 _timeMoving = 0;
@@ -574,11 +579,11 @@ public class FPSController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(m_debugMode)
+        if (m_debugMode)
         {
             Gizmos.color = Color.red;
 
-            if(m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
+            if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
             {
                 Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
             }
