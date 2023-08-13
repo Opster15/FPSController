@@ -23,7 +23,7 @@ public class Jump : MovementMechanic
     public override void UpdateState()
     {
         //base.UpdateState();
-
+        
         if (m_con._isGrounded && m_con._jumpCounter <= 0)
         {
             m_con.m_jumpEvents.m_onJumpLand.Invoke();

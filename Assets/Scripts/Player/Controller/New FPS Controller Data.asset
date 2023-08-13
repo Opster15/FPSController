@@ -188,19 +188,19 @@ MonoBehaviour:
   m_canWallRun: 1
   m_wallRunCheckDirection: 12
   m_wallRunMaxSpeed: 10
-  m_maxWallRunTime: 3
+  m_maxWallRunTime: 1
   m_maxWallAngle: 0
-  m_canWallJump: 0
+  m_canWallJump: 1
   m_wallJumpCheckDirection: 0
-  m_maxWallJumpCount: 0
-  m_wallJumpUpForce: 0
-  m_wallJumpSideForce: 0
+  m_maxWallJumpCount: 3
+  m_wallJumpUpForce: 3
+  m_wallJumpSideForce: 3
   m_wallCheckTime: 0.25
-  m_canWallClimb: 0
-  m_wallCLimbCheckDirection: 0
+  m_canWallClimb: 1
+  m_wallClimbCheckDirection: 1
   m_wallClimbType: 0
-  m_wallClimbSpeed: 0
-  m_maxWallClimbTime: 0
+  m_wallClimbSpeed: 1
+  m_maxWallClimbTime: 2
   m_useStamina: 0
   m_maxStamina: 0
   m_staminaRechargeRate: 0

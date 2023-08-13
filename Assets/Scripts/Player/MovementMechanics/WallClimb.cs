@@ -4,60 +4,67 @@ using UnityEngine;
 
 public class WallClimb : MovementMechanic
 {
-	// Start is called before the first frame update
-	public override void Start()
+	public override void EnterState()
 	{
 		base.EnterState();
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
 		
+		StartWallClimb();
 	}
 	
-	    
-    #region Wall Climb
+	public override void UpdateState()
+	{
+		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && m_con._stamina)
+		{
+			if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost))
+			{
+				SwapState(m_con._defMovement);
+				return;
+			}
+		}
+		
+		WallClimbMovement();
+	}
+	
+	public override void ExitState()
+	{
+		base.ExitState();
+		EndWallClimb();
+	}
+	
+	#region Wall Climb
 
-    public void StartWallClimb()
-    {
-        m_con._isWallClimbing = true;
-        m_con._wallClimbTime = m_data.m_maxWallClimbTime;
-    }
+	public void StartWallClimb()
+	{
+		m_con._isWallClimbing = true;
+		m_con._wallClimbTime = m_data.m_maxWallClimbTime;
+	}
 
-    public void EndWallClimb()
-    {
-        m_con._isWallClimbing = false;
-    }
+	public void EndWallClimb()
+	{
+		m_con._isWallClimbing = false;
+		m_con._yVelocity.y = m_data.m_baseGravityForce;
+	}
 
-    public void WallClimbMovement()
-    {
-        if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && m_con._stamina)
-        {
-            if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost))
-            {
-                return;
-            }
-        }
+	public void WallClimbMovement()
+	{
+		if (m_con._wallClimbTime <= 0)
+		{
+			SwapState(m_con._defMovement);
+			return;
+		}
+		else
+		{
+			m_con._wallClimbTime -= Time.deltaTime;
+		}
 
-        if (m_con._wallClimbTime <= 0)
-        {
-            EndWallClimb();
-            return;
-        }
-        else
-        {
-            m_con._wallClimbTime -= Time.deltaTime;
-        }
+		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
 
-        m_con._yVelocity.y += Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
+		if(m_data.m_wallClimbType == WallClimbType.lockedUpward)
+		{
+			m_con._move = Vector3.zero;
+		}
+	}
 
-        if(m_data.m_wallClimbType == WallClimbType.lockedUpward)
-        {
-            m_con._move = Vector3.zero;
-        }
-    }
-
-    #endregion
+	#endregion
 
 }

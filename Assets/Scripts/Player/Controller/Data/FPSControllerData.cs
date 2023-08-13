@@ -183,7 +183,7 @@ public class FPSControllerData : ScriptableObject
 	public bool m_canWallClimb;
 	
 	[Tooltip("The direction in which a wall dectection allows for a wall Climb")]
-    public WallCheckDirections m_wallCLimbCheckDirection;
+    public WallCheckDirections m_wallClimbCheckDirection;
 
 	public WallClimbType m_wallClimbType;
 

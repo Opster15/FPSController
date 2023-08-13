@@ -58,11 +58,9 @@ public class FPSController : MonoBehaviour
 	#endregion
 
 	#region MOVEMENT VARIABLES
-
-
+	
 	public float _timeMoving, _currentMaxSpeed, _currentSpeed;
-
-
+	
 	public Vector3 _move;
 	public Vector3 _forwardDirection;
 	public Vector3 _input;
@@ -137,8 +135,7 @@ public class FPSController : MonoBehaviour
 	#endregion
 
 	#region DASH VARIABLES
-
-
+	
 	public int _currentDashCount;
 
 	public float _startTime, _dashCooldownTimer;
@@ -149,13 +146,10 @@ public class FPSController : MonoBehaviour
 	}
 	public DashEvents m_dashEvents;
 	#endregion
-
+	
 	#region WALL INTERACT VARIABLES
-
-
+	
 	public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
-
-	public bool _isWallLeft, _isWallRight, _isWallFront, _isWallBack;
 
 	public Vector3 _wallNormal;
 
@@ -373,6 +367,15 @@ public class FPSController : MonoBehaviour
 
 		if (_jump)
 		{
+			if (_wallJump)
+			{
+				if(_wallRun.m_inState && _inputManager.m_jump.InputPressed)
+				{
+					m_currentMechanic.SwapState(_wallJump);
+					return;
+				}
+			}
+			
 			if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
 			{
 				m_currentMechanic.SwapState(_jump);
@@ -385,7 +388,7 @@ public class FPSController : MonoBehaviour
 		{
 			WallDetect();
 			
-			if (m_data.m_canWallRun)
+			if (_wallRun)
 			{
 				if (!_isWallRunning)
 				{
@@ -398,29 +401,29 @@ public class FPSController : MonoBehaviour
 				{
 					if ((m_data.m_wallRunCheckDirection & _currentWalls) == 0)
 					{
-						_wallRun.EndWallRun();
-						return;
+						m_currentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
 			
-			if (m_data.m_canWallClimb)
+			if (_wallClimb)
 			{
-				if (_isWallFront && _inputManager.m_movementInput.y > 0 && !_isWallClimbing)
+				if(!_isWallClimbing)
 				{
-					_wallClimb.StartWallClimb();
+					if (((m_data.m_wallClimbCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 )
+					{
+						m_currentMechanic.SwapState(_wallClimb);
+					}
 				}
-				else if(_isWallClimbing && (!_isWallFront || _inputManager.m_movementInput.y <= 0))
+				else
 				{
-					_wallClimb.EndWallClimb();
+					if((m_data.m_wallClimbCheckDirection & _currentWalls) == 0 || _inputManager.m_movementInput.y <= 0)
+					{
+						m_currentMechanic.SwapState(_defMovement);
+					}
 				}
 			}
-
-			if (m_data.m_canWallJump && _isWallRunning && _inputManager.m_jump.InputPressed)
-			{
-				_wallJump.CheckWallJump();
-				return;
-			}
+	
 		}
 
 		if (_dash)

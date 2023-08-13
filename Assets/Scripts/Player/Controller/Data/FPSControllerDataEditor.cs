@@ -287,6 +287,7 @@ public class FPSControllerDataEditor : Editor
 								{
 									EditorGUILayout.LabelField("WALL CLIMB VARIABLES", EditorStyles.boldLabel);
 									EditorGUI.indentLevel++;
+									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbCheckDirection"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbType"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbSpeed"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallClimbTime"));

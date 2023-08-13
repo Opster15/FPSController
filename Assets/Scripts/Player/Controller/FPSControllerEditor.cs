@@ -157,9 +157,6 @@ public class FPSControllerEditor : Editor
 						{
 							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentWalls"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRight"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallFront"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallBack"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
@@ -190,11 +187,6 @@ public class FPSControllerEditor : Editor
 							if (x.m_data.m_canWallRun)
 							{
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunning"));
-							}
-
-							if (x.m_data.m_canWallJump)
-							{
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunJumping"));
 							}
 
 							if (x.m_data.m_canWallClimb)
@@ -352,6 +344,20 @@ public class FPSControllerEditor : Editor
 					x.m_mechanics[i] = x._wallRun;
 				}
 				break;
+			case 8:
+				if (x.m_data.m_canWallJump)
+				{
+					x._wallJump = x.AddComponent<WallJump>();
+					x.m_mechanics[i] = x._wallJump;
+				}
+				break;
+			case 9:
+				if (x.m_data.m_canWallClimb)
+				{
+					x._wallClimb = x.AddComponent<WallClimb>();
+					x.m_mechanics[i] = x._wallClimb;
+				}
+				break;
 		}
 	}
 
@@ -395,16 +401,28 @@ public class FPSControllerEditor : Editor
 					DestroyImmediate(x.GetComponent<Dash>());
 				}
 				break;
-			case 7:
+			case 6:
 				if (!x.m_data.m_useStamina)
 				{
 					DestroyImmediate(x.GetComponent<Stamina>());
 				}
 				break;
-			case 8:
+			case 7:
 				if(!x.m_data.m_canWallRun)
 				{
 					DestroyImmediate(x.GetComponent<WallRun>());
+				}
+				break;
+			case 8:
+				if(!x.m_data.m_canWallJump)
+				{
+					DestroyImmediate(x.GetComponent<WallJump>());
+				}
+				break;
+			case 9:
+				if(!x.m_data.m_canWallClimb)
+				{
+					DestroyImmediate(x.GetComponent<WallClimb>());
 				}
 				break;
 		}

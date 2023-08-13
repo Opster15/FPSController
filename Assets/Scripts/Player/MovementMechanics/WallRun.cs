@@ -4,22 +4,6 @@ using UnityEngine;
 
 public class WallRun : MovementMechanic
 {
-	public override void UpdateState()
-	{
-		
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && m_con._stamina)
-		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost))
-			{
-				EndWallRun();
-				return;
-			}
-		}
-		
-		WallRunMovement();
-							
-	}
-	
 	public override void EnterState()
 	{
 		base.EnterState();
@@ -34,12 +18,33 @@ public class WallRun : MovementMechanic
 		}
 	}
 	
+	public override void UpdateState()
+	{
+		
+		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && m_con._stamina)
+		{
+			if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost))
+			{
+				SwapState(m_con._defMovement);
+				return;
+			}
+		}
+		
+		WallRunMovement();
+	}
+	
+	public override void ExitState()
+	{
+		base.ExitState();
+		EndWallRun();
+	}
+	
 	#region WALL RUN
 	public void WallRunMovement()
 	{
 		if(m_con._wallRunTime <= 0)
 		{
-			EndWallRun();
+			SwapState(m_con._defMovement);
 			return;
 		}
 		else
@@ -60,17 +65,14 @@ public class WallRun : MovementMechanic
 		}
 		else if (m_con._input.z < (m_con._forwardDirection.z - 10f) && m_con._input.z > (m_con._forwardDirection.z + 10f))
 		{
-			EndWallRun();
+			SwapState(m_con._defMovement);
 		}
 
 		m_con._move.x += m_con._input.x * m_data.m_airControl;
 
 		m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
-		
-		
 	}
-
-
+	
 	public bool WallRunCheck()
 	{
 		if (m_con._hasWallRun)
@@ -111,13 +113,11 @@ public class WallRun : MovementMechanic
 		m_con._yVelocity = new(0, 0, 0);
 
 		m_con._currentGravityForce = m_data.m_wallRunGravityForce;
-		m_con._cineCam.m_Lens.Dutch = m_con._isWallRight ? 3f : -3f;
+		// m_con._cineCam.m_Lens.Dutch = m_con._isWallRight ? 3f : -3f;
 	}
 
 	public void EndWallRun()
 	{
-		ExitState();
-		
 		if (m_con._isWallRunning)
 		{
 			m_con._cineCam.m_Lens.Dutch = 0;
@@ -128,9 +128,6 @@ public class WallRun : MovementMechanic
 		
 		m_con._isWallRunning = false;
 		m_con._currentGravityForce = m_data.m_baseGravityForce;
-		
-		SwapState(m_con._defMovement);
-		
 	}
 
 	#endregion
