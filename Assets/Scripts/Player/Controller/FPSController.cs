@@ -238,8 +238,6 @@ public class FPSController : MonoBehaviour
 
 	#region UPDATE FUNCTIONS
 	
-	
-	
 	private void Update()
 	{
 		if (!_disableGroundCheck)
@@ -260,11 +258,6 @@ public class FPSController : MonoBehaviour
 		if (m_currentMechanic != null)
 		{
 			m_currentMechanic.UpdateState();
-		}
-		
-		if (_isWallRunning)
-		{
-			_wallRun.WallRunMovement();
 		}
 		
 		if (_isWallClimbing)
@@ -385,12 +378,43 @@ public class FPSController : MonoBehaviour
 				m_currentMechanic.SwapState(_jump);
 			}
 		}
-
+		
 
 
 		if (m_data.m_canWallInteract)
 		{
 			WallDetect();
+			
+			if (m_data.m_canWallRun)
+			{
+				if (!_isWallRunning)
+				{
+					if (((m_data.m_wallRunCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
+					{
+						m_currentMechanic.SwapState(_wallRun);
+					}
+				}
+				else
+				{
+					if ((m_data.m_wallRunCheckDirection & _currentWalls) == 0)
+					{
+						_wallRun.EndWallRun();
+						return;
+					}
+				}
+			}
+			
+			if (m_data.m_canWallClimb)
+			{
+				if (_isWallFront && _inputManager.m_movementInput.y > 0 && !_isWallClimbing)
+				{
+					_wallClimb.StartWallClimb();
+				}
+				else if(_isWallClimbing && (!_isWallFront || _inputManager.m_movementInput.y <= 0))
+				{
+					_wallClimb.EndWallClimb();
+				}
+			}
 
 			if (m_data.m_canWallJump && _isWallRunning && _inputManager.m_jump.InputPressed)
 			{
@@ -585,7 +609,7 @@ public class FPSController : MonoBehaviour
 
 	#endregion
 	
-	#region Detection functions
+	#region WALL DETECTION FUNCTIONS
 	public void WallDetect()
 	{
 		if (_canWallCheck)
@@ -608,37 +632,6 @@ public class FPSController : MonoBehaviour
 			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
 			{
 				IsWall(-m_orientation.forward, _backWallHit,WallCheckDirections.Backward);
-			}
-			
-
-			if (m_data.m_canWallRun)
-			{
-				if (!_isWallRunning)
-				{
-					if (_currentWalls.HasFlag(m_data.m_wallJumpCheckDirection) &&_inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
-					{
-						_wallRun.WallRunCheck();
-					}
-				}
-				else
-				{   
-					if ((m_data.m_wallRunCheckDirection != _currentWalls) || _inputManager.m_movementInput.y <= 0)
-					{
-						_wallRun.EndWallRun();
-					}
-				}
-			}
-			
-			if (m_data.m_canWallClimb)
-			{
-				if (_isWallFront && _inputManager.m_movementInput.y > 0 && !_isWallClimbing)
-				{
-					_wallClimb.StartWallClimb();
-				}
-				else if(_isWallClimbing && (!_isWallFront || _inputManager.m_movementInput.y <= 0))
-				{
-					_wallClimb.EndWallClimb();
-				}
 			}
 		}
 	}
@@ -664,7 +657,6 @@ public class FPSController : MonoBehaviour
 		_canWallCheck = true;
 	}
 	#endregion
-	
 	
 	#region DEBUG FUNCTIONS
 

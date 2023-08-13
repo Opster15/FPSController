@@ -112,28 +112,37 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_airControl: 0.5
-  m_baseGravityForce: -15
-  m_wallRunGravityForce: 2
+  m_baseGravityForce: -35
+  m_wallRunGravityForce: 0
   m_gravityCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 4.472323
+      outSlope: 4.472323
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.19999999
+      value: 0.8944645
+      inSlope: 0.39357433
+      outSlope: 0.39357433
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.23780487
+    - serializedVersion: 3
+      time: 0.5
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0.351785
+      outSlope: 0.351785
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -142,7 +151,7 @@ MonoBehaviour:
   m_sprintMaxSpeed: 20
   m_sprintInputType: 0
   m_canJump: 1
-  m_jumpForce: 5
+  m_jumpForce: 3
   m_maxJumpCount: 1
   m_whatIsGround:
     serializedVersion: 2
@@ -179,7 +188,7 @@ MonoBehaviour:
   m_canWallRun: 1
   m_wallRunCheckDirection: 12
   m_wallRunMaxSpeed: 10
-  m_maxWallRunTime: 1
+  m_maxWallRunTime: 3
   m_maxWallAngle: 0
   m_canWallJump: 0
   m_wallJumpCheckDirection: 0

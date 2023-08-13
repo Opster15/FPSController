@@ -524,7 +524,7 @@ MonoBehaviour:
   _canWallCheck: 1
   _hasWallRun: 0
   _wallJumpTime: 0
-  _currentWalls: -1
+  _currentWalls: 0
   m_wallRunEvents:
     m_onWallRunStart:
       m_PersistentCalls:
