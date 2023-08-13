@@ -147,7 +147,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_canSprint: 0
+  m_canSprint: 1
   m_sprintMaxSpeed: 20
   m_sprintInputType: 0
   m_canJump: 1
@@ -160,25 +160,52 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
-  m_canCrouch: 0
+  m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
   m_crouchInputType: 0
-  m_canSlide: 0
+  m_canSlide: 1
   m_slideType: 0
-  m_slideMaxSpeed: 0
-  m_maxSlideTimer: 0
-  m_slideStartType: 0
-  m_canDash: 0
-  m_dashType: 0
+  m_slideMaxSpeed: 12
+  m_maxSlideTimer: 2
+  m_slideStartType: 1
+  m_canDash: 1
+  m_dashType: 1
   m_dashSpeedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.043628372
+      value: 0.9403128
+      inSlope: 0.03592168
+      outSlope: 0.03592168
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16157421
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_dashCooldown: 2
-  m_maxDashCount: 0
+  m_maxDashCount: 1
   m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
@@ -199,9 +226,9 @@ MonoBehaviour:
   m_canWallClimb: 1
   m_wallClimbCheckDirection: 1
   m_wallClimbType: 0
-  m_wallClimbSpeed: 1
+  m_wallClimbSpeed: 2
   m_maxWallClimbTime: 2
-  m_useStamina: 0
+  m_useStamina: 1
   m_maxStamina: 0
   m_staminaRechargeRate: 0
   m_staminaRechargeDelay: 0

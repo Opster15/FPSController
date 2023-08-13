@@ -42,7 +42,6 @@ public class WallClimb : MovementMechanic
 	public void EndWallClimb()
 	{
 		m_con._isWallClimbing = false;
-		m_con._yVelocity.y = m_data.m_baseGravityForce;
 	}
 
 	public void WallClimbMovement()
