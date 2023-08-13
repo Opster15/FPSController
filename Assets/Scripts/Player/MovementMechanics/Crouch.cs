@@ -19,7 +19,7 @@ public class Crouch : MovementMechanic
             SwapState(m_con._slide);
         }
     }
-
+    
     public override void ExitState()
     {
         base.ExitState();

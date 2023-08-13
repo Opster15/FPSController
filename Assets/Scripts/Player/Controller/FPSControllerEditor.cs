@@ -173,16 +173,7 @@ public class FPSControllerEditor : Editor
 
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-
-							if (x.m_data.m_canSprint)
-							{
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isSprinting"));
-							}
-
-							if (x._dash)
-							{
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isDashing"));
-							}
+	
 
 							if (x.m_data.m_canWallRun)
 							{
@@ -193,8 +184,6 @@ public class FPSControllerEditor : Editor
 							{
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallClimbing"));
 							}
-
-
 						}
 						break;
 				}

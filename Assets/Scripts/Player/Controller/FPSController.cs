@@ -241,22 +241,14 @@ public class FPSController : MonoBehaviour
 
 		InputsCheck();
 		
-
 		if (_canLook)
 		{
 			Look();
 		}
-		
-		
-		
-		if (m_currentMechanic != null)
+        
+        if (m_currentMechanic != null)
 		{
 			m_currentMechanic.UpdateState();
-		}
-		
-		if (_isWallClimbing)
-		{
-			_wallClimb.WallClimbMovement();
 		}
 		
 		//dash cooldown
@@ -285,7 +277,7 @@ public class FPSController : MonoBehaviour
 		{
 			_cyoteTimer -= Time.deltaTime;
 		}
-
+		
 		//dont call move function if _move variable hasnt been changed
 		if (_move != Vector3.zero)
 		{
@@ -364,18 +356,17 @@ public class FPSController : MonoBehaviour
 				}
 			}
 		}
-
-		if (_jump)
+		
+		if (_wallJump)
 		{
-			if (_wallJump)
+			if(_wallRun.m_inState && _inputManager.m_jump.InputPressed)
 			{
-				if(_wallRun.m_inState && _inputManager.m_jump.InputPressed)
-				{
-					m_currentMechanic.SwapState(_wallJump);
-					return;
-				}
+				m_currentMechanic.SwapState(_wallJump);
 			}
-			
+		}
+
+		if (_jump && !_isWallJumping)
+		{
 			if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
 			{
 				m_currentMechanic.SwapState(_jump);
@@ -527,7 +518,6 @@ public class FPSController : MonoBehaviour
 				_move.x = 0;
 				_move.z = 0;
 				_timeMoving = 0;
-
 			}
 			else
 			{
