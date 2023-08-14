@@ -137,8 +137,10 @@ GameObject:
   - component: {fileID: 127369174}
   - component: {fileID: 127369187}
   - component: {fileID: 127369188}
-  - component: {fileID: 127369190}
   - component: {fileID: 127369189}
+  - component: {fileID: 127369196}
+  - component: {fileID: 127369195}
+  - component: {fileID: 127369200}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -402,26 +404,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debugMode: 0
+  m_debugMode: 1
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
   _defMovement: {fileID: 127369187}
-  _sprint: {fileID: 0}
+  _sprint: {fileID: 127369189}
   _jump: {fileID: 127369188}
-  _crouch: {fileID: 127369190}
-  _slide: {fileID: 127369189}
+  _crouch: {fileID: 127369196}
+  _slide: {fileID: 127369195}
   _dash: {fileID: 0}
   _wallClimb: {fileID: 0}
   _wallJump: {fileID: 0}
   _wallRun: {fileID: 0}
-  _stamina: {fileID: 0}
+  _stamina: {fileID: 127369200}
   m_mechanics:
   - {fileID: 127369187}
-  - {fileID: 0}
-  - {fileID: 127369188}
-  - {fileID: 127369190}
   - {fileID: 127369189}
+  - {fileID: 127369188}
+  - {fileID: 127369196}
+  - {fileID: 127369195}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 127369200}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -493,12 +495,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   _wallNormal: {x: 0, y: 0, z: 0}
-  _lastWall: {x: 0, y: 0, z: 0}
+  _lastWallNormal: {x: 0, y: 0, z: 0}
   _wallRunTime: 0
   _wallClimbTime: 0
+  _wallJumpTime: 0
   _canWallCheck: 1
   _hasWallRun: 0
-  _wallJumpTime: 0
   _currentWalls: 0
   m_wallRunEvents:
     m_onWallRunStart:
@@ -529,11 +531,7 @@ MonoBehaviour:
         m_Calls: []
   _isGrounded: 0
   _isInputing: 0
-  _isWallRunning: 0
-  _isWallJumping: 0
-  _isWallClimbing: 0
   _disableGroundCheck: 0
-  _warpPosition: {x: 0, y: 0, z: 0}
   _canLook: 0
 --- !u!114 &127369187
 MonoBehaviour:
@@ -574,13 +572,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 127369169}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ee225b646ad4e489909f43341ae094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ceacf84ad875f74d8e7160b3b1ef926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
   m_data: {fileID: 0}
   m_inState: 0
---- !u!114 &127369190
+--- !u!114 &127369196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -590,6 +603,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3437dbc30961729459877989f8ba0dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270b0d4a5f1800a4788fa762b8faa0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}

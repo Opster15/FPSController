@@ -16,16 +16,7 @@ public class Slide : MovementMechanic
 	{
 		base.ExitState();
 		
-		m_con.m_slideEvents.m_onCrouchEnd.Invoke();
-
-		m_con._slideTimer = 0;
-
-		//resets height,center and scale of controller
-		//sets position of controller to be at standing position
-		transform.localScale = m_data.m_playerScale;
-		m_con._cc.center = new Vector3(0, 0, 0);
-		m_con._cc.height = 2f;
-
+		StopSlide();
 	}
 
 	public override void UpdateState()
@@ -33,15 +24,14 @@ public class Slide : MovementMechanic
 		//base.UpdateState();
 
 		SlideMovement();
-
-		if (m_data.m_maxSlideTimer > 0)
+		
+		m_con._slideTimer += Time.deltaTime;
+		
+		if (m_con._slideTimer > m_data.m_slideMovementCurve.keys[^1].time && !m_data.m_infiniteSlide)
 		{
-			m_con._slideTimer -= Time.deltaTime;
-			if (m_con._slideTimer <= 0)
-			{
-				StopSlide();
-			}
+			SwapState(m_con._defMovement);
 		}
+		
 	}
 
 	public override void SwapState(MovementMechanic newState)
@@ -49,6 +39,11 @@ public class Slide : MovementMechanic
 		if(newState == m_con._slide)
 		{
 			return;
+		}
+		
+		if(m_con._inputManager.m_crouch.InputHeld)
+		{
+			base.SwapState(m_con._crouch);
 		}
 		else
 		{
@@ -66,33 +61,22 @@ public class Slide : MovementMechanic
 		m_con._slide.m_inState = true;
 		m_con._forwardDirection = m_con.m_orientation.transform.forward;
 		m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
-		m_con._slideTimer = m_data.m_maxSlideTimer;
+		m_con._slideTimer = 0;
+		
+		Debug.Log("AD");
 		
 		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_con.m_crouchCamYPos;
-		
-		m_con._cc.height = 1f;
-		m_con._cc.center = new Vector3(0, -.5f, 0);
-		
-		m_con._crouch.m_inState = true;
-		m_con._currentMaxSpeed = m_data.m_crouchMaxSpeed;
-		
 	}
 
 	public void StopSlide()
 	{
-		ExitState();
-
-
-		if (m_con._inputManager.m_crouch.InputHeld)
-		{
-			SwapState(m_con._crouch);
-		}
-		else
-		{
-			m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
-			SwapState(m_con._defMovement);
-		}
-
+		m_con.m_slideEvents.m_onCrouchEnd.Invoke();
+		
+		//resets height,center and scale of controller
+		//sets position of controller to be at standing position
+		transform.localScale = m_data.m_playerScale;
+		m_con._cc.center = new Vector3(0, 0, 0);
+		m_con._cc.height = 2f;
 	}
 
 	public void SlideMovement()
@@ -101,27 +85,30 @@ public class Slide : MovementMechanic
 		{
 			if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost))
 			{
-				StopSlide();
+				SwapState(m_con._defMovement);
 				return;
 			}
 		}
 		
+		m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(m_con._slideTimer);
 		//Facing slide only applies force in the facing direction you started the slide in
 		//Multi Direction Slide applies force in the direction you're moving
 		if (m_data.m_slideType == SlideType.FacingSlide)
 		{
-			m_con._move += m_con._forwardDirection;
+			m_con._move = m_con._currentSpeed * m_con._forwardDirection;
 			m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
 		}
 		else if (m_data.m_slideType == SlideType.MultiDirectionalSlide)
 		{
 			if (m_con._isInputing)
 			{
+				m_con._move.z = m_con._currentSpeed * m_con._input.z;
+				m_con._move.x = m_con._currentSpeed * m_con._input.x;
 				m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
 			}
 			else
 			{
-				m_con._move += m_con._forwardDirection;
+				m_con._move += m_con._currentSpeed * m_con._forwardDirection;
 				m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
 			}
 		}

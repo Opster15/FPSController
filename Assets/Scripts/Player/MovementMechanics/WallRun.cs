@@ -77,7 +77,7 @@ public class WallRun : MovementMechanic
 	{
 		if (m_con._hasWallRun)
 		{
-			float wallAngle = Vector3.Angle(m_con._wallNormal, m_con._lastWall);
+			float wallAngle = Vector3.Angle(m_con._wallNormal, m_con._lastWallNormal);
 			if (wallAngle >= m_data.m_maxWallAngle)
 			{
 				return true;
@@ -96,7 +96,6 @@ public class WallRun : MovementMechanic
 	
 	public void StartWallRun()
 	{
-		m_con._isWallRunning = true;
 		m_con._currentMaxSpeed = m_data.m_wallRunMaxSpeed;
 		m_con._currentJumpCount = 1;
 		m_con._wallRunTime = m_data.m_maxWallRunTime;
@@ -113,20 +112,18 @@ public class WallRun : MovementMechanic
 		m_con._yVelocity = new(0, 0, 0);
 
 		m_con._currentGravityForce = m_data.m_wallRunGravityForce;
-		// m_con._cineCam.m_Lens.Dutch = m_con._isWallRight ? 3f : -3f;
+		 m_con._cineCam.m_Lens.Dutch = m_con._currentWalls.HasFlag(WallCheckDirections.Right) ? 3f : -3f;
 	}
 
 	public void EndWallRun()
 	{
-		if (m_con._isWallRunning)
-		{
-			m_con._cineCam.m_Lens.Dutch = 0;
-			m_con._lastWall = m_con._wallNormal;
-		}
+		
+		m_con._cineCam.m_Lens.Dutch = 0;
+		m_con._lastWallNormal = m_con._wallNormal;
+		
 
 		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
 		
-		m_con._isWallRunning = false;
 		m_con._currentGravityForce = m_data.m_baseGravityForce;
 	}
 

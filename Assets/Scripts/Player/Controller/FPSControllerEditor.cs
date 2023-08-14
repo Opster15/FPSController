@@ -160,8 +160,12 @@ public class FPSControllerEditor : Editor
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastWallNormal"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallRunTime"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallClimbTime"));
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallJumpTime"));
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
 						}
 						break;
 					case "Misc":
@@ -169,21 +173,9 @@ public class FPSControllerEditor : Editor
 						if (x.m_debugMode)
 						{
 							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_warpPosition"));
 
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-	
-
-							if (x.m_data.m_canWallRun)
-							{
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallRunning"));
-							}
-
-							if (x.m_data.m_canWallClimb)
-							{
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_isWallClimbing"));
-							}
 						}
 						break;
 				}

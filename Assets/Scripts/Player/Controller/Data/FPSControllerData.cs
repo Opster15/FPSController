@@ -13,7 +13,7 @@ public class FPSControllerData : ScriptableObject
 
 	[Tooltip("Curve reprisenting time to reach max speed")]
 	public AnimationCurve m_groundAccelerationCurve;
-
+	
 	[Tooltip("Curve reprisenting time to reach 0 speed")]
 	public AnimationCurve m_groundDecelerationCurve;
 
@@ -103,9 +103,14 @@ public class FPSControllerData : ScriptableObject
 
 	[Tooltip("Max speed the controller can achive when sliding")]
 	public float m_slideMaxSpeed;
-
-	[Tooltip("Time (seconds) slide lasts for")]
-	public float m_maxSlideTimer;
+	
+	[Tooltip("Curve reprisenting length of Slide (x axis) and Speed of slide (y axis)")]
+	public AnimationCurve m_slideMovementCurve;
+	
+	public bool m_infiniteSlide;
+	
+	[Tooltip("Time (seconds) from last slide when you can slide again")]
+	public float m_slideCooldown;
 
 	public SlideStartType m_slideStartType;
 
@@ -183,7 +188,7 @@ public class FPSControllerData : ScriptableObject
 	public bool m_canWallClimb;
 	
 	[Tooltip("The direction in which a wall dectection allows for a wall Climb")]
-    public WallCheckDirections m_wallClimbCheckDirection;
+	public WallCheckDirections m_wallClimbCheckDirection;
 
 	public WallClimbType m_wallClimbType;
 

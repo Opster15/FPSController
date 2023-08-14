@@ -35,13 +35,12 @@ public class WallClimb : MovementMechanic
 
 	public void StartWallClimb()
 	{
-		m_con._isWallClimbing = true;
 		m_con._wallClimbTime = m_data.m_maxWallClimbTime;
 	}
 
 	public void EndWallClimb()
 	{
-		m_con._isWallClimbing = false;
+		
 	}
 
 	public void WallClimbMovement()

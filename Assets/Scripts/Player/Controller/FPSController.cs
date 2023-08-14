@@ -65,7 +65,7 @@ public class FPSController : MonoBehaviour
 	public Vector3 _forwardDirection;
 	public Vector3 _input;
 	public Vector3 _lastInput;
-
+	
 	[System.Serializable]
 	public class MoveEvents
 	{
@@ -139,6 +139,7 @@ public class FPSController : MonoBehaviour
 	public int _currentDashCount;
 
 	public float _startTime, _dashCooldownTimer;
+	
 	[System.Serializable]
 	public class DashEvents
 	{
@@ -152,14 +153,13 @@ public class FPSController : MonoBehaviour
 	public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
 
 	public Vector3 _wallNormal;
+	
+	public Vector3 _lastWallNormal;
 
-	public Vector3 _lastWall;
-
-	public float _wallRunTime, _wallClimbTime;
-
+	public float _wallRunTime, _wallClimbTime, _wallJumpTime;
+	
 	public bool _canWallCheck = true, _hasWallRun;
-
-	public float _wallJumpTime;
+	
 	
 	public WallCheckDirections _currentWalls;
 
@@ -187,14 +187,10 @@ public class FPSController : MonoBehaviour
 
 	#region MISC VARIABLES
 
-	public bool _isGrounded, _isInputing, _isWallRunning,
-		_isWallJumping, _isWallClimbing;
+	public bool _isGrounded, _isInputing;
 
 	[Tooltip("Ground check is blocked while true")]
 	public bool _disableGroundCheck;
-
-	[Tooltip("Transorm.position is set to this on LateUpdate")]
-	public Vector3 _warpPosition;
 
 	float _xRotation;
 
@@ -278,6 +274,16 @@ public class FPSController : MonoBehaviour
 			_cyoteTimer -= Time.deltaTime;
 		}
 		
+		if(_wallJumpTime > 0)
+		{
+			_wallJumpTime -= Time.deltaTime;
+			
+			if(_wallJumpTime < 0)
+			{
+				ResetWallCheck();
+			}
+		}
+		
 		//dont call move function if _move variable hasnt been changed
 		if (_move != Vector3.zero)
 		{
@@ -291,12 +297,12 @@ public class FPSController : MonoBehaviour
 	{
 		//mainly for crouch,sets transform to make the controller touch the ground
 		//stops the controller from becoming airborne 
-		if (_warpPosition != Vector3.zero)
-		{
-			transform.localPosition += _warpPosition;
-			_warpPosition = Vector3.zero;
-			_disableGroundCheck = false;
-		}
+		// if (_warpPosition != Vector3.zero)
+		// {
+		// 	transform.localPosition += _warpPosition;
+		// 	_warpPosition = Vector3.zero;
+		// 	_disableGroundCheck = false;
+		// }
 	}
 
 	#endregion
@@ -346,14 +352,7 @@ public class FPSController : MonoBehaviour
 
 			if (_inputManager.m_crouch.InputReleased)
 			{
-				if (_slide.m_inState && m_data.m_canSlide)
-				{
-					_slide.StopSlide();
-				}
-				else
-				{
-					_crouch.StopCrouch();
-				}
+				m_currentMechanic.SwapState(_defMovement);
 			}
 		}
 		
@@ -365,7 +364,7 @@ public class FPSController : MonoBehaviour
 			}
 		}
 
-		if (_jump && !_isWallJumping)
+		if (_jump)
 		{
 			if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
 			{
@@ -381,10 +380,11 @@ public class FPSController : MonoBehaviour
 			
 			if (_wallRun)
 			{
-				if (!_isWallRunning)
+				if (!_wallRun.m_inState)
 				{
 					if (((m_data.m_wallRunCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
 					{
+						Debug.Log("A");
 						m_currentMechanic.SwapState(_wallRun);
 					}
 				}
@@ -399,7 +399,7 @@ public class FPSController : MonoBehaviour
 			
 			if (_wallClimb)
 			{
-				if(!_isWallClimbing)
+				if(!_wallClimb.m_inState)
 				{
 					if (((m_data.m_wallClimbCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 )
 					{
@@ -484,19 +484,22 @@ public class FPSController : MonoBehaviour
 
 	public void AirMovement()
 	{
-		if (_isWallJumping)
+		if (_wallJump)
 		{
-			_move += _wallNormal * m_data.m_wallJumpSideForce;
-			_move += _forwardDirection * _currentMaxSpeed;
-
-			_wallJumpTime -= 1f * Time.deltaTime;
-			if (_wallJumpTime <= 0)
+			if(_wallJump.m_inState)
 			{
-				_isWallJumping = false;
-				_timeMoving = 0;
+				_move += _wallNormal * m_data.m_wallJumpSideForce;
+				_move += _forwardDirection * _currentMaxSpeed;
+				
+				_wallJumpTime -= 1f * Time.deltaTime;
+				if (_wallJumpTime <= 0)
+				{
+					_timeMoving = 0;
+				}
+				_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
+				return;
 			}
-			_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
-			return;
+
 		}
 
 		//timemoving / airSpeedRampup gives a value that is multiplied onto

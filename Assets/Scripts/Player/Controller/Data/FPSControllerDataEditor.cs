@@ -180,9 +180,10 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.LabelField("SLIDE VARIABLES", EditorStyles.boldLabel);
 						EditorGUI.indentLevel++;
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideType"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideMovementCurve"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_infiniteSlide"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStartType"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideMaxSpeed"));
-						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxSlideTimer"));
 						if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && x.m_useStamina)
 						{
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStaminaCost"));
