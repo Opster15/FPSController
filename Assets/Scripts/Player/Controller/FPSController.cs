@@ -15,7 +15,7 @@ public class FPSController : MonoBehaviour
 	
 	#region Movement Mechanics
 	public DefaultMovement _defMovement;
-
+	
 	public Sprint _sprint;
 
 	public Jump _jump;
@@ -245,8 +245,8 @@ public class FPSController : MonoBehaviour
 		{
 			Look();
 		}
-        
-        if (m_currentMechanic != null)
+		
+		if (m_currentMechanic != null)
 		{
 			m_currentMechanic.UpdateState();
 		}
@@ -327,7 +327,7 @@ public class FPSController : MonoBehaviour
 			{
 				m_currentMechanic.SwapState(_sprint);
 			}
-			else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && _isInputing))
+			else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && _isInputing && _sprint.m_inState))
 			{
 				_sprint.StopSprint();
 			}
