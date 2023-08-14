@@ -43,7 +43,7 @@ public class WallJump : MovementMechanic
 
 		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallJump) && m_con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallJumpStaminaCost))
+			if (!m_con._stamina.ReduceStamina(m_data.m_wallJumpStaminaCost, false))
 			{
 				return false;
 			}

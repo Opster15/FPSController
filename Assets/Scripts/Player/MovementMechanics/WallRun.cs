@@ -23,7 +23,7 @@ public class WallRun : MovementMechanic
 		
 		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && m_con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost))
+			if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost,true))
 			{
 				SwapState(m_con._defMovement);
 				return;

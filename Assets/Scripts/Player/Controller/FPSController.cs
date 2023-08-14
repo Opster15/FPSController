@@ -333,7 +333,7 @@ public class FPSController : MonoBehaviour
 			{
 				m_currentMechanic.SwapState(_sprint);
 			}
-			else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && _isInputing && _sprint.m_inState))
+			else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_isInputing && _sprint.m_inState))
 			{
 				_sprint.StopSprint();
 			}

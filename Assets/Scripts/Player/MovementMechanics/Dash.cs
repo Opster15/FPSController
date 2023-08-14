@@ -34,7 +34,7 @@ public class Dash : MovementMechanic
 		{
 			if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
 			{
-				if (!m_con._stamina.ReduceStamina(m_data.m_dashStaminaCost))
+				if (!m_con._stamina.ReduceStamina(m_data.m_dashStaminaCost, false))
 				{
 					return;
 				}

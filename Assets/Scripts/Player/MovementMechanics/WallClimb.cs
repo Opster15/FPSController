@@ -15,7 +15,7 @@ public class WallClimb : MovementMechanic
 	{
 		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && m_con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost))
+			if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost,true))
 			{
 				SwapState(m_con._defMovement);
 				return;

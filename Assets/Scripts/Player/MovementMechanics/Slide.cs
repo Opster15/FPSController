@@ -83,7 +83,7 @@ public class Slide : MovementMechanic
 	{
 		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && m_con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost))
+			if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost,true))
 			{
 				SwapState(m_con._defMovement);
 				return;

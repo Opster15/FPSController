@@ -16,9 +16,22 @@ public class Sprint : MovementMechanic
 	public override void UpdateState()
 	{
 		//base.UpdateState();
+		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint) && m_con._stamina)
+		{
+			if (!m_con._stamina.ReduceStamina(m_data.m_sprintStaminaCost, true))
+			{
+				SwapState(m_con._defMovement);
+				return;
+			}
+		}
 		m_con.GroundMovement();
 	}
-
+	
+	public override void ExitState()
+	{
+		base.ExitState();
+		StopSprint();
+	}
 
 	#endregion
 
@@ -32,7 +45,5 @@ public class Sprint : MovementMechanic
 	public void StopSprint()
 	{
 		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
-		
-		SwapState(m_con._defMovement);
 	}
 }

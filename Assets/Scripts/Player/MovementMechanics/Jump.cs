@@ -68,7 +68,7 @@ public class Jump : MovementMechanic
 	{
 		if(m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && m_con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_jumpStaminaCost))
+			if (!m_con._stamina.ReduceStamina(m_data.m_jumpStaminaCost, false))
 			{
 				return;
 			}
