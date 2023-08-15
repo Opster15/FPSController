@@ -9,14 +9,7 @@ public class Crouch : MovementMechanic
 	public override void EnterState()
 	{
 		base.EnterState();
-		if (CheckCrouch())
-		{
-			StartCrouch();
-		}
-		else
-		{
-			SwapState(m_con._slide);
-		}
+        StartCrouch();
 	}
 	
 	public override void ExitState()
@@ -36,28 +29,7 @@ public class Crouch : MovementMechanic
 	#endregion
 
 	#region CROUCH FUNCTIONS
-
-
-	public bool CheckCrouch()
-	{
-		if (m_data.m_canSlide)
-		{
-			if (m_data.m_slideStartType == SlideStartType.Standing)
-			{
-				return false;
-			}
-			else if (m_data.m_slideStartType == SlideStartType.Moving && m_con._isInputing)
-			{
-				return false;
-			}
-			else if (m_data.m_slideStartType == SlideStartType.Sprinting && m_con._sprint.m_inState)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
+	
 
 	public void StartCrouch()
 	{

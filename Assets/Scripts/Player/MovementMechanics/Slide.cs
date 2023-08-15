@@ -41,14 +41,7 @@ public class Slide : MovementMechanic
 			return;
 		}
 		
-		if(m_con._inputManager.m_crouch.InputHeld)
-		{
-			base.SwapState(m_con._crouch);
-		}
-		else
-		{
-			base.SwapState(newState);
-		}
+		base.SwapState(newState);
 	}
 
 	#endregion
@@ -63,8 +56,6 @@ public class Slide : MovementMechanic
 		m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
 		m_con._slideTimer = 0;
 		
-		Debug.Log("AD");
-		
 		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_con.m_crouchCamYPos;
 	}
 
@@ -75,8 +66,11 @@ public class Slide : MovementMechanic
 		//resets height,center and scale of controller
 		//sets position of controller to be at standing position
 		transform.localScale = m_data.m_playerScale;
+		
 		m_con._cc.center = new Vector3(0, 0, 0);
 		m_con._cc.height = 2f;
+		
+		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_con.m_defaultCamYPos;
 	}
 
 	public void SlideMovement()

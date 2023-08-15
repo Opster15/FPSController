@@ -254,12 +254,12 @@ MonoBehaviour:
   m_wallClimbSpeed: 2
   m_maxWallClimbTime: 2
   m_useStamina: 1
-  m_maxStamina: 0
-  m_staminaRechargeRate: 0
-  m_staminaRechargeDelay: 0
-  m_staminaUsingMechanics: 0
-  m_sprintStaminaCost: 0
-  m_jumpStaminaCost: 0
+  m_maxStamina: 100
+  m_staminaRechargeRate: 1
+  m_staminaRechargeDelay: 1
+  m_staminaUsingMechanics: 3
+  m_sprintStaminaCost: 10
+  m_jumpStaminaCost: 10
   m_slideStaminaCost: 0
   m_dashStaminaCost: 0
   m_wallRunStaminaCost: 0

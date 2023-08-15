@@ -337,19 +337,36 @@ public class FPSController : MonoBehaviour
 			{
 				_sprint.StopSprint();
 			}
-
 		}
-
-		if (_crouch || _slide)
-		{
+		
+		if (_crouch)
+		{		
 			if (_inputManager.m_crouch.InputPressed)
 			{
-				if (_isGrounded)
+				if(_slide)
 				{
-					m_currentMechanic.SwapState(_crouch);
+					if (m_data.m_slideStartType == SlideStartType.Standing)
+					{
+						m_currentMechanic.SwapState(_slide);
+					}
+					else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
+					{
+						m_currentMechanic.SwapState(_slide);
+					}
+					else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
+					{
+						m_currentMechanic.SwapState(_slide);
+					}
+					else
+					{
+						if (_isGrounded)
+						{
+							m_currentMechanic.SwapState(_crouch);
+						}
+					}
 				}
 			}
-
+			
 			if (_inputManager.m_crouch.InputReleased)
 			{
 				m_currentMechanic.SwapState(_defMovement);
