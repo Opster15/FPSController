@@ -173,6 +173,8 @@ public class FPSControllerDataEditor : Editor
 					EditorGUI.indentLevel++;
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchMaxSpeed"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchScale"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_defaultCamYPos"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchCamYPos"));
 					EditorGUI.indentLevel--;
 
 					if (x.m_canCrouch && x.m_canSlide)
@@ -260,6 +262,11 @@ public class FPSControllerDataEditor : Editor
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallRunTime"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
+									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunDecay"));
+									if(x.m_wallRunDecay)
+									{
+										EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunDecayTime"));
+									}
 									if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && x.m_useStamina)
 									{
 										EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunStaminaCost"));

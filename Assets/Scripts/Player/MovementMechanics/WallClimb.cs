@@ -36,11 +36,13 @@ public class WallClimb : MovementMechanic
 	public void StartWallClimb()
 	{
 		m_con._wallClimbTime = m_data.m_maxWallClimbTime;
+		
+		m_con.m_wallClimbEvents.m_onWallClimbStart.Invoke();
 	}
 
 	public void EndWallClimb()
 	{
-		
+		m_con.m_wallClimbEvents.m_onWallClimbEnd.Invoke();
 	}
 
 	public void WallClimbMovement()
@@ -61,6 +63,8 @@ public class WallClimb : MovementMechanic
 		{
 			m_con._move = Vector3.zero;
 		}
+		
+		m_con.m_wallClimbEvents.m_onWallClimbing.Invoke();
 	}
 
 	#endregion

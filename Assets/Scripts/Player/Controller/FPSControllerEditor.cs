@@ -47,9 +47,7 @@ public class FPSControllerEditor : Editor
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));
-
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_defaultCamYPos"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchCamYPos"));
+		
 
 		if (x.m_data != null)
 		{
@@ -189,7 +187,12 @@ public class FPSControllerEditor : Editor
 		{
 			EditorGUI.indentLevel++;
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("m_moveEvents"));
-
+			
+			if (x._sprint)
+			{
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintEvents"));
+			}
+			
 			if (x._jump)
 			{
 				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpEvents"));

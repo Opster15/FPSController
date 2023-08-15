@@ -54,6 +54,7 @@ public class WallJump : MovementMechanic
 	
 	public void StartWallJump()
 	{
+		m_con.m_wallJumpEvents.m_onWallJumpStart.Invoke();
 		m_con._currentJumpCount++;
 		
 		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallJumpUpForce * m_data.m_baseGravityForce);

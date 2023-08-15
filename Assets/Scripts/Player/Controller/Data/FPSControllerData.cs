@@ -94,7 +94,9 @@ public class FPSControllerData : ScriptableObject
 	public Vector3 m_crouchScale = new(1, 0.5f, 1);
 
 	public InputType m_crouchInputType;
-
+	
+	public float m_defaultCamYPos, m_crouchCamYPos;
+	
 	public bool m_canSlide;
 
 	[Tooltip("FacingSlide slides controller in its facing direction." +
@@ -157,9 +159,17 @@ public class FPSControllerData : ScriptableObject
 	public float m_wallRunMaxSpeed;
 
 	public float m_maxWallRunTime;
+	
+	[Tooltip("makes gravity increase back to normal over time")]
+	public bool m_wallRunDecay;
+	
+	[Tooltip("Time it takes for wall run gravity to reach base gravity force")]
+	public float m_wallRunDecayTime;
 
 	[Tooltip("difference in wall angle to be treated as a new wall")]
 	public float m_maxWallAngle;
+	
+	
 	#endregion
 
 	#region WALL JUMP VARIABLES

@@ -42,14 +42,28 @@ public class WallRun : MovementMechanic
 	#region WALL RUN
 	public void WallRunMovement()
 	{
-		if(m_con._wallRunTime <= 0)
+		if(m_data.m_maxWallRunTime > 0)
 		{
-			SwapState(m_con._defMovement);
-			return;
+			if(m_con._wallRunTime <= 0)
+			{
+				SwapState(m_con._defMovement);
+				return;
+			}
+			else
+			{
+				m_con._wallRunTime -= Time.deltaTime;
+			}
 		}
-		else
+		
+		m_con.m_wallRunEvents.m_onWallRunning.Invoke();
+		
+		if(m_data.m_wallRunDecay)
 		{
-			m_con._wallRunTime -= Time.deltaTime;
+			if(m_con._wallRunDecayTimer < m_data.m_wallRunDecayTime)
+			{
+				m_con._wallRunDecayTimer += Time.deltaTime;
+				m_con._currentGravityForce = m_data.m_baseGravityForce * (m_con._wallRunDecayTimer / m_data.m_wallRunDecayTime);
+			}
 		}
 
 		m_con._forwardDirection = Vector3.Cross(m_con._wallNormal, Vector3.up);
@@ -112,7 +126,9 @@ public class WallRun : MovementMechanic
 		m_con._yVelocity = new(0, 0, 0);
 
 		m_con._currentGravityForce = m_data.m_wallRunGravityForce;
-		 m_con._cineCam.m_Lens.Dutch = m_con._currentWalls.HasFlag(WallCheckDirections.Right) ? 3f : -3f;
+		m_con._cineCam.m_Lens.Dutch = m_con._currentWalls.HasFlag(WallCheckDirections.Right) ? 3f : -3f;
+		
+		m_con.m_wallRunEvents.m_onWallRunStart.Invoke();
 	}
 
 	public void EndWallRun()
@@ -125,6 +141,8 @@ public class WallRun : MovementMechanic
 		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
 		
 		m_con._currentGravityForce = m_data.m_baseGravityForce;
+		
+		m_con.m_wallRunEvents.m_onWallRunEnd.Invoke();
 	}
 
 	#endregion

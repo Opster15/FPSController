@@ -24,6 +24,8 @@ public class Sprint : MovementMechanic
 				return;
 			}
 		}
+		
+		m_con.m_sprintEvents.m_onSprinting.Invoke();
 		m_con.GroundMovement();
 	}
 	
@@ -40,10 +42,14 @@ public class Sprint : MovementMechanic
 		m_con._timeMoving = m_data.m_groundDecelerationCurve.keys[^1].time * (m_con._currentMaxSpeed / m_data.m_sprintMaxSpeed);
 
 		m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
+		
+		m_con.m_sprintEvents.m_onEnterSprint.Invoke();
 	}
 
 	public void StopSprint()
 	{
 		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
+		
+		m_con.m_sprintEvents.m_onExitSprint.Invoke();
 	}
 }

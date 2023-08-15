@@ -48,8 +48,7 @@ public class FPSController : MonoBehaviour
 	public Transform m_playerCamParent;
 	[Tooltip("Empty game object that rotates with controller")]
 	public Transform m_orientation;
-
-	public float m_defaultCamYPos, m_crouchCamYPos;
+	
 
 	public CinemachineVirtualCamera _cineCam;
 	public InputManager _inputManager;
@@ -72,6 +71,13 @@ public class FPSController : MonoBehaviour
 		public UnityEvent m_onMove, m_onMoveStop;
 	}
 	public MoveEvents m_moveEvents;
+	
+	[System.Serializable]
+	public class SprintEvents
+	{
+		public UnityEvent m_onEnterSprint,m_onSprinting, m_onExitSprint;
+	}
+	public SprintEvents m_sprintEvents;
 	#endregion
 
 	#region GRAVITY VARIABLES
@@ -130,7 +136,7 @@ public class FPSController : MonoBehaviour
 	{
 		public UnityEvent m_onSlideStart, m_onSliding, m_onSlideEnd;
 	}
-	public CrouchEvents m_slideEvents;
+	public SlideEvents m_slideEvents;
 
 	#endregion
 
@@ -156,7 +162,7 @@ public class FPSController : MonoBehaviour
 	
 	public Vector3 _lastWallNormal;
 
-	public float _wallRunTime, _wallClimbTime, _wallJumpTime;
+	public float _wallRunTime, _wallRunDecayTimer, _wallClimbTime, _wallJumpTime;
 	
 	public bool _canWallCheck = true, _hasWallRun;
 	
