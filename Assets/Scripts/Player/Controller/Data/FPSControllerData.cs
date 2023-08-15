@@ -36,6 +36,7 @@ public class FPSControllerData : ScriptableObject
 	#endregion
 
 	#region GRAVITY VARIABLES
+	
 	[Tooltip("Gravity applied to controller")]
 	public float m_baseGravityForce = -15f;
 
@@ -46,7 +47,13 @@ public class FPSControllerData : ScriptableObject
 	public AnimationCurve m_gravityCurve;
 
 	#endregion
-
+	
+	#region INPUT VARIABLES
+	
+	public InputType m_crouchInputType, m_slideInputType;
+	
+	#endregion
+	
 	#region SPRINT VARIABLES
 	public bool m_canSprint;
 
@@ -92,8 +99,6 @@ public class FPSControllerData : ScriptableObject
 
 	[Tooltip("Scale of transform when crouched or sliding")]
 	public Vector3 m_crouchScale = new(1, 0.5f, 1);
-
-	public InputType m_crouchInputType;
 	
 	public float m_defaultCamYPos, m_crouchCamYPos;
 	

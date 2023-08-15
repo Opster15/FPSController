@@ -8,7 +8,7 @@ public class FPSController : MonoBehaviour
 {
 	[Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
 	public bool m_debugMode;
-
+	
 	public FPSControllerData m_data;
 	
 	#region Variables
@@ -231,7 +231,7 @@ public class FPSController : MonoBehaviour
 		m_currentMechanic.EnterState();
 	}
 	#endregion
-
+	
 	#region UPDATE FUNCTIONS
 	
 	private void Update()
@@ -325,14 +325,14 @@ public class FPSController : MonoBehaviour
 		_input = new Vector3(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
 		_input = m_orientation.transform.TransformDirection(_input);
 		_input = Vector3.ClampMagnitude(_input, 1f);
-
+		
 		if (m_data.m_leanOnMove)
 		{
 			//LeanPlayer();
 		}
-
+		
 		_isInputing = _input.x != 0 || _input.y != 0;
-
+		
 		if (_sprint)
 		{
 			if (_inputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
@@ -345,11 +345,29 @@ public class FPSController : MonoBehaviour
 			}
 		}
 		
+
+		
 		if (_crouch)
 		{		
+			if (_inputManager.m_crouch.InputPressed && _isGrounded)
+			{
+				 m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
+			}
+			
+			if(_crouch.m_inState)
+			{
+				if (_inputManager.m_crouch.InputReleased && m_data.m_crouchInputType == InputType.hold)
+				{
+					m_currentMechanic.SwapState(_defMovement);
+				}
+			}
+		}
+				
+		if(_slide)
+		{
 			if (_inputManager.m_crouch.InputPressed)
 			{
-				if(_slide)
+				if(CheckInput(m_data.m_slideInputType, _slide) == _slide)
 				{
 					if (m_data.m_slideStartType == SlideStartType.Standing)
 					{
@@ -363,19 +381,19 @@ public class FPSController : MonoBehaviour
 					{
 						m_currentMechanic.SwapState(_slide);
 					}
-					else
-					{
-						if (_isGrounded)
-						{
-							m_currentMechanic.SwapState(_crouch);
-						}
-					}
+				}
+				else
+				{
+					m_currentMechanic.SwapState(_defMovement);
 				}
 			}
 			
-			if (_inputManager.m_crouch.InputReleased)
+			if(_slide.m_inState)
 			{
-				m_currentMechanic.SwapState(_defMovement);
+				if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
+				{
+					m_currentMechanic.SwapState(_defMovement);
+				}
 			}
 		}
 		
@@ -448,6 +466,25 @@ public class FPSController : MonoBehaviour
 			}
 		}
 
+	}
+	
+	public MovementMechanic CheckInput(InputType type, MovementMechanic mm)
+	{
+		if(type == InputType.toggle)
+		{
+			if(m_currentMechanic == mm)
+			{
+				return _defMovement;
+			}
+			else
+			{
+				return mm;
+			}
+		}
+		else
+		{
+			return mm;
+		}
 	}
 
 	#endregion

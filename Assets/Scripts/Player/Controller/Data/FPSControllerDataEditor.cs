@@ -102,7 +102,9 @@ public class FPSControllerDataEditor : Editor
 					EditorGUILayout.LabelField("INPUT VARIABLES", EditorStyles.boldLabel);
 
 					EditorGUI.indentLevel++;
-
+					
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchInputType"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideInputType"));
 					EditorGUI.indentLevel--;
 
 
