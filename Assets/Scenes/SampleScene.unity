@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 127369202}
   - component: {fileID: 127369201}
   - component: {fileID: 127369205}
-  - component: {fileID: 127369204}
+  - component: {fileID: 127369206}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -407,13 +407,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debugMode: 1
+  m_debugMode: 0
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
   _defMovement: {fileID: 127369187}
   _sprint: {fileID: 127369189}
   _jump: {fileID: 127369188}
   _crouch: {fileID: 127369205}
-  _slide: {fileID: 127369204}
+  _slide: {fileID: 127369206}
   _dash: {fileID: 0}
   _wallClimb: {fileID: 127369201}
   _wallJump: {fileID: 127369202}
@@ -424,7 +424,7 @@ MonoBehaviour:
   - {fileID: 127369189}
   - {fileID: 127369188}
   - {fileID: 127369205}
-  - {fileID: 127369204}
+  - {fileID: 127369206}
   - {fileID: 0}
   - {fileID: 127369200}
   - {fileID: 127369203}
@@ -478,6 +478,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   _slideTimer: 0
+  _slideCooldownTimer: 0
   m_crouchEvents:
     m_onCrouchStart:
       m_PersistentCalls:
@@ -653,21 +654,6 @@ MonoBehaviour:
   m_con: {fileID: 0}
   m_data: {fileID: 0}
   m_inState: 0
---- !u!114 &127369204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ceacf84ad875f74d8e7160b3b1ef926, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_con: {fileID: 0}
-  m_data: {fileID: 0}
-  m_inState: 0
 --- !u!114 &127369205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +664,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3437dbc30961729459877989f8ba0dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ceacf84ad875f74d8e7160b3b1ef926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}

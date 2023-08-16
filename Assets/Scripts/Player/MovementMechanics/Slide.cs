@@ -50,11 +50,13 @@ public class Slide : MovementMechanic
 
 	public void StartSlide()
 	{
+		
 		m_con.m_slideEvents.m_onSlideStart.Invoke();
 		m_con._slide.m_inState = true;
 		m_con._forwardDirection = m_con.m_orientation.transform.forward;
 		m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
 		m_con._slideTimer = 0;
+		m_con._slideCooldownTimer = m_data.m_slideCooldown;
 		
 		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_crouchCamYPos;
 	}
@@ -86,7 +88,7 @@ public class Slide : MovementMechanic
 		
 		m_con.m_slideEvents.m_onSliding.Invoke();
 		
-		m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(m_con._slideTimer);
+		m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_slideMovementCurve.Evaluate(m_con._slideTimer);
 		//Facing slide only applies force in the facing direction you started the slide in
 		//Multi Direction Slide applies force in the direction you're moving
 		if (m_data.m_slideType == SlideType.FacingSlide)
@@ -104,7 +106,7 @@ public class Slide : MovementMechanic
 			}
 			else
 			{
-				m_con._move += m_con._currentSpeed * m_con._forwardDirection;
+				m_con._move = m_con._currentSpeed * m_con._forwardDirection;
 				m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
 			}
 		}

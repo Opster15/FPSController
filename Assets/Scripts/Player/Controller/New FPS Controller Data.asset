@@ -147,6 +147,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_crouchInputType: 1
+  m_slideInputType: 1
   m_canSprint: 1
   m_sprintMaxSpeed: 20
   m_sprintInputType: 0
@@ -163,38 +165,37 @@ MonoBehaviour:
   m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchScale: {x: 1, y: 0.5, z: 1}
-  m_crouchInputType: 0
-  m_defaultCamYPos: 0.25
+  m_defaultCamYPos: 0.5
   m_crouchCamYPos: -0.5
   m_canSlide: 1
   m_slideType: 1
-  m_slideMaxSpeed: 12
+  m_slideMaxSpeed: 15
   m_slideMovementCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
+      value: 1.0000087
+      inSlope: -0.66730714
+      outSlope: -0.66730714
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.6998124
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: -0.00000093877316
+      inSlope: -0.8615696
+      outSlope: -0.8615696
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.1645145
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_infiniteSlide: 0
-  m_slideCooldown: 0
+  m_slideCooldown: 2
   m_slideStartType: 1
   m_canDash: 0
   m_dashType: 1
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_maxStamina: 100
   m_staminaRechargeRate: 1
   m_staminaRechargeDelay: 1
-  m_staminaUsingMechanics: 80
+  m_staminaUsingMechanics: 0
   m_sprintStaminaCost: 10
   m_jumpStaminaCost: 10
   m_slideStaminaCost: 0

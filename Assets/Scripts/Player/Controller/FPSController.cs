@@ -122,7 +122,8 @@ public class FPSController : MonoBehaviour
 
 
 	[Tooltip("Timer for m_maxSlideTimer")]
-	public float _slideTimer;
+	public float _slideTimer, _slideCooldownTimer;
+	
 
 	[System.Serializable]
 	public class CrouchEvents
@@ -240,7 +241,9 @@ public class FPSController : MonoBehaviour
 		{
 			CheckGrounded();
 		}
-
+		
+		CallTimers();
+		
 		InputsCheck();
 		
 		if (_canLook)
@@ -248,48 +251,8 @@ public class FPSController : MonoBehaviour
 			Look();
 		}
 		
-		if (m_currentMechanic != null)
-		{
-			m_currentMechanic.UpdateState();
-		}
-		
-		//dash cooldown
-		if (_currentDashCount < m_data.m_maxDashCount)
-		{
-			_dashCooldownTimer -= Time.deltaTime;
-			if (_dashCooldownTimer <= 0)
-			{
-				_currentDashCount++;
-				_dashCooldownTimer = m_data.m_dashCooldown;
-			}
-		}
+		m_currentMechanic?.UpdateState();
 
-		//timer to make sure you can't jump again too soon after jumping
-		if (_jumpCounter > 0)
-		{
-			_jumpCounter -= Time.deltaTime;
-			_disableGroundCheck = true;
-		}
-		else
-		{
-			_disableGroundCheck = false;
-		}
-
-		if (_cyoteTimer > 0 && !_isGrounded)
-		{
-			_cyoteTimer -= Time.deltaTime;
-		}
-		
-		if(_wallJumpTime > 0)
-		{
-			_wallJumpTime -= Time.deltaTime;
-			
-			if(_wallJumpTime < 0)
-			{
-				ResetWallCheck();
-			}
-		}
-		
 		//dont call move function if _move variable hasnt been changed
 		if (_move != Vector3.zero)
 		{
@@ -309,6 +272,51 @@ public class FPSController : MonoBehaviour
 		// 	_warpPosition = Vector3.zero;
 		// 	_disableGroundCheck = false;
 		// }
+	}
+	
+	public void CallTimers()
+	{
+		if (_currentDashCount < m_data.m_maxDashCount)
+		{
+			_dashCooldownTimer -= Time.deltaTime;
+			if (_dashCooldownTimer <= 0)
+			{
+				_currentDashCount++;
+				_dashCooldownTimer = m_data.m_dashCooldown;
+			}
+		}
+		
+		if(_slideCooldownTimer > 0)
+		{
+			_slideCooldownTimer -= Time.deltaTime;
+		}
+
+
+		//timer to make sure you can't jump again too soon after jumping
+		if (_jumpCounter > 0)
+		{
+			_jumpCounter -= Time.deltaTime;
+			_disableGroundCheck = true;
+		}
+		else
+		{
+			_disableGroundCheck = false;
+		}
+		
+		if (_cyoteTimer > 0 && !_isGrounded)
+		{
+			_cyoteTimer -= Time.deltaTime;
+		}
+		
+		if(_wallJumpTime > 0)
+		{
+			_wallJumpTime -= Time.deltaTime;
+			
+			if(_wallJumpTime < 0)
+			{
+				ResetWallCheck();
+			}
+		}
 	}
 
 	#endregion
@@ -337,11 +345,15 @@ public class FPSController : MonoBehaviour
 		{
 			if (_inputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
 			{
-				m_currentMechanic.SwapState(_sprint);
+				m_currentMechanic.SwapState(CheckInput(m_data.m_sprintInputType, _sprint));
 			}
-			else if (_inputManager.m_sprint.InputReleased || (!_isGrounded && !_isInputing && _sprint.m_inState))
+			
+			if(_sprint.m_inState )
 			{
-				_sprint.StopSprint();
+				if (_inputManager.m_sprint.InputReleased && m_data.m_sprintInputType == InputType.hold || (!_isGrounded || !_isInputing ))
+				{
+					m_currentMechanic.SwapState(_defMovement);
+				}
 			}
 		}
 		
@@ -350,8 +362,47 @@ public class FPSController : MonoBehaviour
 		if (_crouch)
 		{		
 			if (_inputManager.m_crouch.InputPressed && _isGrounded)
-			{
-				 m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
+			{				
+				if(_slide)
+				{
+					if(CheckInput(m_data.m_slideInputType, _slide) == _slide && _slideCooldownTimer <= 0)
+					{
+						if (m_data.m_slideStartType == SlideStartType.Standing)
+						{
+							m_currentMechanic.SwapState(_slide);
+						}
+						else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
+						{
+							m_currentMechanic.SwapState(_slide);
+						}
+						else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
+						{
+							m_currentMechanic.SwapState(_slide);
+						}
+						else
+						{
+							m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
+						}
+					}
+					else
+					{
+						m_currentMechanic.SwapState(_defMovement);
+					}
+					
+					
+					
+					if(_slide.m_inState)
+					{
+						if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
+						{
+							m_currentMechanic.SwapState(_defMovement);
+						}
+					}
+				}
+				else
+				{
+					m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
+				}
 			}
 			
 			if(_crouch.m_inState)
@@ -363,39 +414,6 @@ public class FPSController : MonoBehaviour
 			}
 		}
 				
-		if(_slide)
-		{
-			if (_inputManager.m_crouch.InputPressed)
-			{
-				if(CheckInput(m_data.m_slideInputType, _slide) == _slide)
-				{
-					if (m_data.m_slideStartType == SlideStartType.Standing)
-					{
-						m_currentMechanic.SwapState(_slide);
-					}
-					else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
-					{
-						m_currentMechanic.SwapState(_slide);
-					}
-					else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
-					{
-						m_currentMechanic.SwapState(_slide);
-					}
-				}
-				else
-				{
-					m_currentMechanic.SwapState(_defMovement);
-				}
-			}
-			
-			if(_slide.m_inState)
-			{
-				if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
-				{
-					m_currentMechanic.SwapState(_defMovement);
-				}
-			}
-		}
 		
 		if (_wallJump)
 		{
@@ -425,7 +443,6 @@ public class FPSController : MonoBehaviour
 				{
 					if (((m_data.m_wallRunCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
 					{
-						Debug.Log("A");
 						m_currentMechanic.SwapState(_wallRun);
 					}
 				}

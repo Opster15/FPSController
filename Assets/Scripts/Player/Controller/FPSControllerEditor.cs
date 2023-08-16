@@ -132,6 +132,7 @@ public class FPSControllerEditor : Editor
 							{
 								EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideTimer"));
+								EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideCooldownTimer"));
 							}
 						}
 

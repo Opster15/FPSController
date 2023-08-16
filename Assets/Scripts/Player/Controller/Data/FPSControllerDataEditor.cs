@@ -105,6 +105,7 @@ public class FPSControllerDataEditor : Editor
 					
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchInputType"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideInputType"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintInputType"));
 					EditorGUI.indentLevel--;
 
 
@@ -188,6 +189,7 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_infiniteSlide"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStartType"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideMaxSpeed"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideCooldown"));
 						if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && x.m_useStamina)
 						{
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStaminaCost"));
