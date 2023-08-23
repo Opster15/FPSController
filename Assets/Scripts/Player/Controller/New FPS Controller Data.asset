@@ -255,7 +255,7 @@ MonoBehaviour:
   m_wallCheckTime: 0.25
   m_canWallClimb: 1
   m_wallClimbCheckDirection: 1
-  m_wallClimbType: 0
+  m_wallClimbType: 1
   m_wallClimbSpeed: 2
   m_maxWallClimbTime: 2
   m_useStamina: 1

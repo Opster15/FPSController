@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,14 @@ public class FPSController : MonoBehaviour
 {
 	[Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
 	public bool m_debugMode;
-	
+
 	public FPSControllerData m_data;
-	
+
 	#region Variables
-	
+
 	#region Movement Mechanics
 	public DefaultMovement _defMovement;
-	
+
 	public Sprint _sprint;
 
 	public Jump _jump;
@@ -25,11 +26,11 @@ public class FPSController : MonoBehaviour
 	public Slide _slide;
 
 	public Dash _dash;
-	
+
 	public WallClimb _wallClimb;
-	
+
 	public WallJump _wallJump;
-	
+
 	public WallRun _wallRun;
 
 	public Stamina _stamina;
@@ -48,7 +49,7 @@ public class FPSController : MonoBehaviour
 	public Transform m_playerCamParent;
 	[Tooltip("Empty game object that rotates with controller")]
 	public Transform m_orientation;
-	
+
 
 	public CinemachineVirtualCamera _cineCam;
 	public InputManager _inputManager;
@@ -57,25 +58,25 @@ public class FPSController : MonoBehaviour
 	#endregion
 
 	#region MOVEMENT VARIABLES
-	
+
 	public float _timeMoving, _currentMaxSpeed, _currentSpeed;
-	
+
 	public Vector3 _move;
 	public Vector3 _forwardDirection;
 	public Vector3 _input;
 	public Vector3 _lastInput;
-	
+
 	[System.Serializable]
 	public class MoveEvents
 	{
 		public UnityEvent m_onMove, m_onMoveStop;
 	}
 	public MoveEvents m_moveEvents;
-	
+
 	[System.Serializable]
 	public class SprintEvents
 	{
-		public UnityEvent m_onEnterSprint,m_onSprinting, m_onExitSprint;
+		public UnityEvent m_onEnterSprint, m_onSprinting, m_onExitSprint;
 	}
 	public SprintEvents m_sprintEvents;
 	#endregion
@@ -123,7 +124,7 @@ public class FPSController : MonoBehaviour
 
 	[Tooltip("Timer for m_maxSlideTimer")]
 	public float _slideTimer, _slideCooldownTimer;
-	
+
 
 	[System.Serializable]
 	public class CrouchEvents
@@ -142,11 +143,11 @@ public class FPSController : MonoBehaviour
 	#endregion
 
 	#region DASH VARIABLES
-	
+
 	public int _currentDashCount;
 
 	public float _startTime, _dashCooldownTimer;
-	
+
 	[System.Serializable]
 	public class DashEvents
 	{
@@ -154,20 +155,20 @@ public class FPSController : MonoBehaviour
 	}
 	public DashEvents m_dashEvents;
 	#endregion
-	
+
 	#region WALL INTERACT VARIABLES
-	
+
 	public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
 
 	public Vector3 _wallNormal;
-	
+
 	public Vector3 _lastWallNormal;
 
 	public float _wallRunTime, _wallRunDecayTimer, _wallClimbTime, _wallJumpTime;
-	
+
 	public bool _canWallCheck = true, _hasWallRun;
-	
-	
+
+
 	public WallCheckDirections _currentWalls;
 
 	[System.Serializable]
@@ -202,11 +203,14 @@ public class FPSController : MonoBehaviour
 	float _xRotation;
 
 	public bool _canLook;
+	
+	public float _counterMovement = 0.175f;
+    private float _threshold = 0.01f;
 
 	#endregion
 	
 	#endregion
-	
+
 	#region START & AWAKE FUNCTIONS
 	void Awake()
 	{
@@ -232,25 +236,25 @@ public class FPSController : MonoBehaviour
 		m_currentMechanic.EnterState();
 	}
 	#endregion
-	
+
 	#region UPDATE FUNCTIONS
-	
+
 	private void Update()
 	{
 		if (!_disableGroundCheck)
 		{
 			CheckGrounded();
 		}
-		
+
 		CallTimers();
-		
+
 		InputsCheck();
-		
+
 		if (_canLook)
 		{
 			Look();
 		}
-		
+
 		m_currentMechanic?.UpdateState();
 
 		//dont call move function if _move variable hasnt been changed
@@ -273,7 +277,7 @@ public class FPSController : MonoBehaviour
 		// 	_disableGroundCheck = false;
 		// }
 	}
-	
+
 	public void CallTimers()
 	{
 		if (_currentDashCount < m_data.m_maxDashCount)
@@ -285,8 +289,8 @@ public class FPSController : MonoBehaviour
 				_dashCooldownTimer = m_data.m_dashCooldown;
 			}
 		}
-		
-		if(_slideCooldownTimer > 0)
+
+		if (_slideCooldownTimer > 0)
 		{
 			_slideCooldownTimer -= Time.deltaTime;
 		}
@@ -302,17 +306,17 @@ public class FPSController : MonoBehaviour
 		{
 			_disableGroundCheck = false;
 		}
-		
+
 		if (_cyoteTimer > 0 && !_isGrounded)
 		{
 			_cyoteTimer -= Time.deltaTime;
 		}
-		
-		if(_wallJumpTime > 0)
+
+		if (_wallJumpTime > 0)
 		{
 			_wallJumpTime -= Time.deltaTime;
-			
-			if(_wallJumpTime < 0)
+
+			if (_wallJumpTime < 0)
 			{
 				ResetWallCheck();
 			}
@@ -329,43 +333,43 @@ public class FPSController : MonoBehaviour
 		{
 			_lastInput = _input;
 		}
-		//sets _input depending on your player orientation
+		//sets _input depending on your player m_orientation
 		_input = new Vector3(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
 		_input = m_orientation.transform.TransformDirection(_input);
 		_input = Vector3.ClampMagnitude(_input, 1f);
-		
+
 		if (m_data.m_leanOnMove)
 		{
 			//LeanPlayer();
 		}
-		
+
 		_isInputing = _input.x != 0 || _input.y != 0;
-		
+
 		if (_sprint)
 		{
 			if (_inputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
 			{
 				m_currentMechanic.SwapState(CheckInput(m_data.m_sprintInputType, _sprint));
 			}
-			
-			if(_sprint.m_inState )
+
+			if (_sprint.m_inState)
 			{
-				if (_inputManager.m_sprint.InputReleased && m_data.m_sprintInputType == InputType.hold || (!_isGrounded || !_isInputing ))
+				if (_inputManager.m_sprint.InputReleased && m_data.m_sprintInputType == InputType.hold || (!_isGrounded || !_isInputing))
 				{
 					m_currentMechanic.SwapState(_defMovement);
 				}
 			}
 		}
-		
 
-		
+
+
 		if (_crouch)
-		{		
+		{
 			if (_inputManager.m_crouch.InputPressed && _isGrounded)
-			{				
-				if(_slide)
+			{
+				if (_slide)
 				{
-					if(CheckInput(m_data.m_slideInputType, _slide) == _slide && _slideCooldownTimer <= 0)
+					if (CheckInput(m_data.m_slideInputType, _slide) == _slide && _slideCooldownTimer <= 0)
 					{
 						if (m_data.m_slideStartType == SlideStartType.Standing)
 						{
@@ -388,10 +392,10 @@ public class FPSController : MonoBehaviour
 					{
 						m_currentMechanic.SwapState(_defMovement);
 					}
-					
-					
-					
-					if(_slide.m_inState)
+
+
+
+					if (_slide.m_inState)
 					{
 						if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
 						{
@@ -404,8 +408,8 @@ public class FPSController : MonoBehaviour
 					m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
 				}
 			}
-			
-			if(_crouch.m_inState)
+
+			if (_crouch.m_inState)
 			{
 				if (_inputManager.m_crouch.InputReleased && m_data.m_crouchInputType == InputType.hold)
 				{
@@ -413,11 +417,11 @@ public class FPSController : MonoBehaviour
 				}
 			}
 		}
-				
-		
+
+
 		if (_wallJump)
 		{
-			if(_wallRun.m_inState && _inputManager.m_jump.InputPressed)
+			if (_wallRun.m_inState && _inputManager.m_jump.InputPressed)
 			{
 				m_currentMechanic.SwapState(_wallJump);
 			}
@@ -430,13 +434,13 @@ public class FPSController : MonoBehaviour
 				m_currentMechanic.SwapState(_jump);
 			}
 		}
-		
+
 
 
 		if (m_data.m_canWallInteract)
 		{
 			WallDetect();
-			
+
 			if (_wallRun)
 			{
 				if (!_wallRun.m_inState)
@@ -454,25 +458,25 @@ public class FPSController : MonoBehaviour
 					}
 				}
 			}
-			
+
 			if (_wallClimb)
 			{
-				if(!_wallClimb.m_inState)
+				if (!_wallClimb.m_inState)
 				{
-					if (((m_data.m_wallClimbCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 )
+					if (((m_data.m_wallClimbCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0)
 					{
 						m_currentMechanic.SwapState(_wallClimb);
 					}
 				}
 				else
 				{
-					if((m_data.m_wallClimbCheckDirection & _currentWalls) == 0 || _inputManager.m_movementInput.y <= 0)
+					if ((m_data.m_wallClimbCheckDirection & _currentWalls) == 0 || _inputManager.m_movementInput.y <= 0)
 					{
 						m_currentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
-	
+
 		}
 
 		if (_dash)
@@ -484,12 +488,12 @@ public class FPSController : MonoBehaviour
 		}
 
 	}
-	
+
 	public MovementMechanic CheckInput(InputType type, MovementMechanic mm)
 	{
-		if(type == InputType.toggle)
+		if (type == InputType.toggle)
 		{
-			if(m_currentMechanic == mm)
+			if (m_currentMechanic == mm)
 			{
 				return _defMovement;
 			}
@@ -563,11 +567,11 @@ public class FPSController : MonoBehaviour
 	{
 		if (_wallJump)
 		{
-			if(_wallJump.m_inState)
+			if (_wallJump.m_inState)
 			{
 				_move += _wallNormal * m_data.m_wallJumpSideForce;
 				_move += _forwardDirection * _currentMaxSpeed;
-				
+
 				_wallJumpTime -= 1f * Time.deltaTime;
 				if (_wallJumpTime <= 0)
 				{
@@ -606,11 +610,11 @@ public class FPSController : MonoBehaviour
 				_move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
 			}
 		}
-
+		
 		_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
 	}
-
-
+	
+	
 	public void IncreaseSpeed(float speedIncrease)
 	{
 		if (_currentMaxSpeed >= m_data.m_absoluteMaxSpeed)
@@ -619,17 +623,16 @@ public class FPSController : MonoBehaviour
 		}
 		_currentMaxSpeed += speedIncrease;
 	}
-
+	
 	public void DecreaseSpeed(float speedDecrease)
 	{
 		_currentMaxSpeed -= speedDecrease * Time.deltaTime;
 	}
-
+	
 	public void AddYVelocityForce()
 	{
 		_yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
-
-
+		
 		if (_isGrounded)
 		{
 			_yVelocity.y = -1;
@@ -641,10 +644,10 @@ public class FPSController : MonoBehaviour
 			{
 				if (_dash.m_inState) { return; }
 			}
-
+			
 			_timeFalling += Time.deltaTime;
 		}
-
+		
 		if (_yVelocity.y < _currentGravityForce)
 		{
 			_yVelocity.y = _currentGravityForce;
@@ -654,10 +657,11 @@ public class FPSController : MonoBehaviour
 		{
 			_yVelocity.y = m_data.m_maxYVelocity;
 		}
-
+		
 		_cc.Move(_yVelocity * Time.deltaTime);
 	}
 
+	
 	#endregion
 
 	#region GROUND FUNCTIONS
@@ -681,7 +685,7 @@ public class FPSController : MonoBehaviour
 	}
 
 	#endregion
-	
+
 	#region WALL DETECTION FUNCTIONS
 	public void WallDetect()
 	{
@@ -691,20 +695,20 @@ public class FPSController : MonoBehaviour
 			{
 				IsWall(-m_orientation.right, _leftWallHit, WallCheckDirections.Left);
 			}
-			
+
 			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
 			{
 				IsWall(m_orientation.right, _rightWallHit, WallCheckDirections.Right);
 			}
-			
+
 			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
 			{
 				IsWall(m_orientation.forward, _frontWallHit, WallCheckDirections.Forward);
 			}
-			
+
 			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
 			{
-				IsWall(-m_orientation.forward, _backWallHit,WallCheckDirections.Backward);
+				IsWall(-m_orientation.forward, _backWallHit, WallCheckDirections.Backward);
 			}
 		}
 	}
@@ -722,7 +726,7 @@ public class FPSController : MonoBehaviour
 		{
 			_currentWalls &= ~directionCheck;
 		}
-		
+
 	}
 
 	public void ResetWallCheck()
@@ -730,7 +734,7 @@ public class FPSController : MonoBehaviour
 		_canWallCheck = true;
 	}
 	#endregion
-	
+
 	#region DEBUG FUNCTIONS
 
 	private void OnDrawGizmos()

@@ -9,7 +9,7 @@ public class Crouch : MovementMechanic
 	public override void EnterState()
 	{
 		base.EnterState();
-        StartCrouch();
+		StartCrouch();
 	}
 	
 	public override void ExitState()
@@ -18,7 +18,17 @@ public class Crouch : MovementMechanic
 		
 		StopCrouch();
 	}
-
+	
+	public override void SwapState(MovementMechanic newState)
+	{
+		if(newState == m_con._slide)
+		{
+			base.SwapState(m_con._defMovement);
+			return;
+		}
+		base.SwapState(newState);
+	}
+	
 	public override void UpdateState()
 	{
 		//base.UpdateState();
