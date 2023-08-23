@@ -266,18 +266,6 @@ public class FPSController : MonoBehaviour
 		AddYVelocityForce();
 	}
 
-	private void LateUpdate()
-	{
-		//mainly for crouch,sets transform to make the controller touch the ground
-		//stops the controller from becoming airborne 
-		// if (_warpPosition != Vector3.zero)
-		// {
-		// 	transform.localPosition += _warpPosition;
-		// 	_warpPosition = Vector3.zero;
-		// 	_disableGroundCheck = false;
-		// }
-	}
-
 	public void CallTimers()
 	{
 		if (_currentDashCount < m_data.m_maxDashCount)

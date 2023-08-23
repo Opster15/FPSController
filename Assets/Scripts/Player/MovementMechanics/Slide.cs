@@ -53,12 +53,12 @@ public class Slide : MovementMechanic
 		
 		m_con.m_slideEvents.m_onSlideStart.Invoke();
 		m_con._slide.m_inState = true;
-		m_con._forwardDirection = m_con.m_orientation.transform.forward;
+		m_con._forwardDirection = m_con.m_orientation.forward;
 		m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
 		m_con._slideTimer = 0;
 		m_con._slideCooldownTimer = m_data.m_slideCooldown;
 		
-		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_crouchCamYPos;
+		m_con.m_playerCamParent.localPosition = Vector3.up * m_data.m_crouchCamYPos;
 	}
 
 	public void StopSlide()
@@ -72,7 +72,7 @@ public class Slide : MovementMechanic
 		m_con._cc.center = new Vector3(0, 0, 0);
 		m_con._cc.height = 2f;
 		
-		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_defaultCamYPos;
+		m_con.m_playerCamParent.localPosition = Vector3.up * m_data.m_defaultCamYPos;
 	}
 
 	public void SlideMovement()
