@@ -205,7 +205,7 @@ public class FPSController : MonoBehaviour
 	public bool _canLook;
 	
 	public float _counterMovement = 0.175f;
-    private float _threshold = 0.01f;
+	private float _threshold = 0.01f;
 
 	#endregion
 	
@@ -378,7 +378,14 @@ public class FPSController : MonoBehaviour
 					}
 					else
 					{
-						m_currentMechanic.SwapState(_defMovement);
+						if(_inputManager.m_crouch.InputHeld)
+						{
+							m_currentMechanic.SwapState(_crouch);
+						}
+						else
+						{
+							m_currentMechanic.SwapState(_defMovement);
+						}
 					}
 
 
@@ -387,6 +394,7 @@ public class FPSController : MonoBehaviour
 					{
 						if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
 						{
+							Debug.Log("A");
 							m_currentMechanic.SwapState(_defMovement);
 						}
 					}

@@ -89,6 +89,7 @@ public class Slide : MovementMechanic
 		m_con.m_slideEvents.m_onSliding.Invoke();
 		
 		m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_slideMovementCurve.Evaluate(m_con._slideTimer);
+		
 		//Facing slide only applies force in the facing direction you started the slide in
 		//Multi Direction Slide applies force in the direction you're moving
 		if (m_data.m_slideType == SlideType.FacingSlide)
