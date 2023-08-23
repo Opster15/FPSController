@@ -203,9 +203,6 @@ public class FPSController : MonoBehaviour
 	float _xRotation;
 
 	public bool _canLook;
-	
-	public float _counterMovement = 0.175f;
-	private float _threshold = 0.01f;
 
 	#endregion
 	
@@ -534,7 +531,14 @@ public class FPSController : MonoBehaviour
 	{
 		if (_isInputing)
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+			if(_sprint.m_inState)
+			{
+				_currentSpeed = _currentMaxSpeed * m_data.m_sprintCurve.Evaluate(_timeMoving);
+			}
+			else
+			{
+				_currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+			}
 			_timeMoving += Time.deltaTime;
 			_move.z = _currentSpeed * _input.z;
 			_move.x = _currentSpeed * _input.x;

@@ -2,20 +2,21 @@ using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(menuName = "FPS Controller Data")]
 public class FPSControllerData : ScriptableObject
 {
 	#region MOVEMENT VARIABLES
 
-	[Tooltip("Max speed the controller can achive with just WASD movement")]
+	[Tooltip("Max speed of Defaut Movement")]
 	public float m_baseMaxSpeed = 11f;
-
+	
 	[Tooltip("Curve reprisenting time to reach max speed")]
-	public AnimationCurve m_groundAccelerationCurve;
+	public AnimationCurve m_groundAccelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 	
 	[Tooltip("Curve reprisenting time to reach 0 speed")]
-	public AnimationCurve m_groundDecelerationCurve;
+	public AnimationCurve m_groundDecelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 
 	[Tooltip("Max speed the controller can reach regardless of any other factor")]
 	public float m_absoluteMaxSpeed = 30f;
@@ -23,11 +24,11 @@ public class FPSControllerData : ScriptableObject
 	[Tooltip("Mimic the camera leaning in the direction the controller is moving")]
 	public bool m_leanOnMove;
 
-	[Tooltip("Curve for time to reach max speed")]
-	public AnimationCurve m_airAccelerationCurve;
+	[Tooltip("Curve reprisenting time to reach max speed in the air")]
+	public AnimationCurve m_airAccelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 
-	[Tooltip("Curve for time to reach 0 speed")]
-	public AnimationCurve m_airDecelerationCurve;
+	[Tooltip("Curve reprisenting time to reach 0 speed in the air")]
+	public AnimationCurve m_airDecelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 
 	[Tooltip("Multiplier of movement when in the air")]
 	[Range(0.0f, 1f)]
@@ -39,18 +40,18 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("Gravity applied to controller")]
 	public float m_baseGravityForce = -15f;
-
+	
 	[Tooltip("Gravity applied to controller when wall running")]
-	public float m_wallRunGravityForce = 2f;
+	public float m_wallRunGravityForce = 0f;
 
 	[Tooltip("Multiplier for current gravity force, y axis should always be 1")]
-	public AnimationCurve m_gravityCurve;
-
+	public AnimationCurve m_gravityCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
+	
 	#endregion
 	
 	#region INPUT VARIABLES
 	
-	public InputType m_crouchInputType, m_slideInputType;
+	public InputType m_crouchInputType, m_slideInputType,m_sprintInputType;
 	
 	#endregion
 	
@@ -59,8 +60,10 @@ public class FPSControllerData : ScriptableObject
 
 	[Tooltip("Max speed the controller can achive while sprinting")]
 	public float m_sprintMaxSpeed = 20;
-
-	public InputType m_sprintInputType;
+	
+	[Tooltip("Curve reprisenting time to reach max sprint speed. Reccomended to start y axis at (baseMaxSpeed / sprintMaxSpeed)")]
+	public AnimationCurve m_sprintCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
+	
 	#endregion
 
 	#region JUMPING VARIABLES
@@ -68,16 +71,17 @@ public class FPSControllerData : ScriptableObject
 	public bool m_canJump;
 
 	[Tooltip("Jump force applied upwards to controller")]
-	public float m_jumpForce = 5f;
+	public float m_jumpForce = 3f;
 
 	[Tooltip("Amount of jumps the controller can perform before becoming grounded")]
 	public int m_maxJumpCount = 1;
 
 	[Tooltip("Layer on which the controller is considered grounded")]
 	public LayerMask m_whatIsGround;
-
-	public float m_cyoteTime;
-
+	
+	[Tooltip("Time after becoming airborne when you can still jump")]
+	public float m_cyoteTime = .5f;
+	
 	[Tooltip("Increases the max speed after jumping")]
 	public bool m_jumpAddsSpeed;
 
@@ -93,50 +97,60 @@ public class FPSControllerData : ScriptableObject
 	#region CROUCHING/SLIDE VARIABLES
 
 	public bool m_canCrouch;
-
+	
 	[Tooltip("Max speed the controller can achive when crouched")]
 	public float m_crouchMaxSpeed = 4f;
-
-	[Tooltip("Scale of transform when crouched or sliding")]
-	public Vector3 m_crouchScale = new(1, 0.5f, 1);
 	
-	public float m_defaultCamYPos, m_crouchCamYPos;
+	[Tooltip("Height of the character controller when crouching")]
+	public float m_crouchHeight = 1f;
+	
+	[Tooltip("Center of the character controller when crouching. (avoids the controller from becoming airborne when crouching)")]
+	public float m_crouchCenter = -.5f;
+	
+	[Tooltip("Position of the camera parent by default")]
+	public float m_defaultCamYPos = .5f;
+	
+	[Tooltip("Position of the camera parent when crouching")]
+	public float m_crouchCamYPos = -.5f;
 	
 	public bool m_canSlide;
 
 	[Tooltip("FacingSlide slides controller in its facing direction." +
 		"\nMultiDirectionalSlide slides controller in its moving direction")]
 	public SlideType m_slideType;
-
+	
 	[Tooltip("Max speed the controller can achive when sliding")]
-	public float m_slideMaxSpeed;
+	public float m_slideMaxSpeed = 16;
 	
 	[Tooltip("Curve reprisenting length of Slide (x axis) and Speed of slide (y axis)")]
-	public AnimationCurve m_slideMovementCurve;
+	public AnimationCurve m_slideMovementCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 	
+	[Tooltip("Allows the slide to be used indefinatly")]
 	public bool m_infiniteSlide;
 	
 	[Tooltip("Time (seconds) from last slide when you can slide again")]
-	public float m_slideCooldown;
-
+	public float m_slideCooldown = 1f;
+	
+	[Tooltip("Determines from which state the controller can start sliding from.")]
 	public SlideStartType m_slideStartType;
-
+	
 	#endregion
 
 	#region DASH VARIABLES
 
 	public bool m_canDash;
-
+	
 	[Tooltip("TrueFacingDash dashes in the facing direction including y axis")]
 	public DashType m_dashType;
-
+	
+	[Tooltip("Curve reprisenting length of Dash (x axis) and Speed of Dash (y axis)")]
 	public AnimationCurve m_dashSpeedCurve;
-
+	
 	[Tooltip("Time (seconds) until dash is available")]
 	public float m_dashCooldown = 2;
 
 	[Tooltip("Max amount of dashes")]
-	public int m_maxDashCount;
+	public int m_maxDashCount = 1;
 
 	#endregion
 
@@ -147,12 +161,12 @@ public class FPSControllerData : ScriptableObject
 	[Tooltip("Layer that is considered for wall interactions")]
 	public LayerMask m_whatIsWall;
 	
-	[Tooltip("Distance for raycasts that detect wall layer")]
-	public float m_wallCheckDist;
-	
 	[Tooltip("Determines what directions to check for wall collisions.")]
 	public WallCheckDirections m_wallCheckDirection;
-
+	
+	[Tooltip("Distance for raycasts that detect wall layer")]
+	public float m_wallCheckDist = 1f;
+	
 	#region WALL RUN VARIABLES
 
 	public bool m_canWallRun;
@@ -161,18 +175,19 @@ public class FPSControllerData : ScriptableObject
 	public WallCheckDirections m_wallRunCheckDirection;
 	
 	[Tooltip("Max speed controller can achive when wall running")]
-	public float m_wallRunMaxSpeed;
-
-	public float m_maxWallRunTime;
+	public float m_wallRunMaxSpeed = 10f;
+	
+	[Tooltip("Max time the controller can wall run before they stop(if set to 0 wall run is infinite)")]
+	public float m_maxWallRunTime = 2f;
 	
 	[Tooltip("makes gravity increase back to normal over time")]
 	public bool m_wallRunDecay;
 	
 	[Tooltip("Time it takes for wall run gravity to reach base gravity force")]
-	public float m_wallRunDecayTime;
-
+	public float m_wallRunDecayTime = 1f;
+	
 	[Tooltip("difference in wall angle to be treated as a new wall")]
-	public float m_maxWallAngle;
+	public float m_maxWallAngle = 5f;
 	
 	
 	#endregion
@@ -184,13 +199,13 @@ public class FPSControllerData : ScriptableObject
 	public WallCheckDirections m_wallJumpCheckDirection;
 	
 	[Tooltip("Amount of times the controller can wall jump before touching ground")]
-	public float m_maxWallJumpCount;
+	public float m_maxWallJumpCount = 4;
 
-	[Tooltip("Upwards force applied to controller when wall jumping")]
-	public float m_wallJumpUpForce;
+	[Tooltip("Upwards force applied to controller on a wall jump")]
+	public float m_wallJumpUpForce = 3f;
 
-	[Tooltip("Horizontal force applied to controller when wall jumping")]
-	public float m_wallJumpSideForce;
+	[Tooltip("Horizontal force applied to controller on a wall jump")]
+	public float m_wallJumpSideForce = 3;
 
 	[Tooltip("Time (seconds) from last wall jump when controller cannot detect walls")]
 	public float m_wallCheckTime = .25f;
@@ -204,12 +219,15 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("The direction in which a wall dectection allows for a wall Climb")]
 	public WallCheckDirections m_wallClimbCheckDirection;
-
+	
+	[Tooltip("The direction in which a wall dectection allows for a wall Climb")]
 	public WallClimbType m_wallClimbType;
-
-	public float m_wallClimbSpeed;
-
-	public float m_maxWallClimbTime;
+	
+	[Tooltip("Max speed the controller travels when wall climbing")]
+	public float m_wallClimbMaxSpeed = 10f;
+	
+	[Tooltip("Max time controller can wall run for before they stop")]
+	public float m_maxWallClimbTime = 2f;
 
 
 
@@ -221,26 +239,40 @@ public class FPSControllerData : ScriptableObject
 	#region STAMINA VARIABLES
 
 	public bool m_useStamina;
-
-	public float m_maxStamina;
-
-	public float m_staminaRechargeRate;
+	
+	[Tooltip("Maximum stamina")]
+	public float m_maxStamina = 100f;
+	
+	[Tooltip("Amount of stamina added when recharging")]
+	public float m_staminaRechargeRate = 1;
 
 	[Tooltip("Time it takes for stamina to start recharging")]
-	public float m_staminaRechargeDelay;
-
+	public float m_staminaRechargeDelay = 1;
+	
+	[Tooltip("Movement Mechanics that need stamina to be used")]
 	public StaminaUsingMechanics m_staminaUsingMechanics;
-
+	
+	[Tooltip("Amount of stamina removed while sprinting, multiplied by deltaTime")]
 	public float m_sprintStaminaCost;
+	
+	[Tooltip("Amount of stamina removed when a jump is performed")]
 	public float m_jumpStaminaCost;
+	
+	[Tooltip("Amount of stamina removed while sliding, multiplied by deltaTime ")]
 	public float m_slideStaminaCost;
+	
+	[Tooltip("Amount of stamina removed when a dash is performed")]
 	public float m_dashStaminaCost;
+	
+	[Tooltip("Amount of stamina removed while sprinting, multiplied by deltaTime")]
 	public float m_wallRunStaminaCost;
+	
+	[Tooltip("Amount of stamina removed when a wall jump is performed")]
 	public float m_wallJumpStaminaCost;
+	
+	[Tooltip("Amount of stamina removed while sprinting, multiplied by deltaTime")]
 	public float m_wallClimbStaminaCost;
-
-
-
+	
 
 	#endregion
 
@@ -250,10 +282,6 @@ public class FPSControllerData : ScriptableObject
 	public float m_sensitivity = 1f;
 	[Tooltip("Sensitivity multiplier of mouse")]
 	public float m_sensMultiplier = 1f;
-
-	[Tooltip("Base scale of controller")]
-	public Vector3 m_playerScale = new Vector3(1, 1, 1);
-
 
 	#endregion
 

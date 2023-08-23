@@ -49,8 +49,8 @@ public class Crouch : MovementMechanic
 
 		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_crouchCamYPos;
 		
-		m_con._cc.height = 1f;
-		m_con._cc.center = new Vector3(0, -.5f, 0);
+		m_con._cc.height = m_data.m_crouchHeight;
+		m_con._cc.center = new Vector3(0, m_data.m_crouchCenter, 0);
 		
 		m_con._crouch.m_inState = true;
 		m_con._currentMaxSpeed = m_data.m_crouchMaxSpeed;

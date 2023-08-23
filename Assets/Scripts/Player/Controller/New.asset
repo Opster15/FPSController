@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe02b5cd239302d4a93f40ed33f13de4, type: 3}
-  m_Name: New FPS Controller Data
+  m_Name: New
   m_EditorClassIdentifier: 
   m_baseMaxSpeed: 11
   m_groundAccelerationCurve:
@@ -19,20 +19,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.099999994
+      time: 0.5
       value: 1
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -43,20 +43,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.099999994
+      time: 0.5
       value: 1
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -69,20 +69,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.099999994
+      time: 0.5
       value: 1
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -93,26 +93,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.099999994
+      time: 0.5
       value: 1
-      inSlope: 10.000001
-      outSlope: 10.000001
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_airControl: 0.5
-  m_baseGravityForce: -35
+  m_baseGravityForce: -15
   m_wallRunGravityForce: 0
   m_gravityCurve:
     serializedVersion: 2
@@ -120,29 +120,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 4.472323
-      outSlope: 4.472323
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.19999999
-      value: 0.8944645
-      inSlope: 0.39357433
-      outSlope: 0.39357433
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.23780487
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 0.5
       value: 1
-      inSlope: 0.351785
-      outSlope: 0.351785
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -157,96 +148,15 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.55000305
-      inSlope: 0.0026756388
-      outSlope: 0.0026756388
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.27990788
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1.13254
-      outSlope: 1.13254
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.081516385
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_canJump: 1
-  m_jumpForce: 3
-  m_maxJumpCount: 1
-  m_whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  m_cyoteTime: 0
-  m_jumpAddsSpeed: 0
-  m_jumpSpeedIncrease: 1
-  m_maxYVelocity: 50
-  m_canCrouch: 1
-  m_crouchMaxSpeed: 4
-  m_crouchHeight: 1
-  m_crouchCenter: -0.5
-  m_defaultCamYPos: 0.5
-  m_crouchCamYPos: -0.5
-  m_canSlide: 1
-  m_slideType: 1
-  m_slideMaxSpeed: 15
-  m_slideMovementCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1.0000087
-      inSlope: -0.66730714
-      outSlope: -0.66730714
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.6998124
-    - serializedVersion: 3
-      time: 1
-      value: -0.00000093877316
-      inSlope: -0.8615696
-      outSlope: -0.8615696
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1645145
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_infiniteSlide: 0
-  m_slideCooldown: 2
-  m_slideStartType: 1
-  m_canDash: 1
-  m_dashType: 1
-  m_dashSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.043628372
-      value: 0.9403128
-      inSlope: 0.03592168
-      outSlope: 0.03592168
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.16157421
-    - serializedVersion: 3
-      time: 1
+      time: 0.5
       value: 1
       inSlope: 0
       outSlope: 0
@@ -257,43 +167,97 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_canJump: 1
+  m_jumpForce: 3
+  m_maxJumpCount: 1
+  m_whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  m_cyoteTime: 0.5
+  m_jumpAddsSpeed: 0
+  m_jumpSpeedIncrease: 1
+  m_maxYVelocity: 50
+  m_canCrouch: 1
+  m_crouchMaxSpeed: 4
+  m_crouchHeight: 1
+  m_crouchCenter: -0.5
+  m_defaultCamYPos: 0.5
+  m_crouchCamYPos: -0.5
+  m_canSlide: 1
+  m_slideType: 0
+  m_slideMaxSpeed: 16
+  m_slideMovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_infiniteSlide: 0
+  m_slideCooldown: 1
+  m_slideStartType: 0
+  m_canDash: 1
+  m_dashType: 0
+  m_dashSpeedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 1
   m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
-    m_Bits: 128
-  m_wallCheckDirection: -1
+    m_Bits: 0
+  m_wallCheckDirection: 0
   m_wallCheckDist: 1
   m_canWallRun: 1
-  m_wallRunCheckDirection: 12
-  m_wallRunMaxSpeed: 10
-  m_maxWallRunTime: 2
+  m_wallRunCheckDirection: 0
+  m_wallRunMaxSpeed: 0
+  m_maxWallRunTime: 0
   m_wallRunDecay: 0
-  m_wallRunDecayTime: 1
-  m_maxWallAngle: 5
+  m_wallRunDecayTime: 0
+  m_maxWallAngle: 0
   m_canWallJump: 1
   m_wallJumpCheckDirection: 0
-  m_maxWallJumpCount: 3
-  m_wallJumpUpForce: 3
-  m_wallJumpSideForce: 3
+  m_maxWallJumpCount: 0
+  m_wallJumpUpForce: 0
+  m_wallJumpSideForce: 0
   m_wallCheckTime: 0.25
   m_canWallClimb: 1
-  m_wallClimbCheckDirection: 1
-  m_wallClimbType: 1
-  m_wallClimbMaxSpeed: 10
-  m_maxWallClimbTime: 2
+  m_wallClimbCheckDirection: 0
+  m_wallClimbType: 0
+  m_wallClimbMaxSpeed: 0
+  m_maxWallClimbTime: 0
   m_useStamina: 1
   m_maxStamina: 100
   m_staminaRechargeRate: 1
   m_staminaRechargeDelay: 1
   m_staminaUsingMechanics: 0
-  m_sprintStaminaCost: 10
-  m_jumpStaminaCost: 10
+  m_sprintStaminaCost: 0
+  m_jumpStaminaCost: 0
   m_slideStaminaCost: 0
   m_dashStaminaCost: 0
-  m_wallRunStaminaCost: 10
+  m_wallRunStaminaCost: 0
   m_wallJumpStaminaCost: 0
-  m_wallClimbStaminaCost: 50
+  m_wallClimbStaminaCost: 0
   m_sensitivity: 1
   m_sensMultiplier: 1

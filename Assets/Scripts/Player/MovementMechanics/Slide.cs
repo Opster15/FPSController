@@ -67,7 +67,7 @@ public class Slide : MovementMechanic
 		
 		//resets height,center and scale of controller
 		//sets position of controller to be at standing position
-		transform.localScale = m_data.m_playerScale;
+		// transform.localScale = m_data.m_playerScale;
 		
 		m_con._cc.center = new Vector3(0, 0, 0);
 		m_con._cc.height = 2f;

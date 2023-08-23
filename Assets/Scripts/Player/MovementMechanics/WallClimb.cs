@@ -57,7 +57,7 @@ public class WallClimb : MovementMechanic
 			m_con._wallClimbTime -= Time.deltaTime;
 		}
 
-		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallClimbSpeed * m_data.m_baseGravityForce);
+		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallClimbMaxSpeed * m_data.m_baseGravityForce);
 
 		if(m_data.m_wallClimbType == WallClimbType.lockedUpward)
 		{

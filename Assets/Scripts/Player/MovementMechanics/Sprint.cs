@@ -39,8 +39,8 @@ public class Sprint : MovementMechanic
 
 	public void StartSprint()
 	{
-		m_con._timeMoving = m_data.m_groundDecelerationCurve.keys[^1].time * (m_con._currentMaxSpeed / m_data.m_sprintMaxSpeed);
-
+		m_con._timeMoving = 0;
+		
 		m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
 		
 		m_con.m_sprintEvents.m_onEnterSprint.Invoke();
