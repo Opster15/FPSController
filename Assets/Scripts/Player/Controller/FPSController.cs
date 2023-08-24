@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -202,7 +203,7 @@ public class FPSController : MonoBehaviour
 	public bool _canLook;
 
 	#endregion
-	
+
 	#endregion
 
 	#region START & AWAKE FUNCTIONS
@@ -248,10 +249,13 @@ public class FPSController : MonoBehaviour
 		{
 			Look();
 		}
-
-		m_currentMechanic?.UpdateState();
-
-		//dont call move function if _move variable hasnt been changed
+		
+		if(m_currentMechanic)
+		{
+			m_currentMechanic.UpdateState();
+		}
+		
+		
 		if (_move != Vector3.zero)
 		{
 			_cc.Move(_move * Time.deltaTime);
@@ -316,7 +320,7 @@ public class FPSController : MonoBehaviour
 			_lastInput = _input;
 		}
 		//sets _input depending on your player m_orientation
-		_input = new Vector3(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
+		_input = new(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
 		_input = m_orientation.transform.TransformDirection(_input);
 		_input = Vector3.ClampMagnitude(_input, 1f);
 
@@ -333,8 +337,7 @@ public class FPSController : MonoBehaviour
 			{
 				m_currentMechanic.SwapState(CheckInput(m_data.m_sprintInputType, _sprint));
 			}
-
-			if (_sprint.m_inState)
+			else if (_sprint.m_inState)
 			{
 				if (_inputManager.m_sprint.InputReleased && m_data.m_sprintInputType == InputType.hold || (!_isGrounded || !_isInputing))
 				{
@@ -343,71 +346,41 @@ public class FPSController : MonoBehaviour
 			}
 		}
 
-
-
 		if (_crouch)
 		{
-			if (_inputManager.m_crouch.InputPressed && _isGrounded)
+			if (_slide)
 			{
-				if (_slide)
+				if (_inputManager.m_crouch.InputPressed && _isGrounded)
 				{
-					if (CheckInput(m_data.m_slideInputType, _slide) == _slide && _slideCooldownTimer <= 0)
+					if (CheckSlideStart())
 					{
-						if (m_data.m_slideStartType == SlideStartType.Standing)
-						{
-							m_currentMechanic.SwapState(_slide);
-						}
-						else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
-						{
-							m_currentMechanic.SwapState(_slide);
-						}
-						else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
-						{
-							m_currentMechanic.SwapState(_slide);
-						}
-						else
-						{
-							m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
-						}
-					}
-					else
-					{
-						if(_inputManager.m_crouch.InputHeld)
-						{
-							m_currentMechanic.SwapState(_crouch);
-						}
-						else
-						{
-							m_currentMechanic.SwapState(_defMovement);
-						}
-					}
-
-
-
-					if (_slide.m_inState)
-					{
-						if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold)
-						{
-							Debug.Log("A");
-							m_currentMechanic.SwapState(_defMovement);
-						}
+						m_currentMechanic.SwapState(CheckInput(m_data.m_slideInputType, _slide));
 					}
 				}
-				else
+				else if (_slide.m_inState)
+				{
+					if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold || !_isGrounded)
+					{
+						m_currentMechanic.SwapState(_defMovement);
+					}
+				}
+			}
+
+			if (!_slide.m_inState)
+			{
+				if (_inputManager.m_crouch.InputPressed && _isGrounded)
 				{
 					m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
 				}
-			}
-
-			if (_crouch.m_inState)
-			{
-				if (_inputManager.m_crouch.InputReleased && m_data.m_crouchInputType == InputType.hold)
+				else if (_crouch.m_inState)
 				{
-					m_currentMechanic.SwapState(_defMovement);
+					if (_inputManager.m_crouch.InputReleased && m_data.m_crouchInputType == InputType.hold || !_isGrounded)
+					{
+						m_currentMechanic.SwapState(_defMovement);
+					}
 				}
 			}
 		}
-
 
 		if (_wallJump)
 		{
@@ -424,8 +397,6 @@ public class FPSController : MonoBehaviour
 				m_currentMechanic.SwapState(_jump);
 			}
 		}
-
-
 
 		if (m_data.m_canWallInteract)
 		{
@@ -466,7 +437,6 @@ public class FPSController : MonoBehaviour
 					}
 				}
 			}
-
 		}
 
 		if (_dash)
@@ -481,6 +451,7 @@ public class FPSController : MonoBehaviour
 
 	public MovementMechanic CheckInput(InputType type, MovementMechanic mm)
 	{
+		Debug.Log(mm);
 		if (type == InputType.toggle)
 		{
 			if (m_currentMechanic == mm)
@@ -528,7 +499,7 @@ public class FPSController : MonoBehaviour
 	{
 		if (_isInputing)
 		{
-			if(_sprint.m_inState)
+			if (_sprint && _sprint.m_inState)
 			{
 				_currentSpeed = _currentMaxSpeed * m_data.m_sprintCurve.Evaluate(_timeMoving);
 			}
@@ -587,7 +558,7 @@ public class FPSController : MonoBehaviour
 		if (_isInputing)
 		{
 			_currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
-			_timeMoving += Time.fixedDeltaTime;
+			_timeMoving += Time.deltaTime;
 			_move.z += (_currentSpeed * _input.z) * m_data.m_airControl;
 			_move.x += (_currentSpeed * _input.x) * m_data.m_airControl;
 		}
@@ -607,11 +578,11 @@ public class FPSController : MonoBehaviour
 				_move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
 			}
 		}
-		
+
 		_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
 	}
-	
-	
+
+
 	public void IncreaseSpeed(float speedIncrease)
 	{
 		if (_currentMaxSpeed >= m_data.m_absoluteMaxSpeed)
@@ -620,16 +591,16 @@ public class FPSController : MonoBehaviour
 		}
 		_currentMaxSpeed += speedIncrease;
 	}
-	
+
 	public void DecreaseSpeed(float speedDecrease)
 	{
 		_currentMaxSpeed -= speedDecrease * Time.deltaTime;
 	}
-	
+
 	public void AddYVelocityForce()
 	{
 		_yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
-		
+
 		if (_isGrounded)
 		{
 			_yVelocity.y = -1;
@@ -641,10 +612,10 @@ public class FPSController : MonoBehaviour
 			{
 				if (_dash.m_inState) { return; }
 			}
-			
+
 			_timeFalling += Time.deltaTime;
 		}
-		
+
 		if (_yVelocity.y < _currentGravityForce)
 		{
 			_yVelocity.y = _currentGravityForce;
@@ -654,11 +625,11 @@ public class FPSController : MonoBehaviour
 		{
 			_yVelocity.y = m_data.m_maxYVelocity;
 		}
-		
+
 		_cc.Move(_yVelocity * Time.deltaTime);
 	}
 
-	
+
 	#endregion
 
 	#region GROUND FUNCTIONS
@@ -736,29 +707,49 @@ public class FPSController : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-        Gizmos.color = Color.red;
-        
-        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
-        {
-            Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
-        }
-        
-        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
-        {
-            Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
-        }
-        
-        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
-        {
-            Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
-        }
+		Gizmos.color = Color.red;
 
-        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
-        {
-            Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
-        }
-    
+		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
+		{
+			Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
+		}
+
+		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
+		{
+			Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
+		}
+
+		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
+		{
+			Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
+		}
+
+		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
+		{
+			Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
+		}
+
 	}
 
 	#endregion
+
+	public bool CheckSlideStart()
+	{
+		if (m_data.m_slideStartType == SlideStartType.Standing)
+		{
+			return true;
+		}
+		else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
+		{
+			return true;
+		}
+		else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

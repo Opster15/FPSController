@@ -58,16 +58,16 @@ public class Slide : MovementMechanic
 		m_con._slideTimer = 0;
 		m_con._slideCooldownTimer = m_data.m_slideCooldown;
 		
+		m_con._cc.height = m_data.m_crouchHeight;
+		m_con._cc.center = new Vector3(0, m_data.m_crouchCenter, 0);
+		
 		m_con.m_playerCamParent.localPosition = Vector3.up * m_data.m_crouchCamYPos;
 	}
 
 	public void StopSlide()
 	{
 		m_con.m_slideEvents.m_onSlideEnd.Invoke();
-		
-		//resets height,center and scale of controller
-		//sets position of controller to be at standing position
-		// transform.localScale = m_data.m_playerScale;
+	
 		
 		m_con._cc.center = new Vector3(0, 0, 0);
 		m_con._cc.height = 2f;
