@@ -21,7 +21,6 @@ public class FPSControllerEditor : Editor
 	
 	public AnimBool m_debugMode;
 	
-
 	private void OnEnable()
 	{
 		x = target as FPSController;
@@ -37,8 +36,7 @@ public class FPSControllerEditor : Editor
 				AddMechanic(i);
 			}
 		}
-		
-		m_debugMode = new AnimBool(false);
+		m_debugMode = new AnimBool();
         m_debugMode.valueChanged.AddListener(Repaint);
 	}
 
@@ -53,6 +51,7 @@ public class FPSControllerEditor : Editor
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
 		
 
 		if (x.m_data != null)
@@ -64,10 +63,8 @@ public class FPSControllerEditor : Editor
 			CheckBool(x.m_data.m_useStamina, "Stamina");
 		}
 		
-		m_debugMode.target = EditorGUILayout.ToggleLeft("DebugMode", m_debugMode.target);
+		m_debugMode.target = x.m_debugMode;
         
-        
-		
 
 		if (EditorGUILayout.BeginFadeGroup(m_debugMode.faded))
 		{

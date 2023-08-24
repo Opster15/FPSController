@@ -8,6 +8,8 @@ using UnityEngine.Events;
 
 public class FPSController : MonoBehaviour
 {
+	public bool m_debugMode;
+	
 	public FPSControllerData m_data;
 
 	#region Variables
@@ -157,13 +159,13 @@ public class FPSController : MonoBehaviour
 	#region WALL INTERACT VARIABLES
 
 	public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
-
+	
 	public Vector3 _wallNormal;
 
 	public Vector3 _lastWallNormal;
 
 	public float _wallRunTime, _wallRunDecayTimer, _wallClimbTime, _wallJumpTime;
-
+	
 	public bool _canWallCheck = true, _hasWallRun;
 
 

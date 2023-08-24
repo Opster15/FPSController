@@ -54,10 +54,11 @@ public class FPSControllerDataEditor : Editor
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_absoluteMaxSpeed"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundAccelerationCurve"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundDecelerationCurve"));
-
+						
+					EditorGUI.indentLevel--;
+					
 					if (x.m_canSprint)
 					{
-						EditorGUI.indentLevel--;
 						EditorGUILayout.LabelField("SPRINT VARIABLES", EditorStyles.boldLabel);
 						EditorGUI.indentLevel++;
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
@@ -67,8 +68,8 @@ public class FPSControllerDataEditor : Editor
 						{
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintStaminaCost"));
 						}
+						EditorGUI.indentLevel--;
 					}
-					EditorGUI.indentLevel--;
 
 					// EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMove"));
 					
@@ -267,6 +268,7 @@ public class FPSControllerDataEditor : Editor
 									EditorGUILayout.LabelField("WALLRUN VARIABLES", EditorStyles.boldLabel);
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunCheckDirection"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
+									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxLookAngle"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallRunTime"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallAngle"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunDecay"));
@@ -460,6 +462,7 @@ public class FPSControllerDataEditor : Editor
 					}
 				}
 			}
+			EditorGUI.indentLevel--;
 		}
 
 		EditorGUILayout.EndVertical();

@@ -111,7 +111,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_airControl: 0.5
+  m_airControl: 0.1
   m_baseGravityForce: -35
   m_wallRunGravityForce: 0
   m_gravityCurve:
@@ -120,15 +120,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 4.472323
-      outSlope: 4.472323
+      inSlope: 22.53819
+      outSlope: 22.53819
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.19999999
-      value: 0.8944645
+      time: 0.042407215
+      value: 0.95578194
       inSlope: 0.39357433
       outSlope: 0.39357433
       tangentMode: 0
@@ -138,8 +138,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.5
       value: 1
-      inSlope: 0.351785
-      outSlope: 0.351785
+      inSlope: 0.09663191
+      outSlope: 0.09663191
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -178,7 +178,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_canJump: 1
   m_jumpForce: 3
-  m_maxJumpCount: 1
+  m_maxJumpCount: 2
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -186,13 +186,13 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
-  m_canCrouch: 1
+  m_canCrouch: 0
   m_crouchMaxSpeed: 4
   m_crouchHeight: 1
   m_crouchCenter: -0.5
   m_defaultCamYPos: 0.5
   m_crouchCamYPos: -0.5
-  m_canSlide: 1
+  m_canSlide: 0
   m_slideType: 1
   m_slideMaxSpeed: 15
   m_slideMovementCurve:
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_infiniteSlide: 0
   m_slideCooldown: 2
   m_slideStartType: 1
-  m_canDash: 1
+  m_canDash: 0
   m_dashType: 1
   m_dashSpeedCurve:
     serializedVersion: 2
@@ -259,31 +259,31 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 1
-  m_canWallInteract: 1
+  m_canWallInteract: 0
   m_whatIsWall:
     serializedVersion: 2
     m_Bits: 128
   m_wallCheckDirection: -1
   m_wallCheckDist: 1
-  m_canWallRun: 1
+  m_canWallRun: 0
   m_wallRunCheckDirection: 12
   m_wallRunMaxSpeed: 10
   m_maxWallRunTime: 2
   m_wallRunDecay: 0
   m_wallRunDecayTime: 1
   m_maxWallAngle: 5
-  m_canWallJump: 1
+  m_canWallJump: 0
   m_wallJumpCheckDirection: 0
   m_maxWallJumpCount: 3
   m_wallJumpUpForce: 3
   m_wallJumpSideForce: 3
   m_wallCheckTime: 0.25
-  m_canWallClimb: 1
+  m_canWallClimb: 0
   m_wallClimbCheckDirection: 1
   m_wallClimbType: 1
   m_wallClimbMaxSpeed: 10
   m_maxWallClimbTime: 2
-  m_useStamina: 1
+  m_useStamina: 0
   m_maxStamina: 100
   m_staminaRechargeRate: 1
   m_staminaRechargeDelay: 1

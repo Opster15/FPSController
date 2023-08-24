@@ -200,7 +200,10 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("Amount of times the controller can wall jump before touching ground")]
 	public float m_maxWallJumpCount = 4;
-
+	
+	[Tooltip("Angle at which the controller can look away/ towards a wall before stopping wall run")]
+	public float m_wallRunMaxLookAngle = 10f;
+	
 	[Tooltip("Upwards force applied to controller on a wall jump")]
 	public float m_wallJumpUpForce = 3f;
 

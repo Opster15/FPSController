@@ -73,11 +73,11 @@ public class WallRun : MovementMechanic
 			m_con._forwardDirection = -m_con._forwardDirection;
 		}
 
-		if (m_con._input.z > (m_con._forwardDirection.z - 10f) && m_con._input.z < (m_con._forwardDirection.z + 10f))
+		if (m_con._input.z > (m_con._forwardDirection.z - m_data.m_wallRunMaxLookAngle) && m_con._input.z < (m_con._forwardDirection.z + m_data.m_wallRunMaxLookAngle))
 		{
 			m_con._move += m_con._forwardDirection;
 		}
-		else if (m_con._input.z < (m_con._forwardDirection.z - 10f) && m_con._input.z > (m_con._forwardDirection.z + 10f))
+		else if (m_con._input.z < (m_con._forwardDirection.z - m_data.m_wallRunMaxLookAngle) && m_con._input.z > (m_con._forwardDirection.z + m_data.m_wallRunMaxLookAngle))
 		{
 			SwapState(m_con._defMovement);
 		}
@@ -91,6 +91,8 @@ public class WallRun : MovementMechanic
 	{
 		if (m_con._hasWallRun)
 		{
+			
+			
 			float wallAngle = Vector3.Angle(m_con._wallNormal, m_con._lastWallNormal);
 			if (wallAngle >= m_data.m_maxWallAngle)
 			{
@@ -135,6 +137,7 @@ public class WallRun : MovementMechanic
 	{
 		
 		m_con._cineCam.m_Lens.Dutch = 0;
+		
 		m_con._lastWallNormal = m_con._wallNormal;
 		
 
