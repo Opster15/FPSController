@@ -45,9 +45,8 @@ public class FPSControllerEditor : Editor
 	{
 		serializedObject.Update();
 		
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_mechanics"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_currentMechanic"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_currentMechanic"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));

@@ -186,13 +186,13 @@ MonoBehaviour:
   m_jumpAddsSpeed: 0
   m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
-  m_canCrouch: 0
+  m_canCrouch: 1
   m_crouchMaxSpeed: 4
   m_crouchHeight: 1
   m_crouchCenter: -0.5
   m_defaultCamYPos: 0.5
   m_crouchCamYPos: -0.5
-  m_canSlide: 0
+  m_canSlide: 1
   m_slideType: 1
   m_slideMaxSpeed: 15
   m_slideMovementCurve:
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_infiniteSlide: 0
   m_slideCooldown: 2
   m_slideStartType: 1
-  m_canDash: 0
+  m_canDash: 1
   m_dashType: 1
   m_dashSpeedCurve:
     serializedVersion: 2
@@ -259,40 +259,41 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_dashCooldown: 2
   m_maxDashCount: 1
-  m_canWallInteract: 0
+  m_canWallInteract: 1
   m_whatIsWall:
     serializedVersion: 2
     m_Bits: 128
   m_wallCheckDirection: -1
   m_wallCheckDist: 1
-  m_canWallRun: 0
+  m_canWallRun: 1
   m_wallRunCheckDirection: 12
   m_wallRunMaxSpeed: 10
-  m_maxWallRunTime: 2
+  m_maxWallRunTime: 1
   m_wallRunDecay: 0
   m_wallRunDecayTime: 1
   m_maxWallAngle: 5
-  m_canWallJump: 0
+  m_canWallJump: 1
   m_wallJumpCheckDirection: 0
   m_maxWallJumpCount: 3
+  m_wallRunMaxLookAngle: 15
   m_wallJumpUpForce: 3
   m_wallJumpSideForce: 3
   m_wallCheckTime: 0.25
-  m_canWallClimb: 0
+  m_canWallClimb: 1
   m_wallClimbCheckDirection: 1
   m_wallClimbType: 1
   m_wallClimbMaxSpeed: 10
   m_maxWallClimbTime: 2
-  m_useStamina: 0
+  m_useStamina: 1
   m_maxStamina: 100
   m_staminaRechargeRate: 1
   m_staminaRechargeDelay: 1
-  m_staminaUsingMechanics: 0
+  m_staminaUsingMechanics: 1
   m_sprintStaminaCost: 10
   m_jumpStaminaCost: 10
   m_slideStaminaCost: 0
   m_dashStaminaCost: 0
-  m_wallRunStaminaCost: 10
+  m_wallRunStaminaCost: 100
   m_wallJumpStaminaCost: 0
   m_wallClimbStaminaCost: 50
   m_sensitivity: 1
