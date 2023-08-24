@@ -7,9 +7,6 @@ using UnityEngine.Events;
 
 public class FPSController : MonoBehaviour
 {
-	[Tooltip("Shows/hides debug variables (variables starting with _ ) in inspector")]
-	public bool m_debugMode;
-
 	public FPSControllerData m_data;
 
 	#region Variables
@@ -739,30 +736,28 @@ public class FPSController : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		if (m_debugMode)
-		{
-			Gizmos.color = Color.red;
+        Gizmos.color = Color.red;
+        
+        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
+        {
+            Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
+        }
+        
+        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
+        {
+            Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
+        }
+        
+        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
+        {
+            Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
+        }
 
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
-			{
-				Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
-			}
-
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
-			{
-				Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
-			}
-
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
-			{
-				Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
-			}
-
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
-			{
-				Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
-			}
-		}
+        if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
+        {
+            Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
+        }
+    
 	}
 
 	#endregion

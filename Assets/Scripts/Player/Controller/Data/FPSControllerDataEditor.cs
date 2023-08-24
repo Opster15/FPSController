@@ -11,7 +11,7 @@ public class FPSControllerDataEditor : Editor
 {
 	private List<string> parentTabs = new() { "Movement", "Gravity", "Input", "Misc" };
 	private int currentTab = 0;
-	private List<string> wallTabs = new() { "Wall" };
+	private List<string> wallTabs = new() { "Detection" };
 	private int currentWallTab = 0;
 
 	bool showAdd;
@@ -20,23 +20,26 @@ public class FPSControllerDataEditor : Editor
 	{
 		serializedObject.Update();
 		FPSControllerData x = target as FPSControllerData;
-
-		EditorGUILayout.BeginVertical();
+		
+		EditorGUILayout.BeginVertical("box",GUILayout.Height(50));
+		EditorGUILayout.Space(4f);
 		currentTab = GUILayout.SelectionGrid(currentTab, parentTabs.ToArray(), 5);
-		EditorGUILayout.Space(5f);
+		EditorGUILayout.Space(4f);
 		EditorGUILayout.EndVertical();
-
+		
 		CheckBool(x.m_canJump, "Jump", parentTabs);
 		CheckBool(x.m_useStamina, "Stamina", parentTabs);
 		CheckBool(x.m_canCrouch, "Crouch", parentTabs);
 		CheckBool(x.m_canSlide, "Slide", parentTabs);
 		CheckBool(x.m_canDash, "Dash", parentTabs);
-		CheckBool(x.m_canWallInteract, "Wall Interact", parentTabs);
+		CheckBool(x.m_canWallInteract, "Wall", parentTabs);
 
 		CheckBool(x.m_canWallRun, "Wall Run", wallTabs);
 		CheckBool(x.m_canWallJump, "Wall Jump", wallTabs);
 		CheckBool(x.m_canWallClimb, "Wall Climb", wallTabs);
-
+		
+		
+		EditorGUILayout.BeginVertical("box",GUILayout.Height(350));
 		if (currentTab >= 0 || currentTab < parentTabs.Count)
 		{
 			switch (parentTabs[currentTab])
@@ -207,7 +210,7 @@ public class FPSControllerDataEditor : Editor
 					
 					if (x.m_canSlide)
 					{
-						x.m_canSlide = ShowRemoveButton("Slide", false);
+						x.m_canSlide = ShowRemoveButton("Slide", true);
 					}
 
 					break;
@@ -232,19 +235,20 @@ public class FPSControllerDataEditor : Editor
 					}
 
 					break;
-				case "Wall Interact":
-
+				case "Wall":
+					
 					EditorGUILayout.BeginVertical();
 					currentWallTab = GUILayout.SelectionGrid(currentWallTab, wallTabs.ToArray(), 4);
 					EditorGUILayout.Space(5f);
 					EditorGUILayout.EndVertical();
 
-
+					
+					EditorGUILayout.BeginVertical(GUILayout.Height(150));
 					if (currentWallTab >= 0 || currentWallTab < wallTabs.Count)
 					{
 						switch (wallTabs[currentWallTab])
 						{
-							case "Wall":
+							case "Detection":
 								EditorGUILayout.LabelField("WALL INTERACTION VARIABLES", EditorStyles.boldLabel);
 								EditorGUI.indentLevel++;
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsWall"));
@@ -312,8 +316,9 @@ public class FPSControllerDataEditor : Editor
 								break;
 						}
 					}
-
-					EditorGUILayout.Space(25f);
+					
+					EditorGUILayout.EndVertical();
+					
 
 					if (x.m_canWallInteract)
 					{
@@ -322,28 +327,43 @@ public class FPSControllerDataEditor : Editor
 						{
 							x.m_canWallJump = false;
 							x.m_canWallRun = false;
+							x.m_canWallClimb = false;
+							currentTab--;
 						}
 
 						if (x.m_canWallJump)
 						{
 							x.m_canWallJump = ShowRemoveButton("Wall Jump", false);
+							if(!x.m_canWallJump)
+							{
+								currentWallTab--;
+							}
 						}
 
 						if (x.m_canWallRun)
 						{
 							x.m_canWallRun = ShowRemoveButton("Wall Run", false);
+							if(!x.m_canWallRun)
+							{
+								currentWallTab--;
+							}
 						}
 
 						if (x.m_canWallClimb)
 						{
 							x.m_canWallClimb = ShowRemoveButton("Wall Climb", false);
+							if(!x.m_canWallClimb)
+							{
+								currentWallTab--;
+							}
 						}
 					}
 					break;
 			}
 		}
-
-		EditorGUILayout.Space(55f);
+		
+		EditorGUILayout.EndVertical();
+		
 		EditorGUILayout.TextArea("", GUI.skin.horizontalSlider);
 		EditorGUILayout.Space(5f);
 

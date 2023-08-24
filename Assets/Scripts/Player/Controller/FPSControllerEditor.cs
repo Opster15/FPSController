@@ -6,6 +6,7 @@ using UnityEditor;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using System.Xml;
+using UnityEditor.AnimatedValues;
 
 [System.Serializable]
 [CustomEditor(typeof(FPSController))]
@@ -17,6 +18,9 @@ public class FPSControllerEditor : Editor
 	private FPSController x;
 
 	bool showEvents;
+	
+	public AnimBool m_debugMode;
+	
 
 	private void OnEnable()
 	{
@@ -33,14 +37,16 @@ public class FPSControllerEditor : Editor
 				AddMechanic(i);
 			}
 		}
+		
+		m_debugMode = new AnimBool(false);
+        m_debugMode.valueChanged.AddListener(Repaint);
 	}
 
 
 	override public void OnInspectorGUI()
 	{
 		serializedObject.Update();
-
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
+		
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_mechanics"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_currentMechanic"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
@@ -57,9 +63,13 @@ public class FPSControllerEditor : Editor
 			CheckBool(x.m_data.m_canWallInteract, "Wall Interact");
 			CheckBool(x.m_data.m_useStamina, "Stamina");
 		}
+		
+		m_debugMode.target = EditorGUILayout.ToggleLeft("DebugMode", m_debugMode.target);
+        
+        
+		
 
-
-		if (x.m_debugMode)
+		if (EditorGUILayout.BeginFadeGroup(m_debugMode.faded))
 		{
 			EditorGUILayout.BeginVertical();
 			currentTab = GUILayout.SelectionGrid(currentTab, tabs.ToArray(), 4);
@@ -72,116 +82,100 @@ public class FPSControllerEditor : Editor
 				{
 					case "Movement":
 						EditorGUILayout.LabelField("GROUND MOVEMENT VARIABLES", EditorStyles.boldLabel);
-
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentSpeed"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeMoving"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentMaxSpeed"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_move"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_input"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastInput"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_yVelocity"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_forwardDirection"));
-						}
+						
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentSpeed"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeMoving"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentMaxSpeed"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_move"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_input"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastInput"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_yVelocity"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_forwardDirection"));
+					
 						break;
 					case "Gravity":
 
 						EditorGUILayout.LabelField("GRAVITY VARIABLES", EditorStyles.boldLabel);
-
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentGravityForce"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeFalling"));
-						}
-
-
+						
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentGravityForce"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_timeFalling"));
+					
 						break;
 					case "Jump":
 						EditorGUILayout.LabelField("JUMP VARIABLES", EditorStyles.boldLabel);
-
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCounter"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCooldown"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_cyoteTimer"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
-						}
+						
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCounter"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpCooldown"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_cyoteTimer"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
+					
 						break;
 					case "Stamina":
 						EditorGUILayout.LabelField("Stamina VARIABLES", EditorStyles.boldLabel);
 
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentStamina"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_staminaDelayTimer"));
-						}
+						
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentStamina"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_staminaDelayTimer"));
+					
 						break;
 					case "Crouch/Slide":
 						EditorGUILayout.LabelField("CROUCH VARIABLES", EditorStyles.boldLabel);
 
 						if (x._crouch && x.m_data.m_canSlide)
 						{
-							if (x.m_debugMode)
-							{
-								EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideTimer"));
-								EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideCooldownTimer"));
-							}
+							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideTimer"));
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideCooldownTimer"));
 						}
 
 						break;
 					case "Dash":
 						EditorGUILayout.LabelField("DASH VARIABLES", EditorStyles.boldLabel);
-
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentDashCount"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_startTime"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_dashCooldownTimer"));
-						}
+						
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentDashCount"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_startTime"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_dashCooldownTimer"));
+					
 						break;
 					case "Wall Interact":
 
 						EditorGUILayout.LabelField("WALL INTERACTION VARIABLES", EditorStyles.boldLabel);
-
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentWalls"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastWallNormal"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallRunTime"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallClimbTime"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallJumpTime"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
-						}
+					
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentWalls"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallNormal"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_lastWallNormal"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallRunTime"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallClimbTime"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_wallJumpTime"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_canWallCheck"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_hasWallRun"));
+					
 						break;
 					case "Misc":
 						EditorGUILayout.LabelField("MISCELLANEOUS VARIABLES", EditorStyles.boldLabel);
-						if (x.m_debugMode)
-						{
-							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
-
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-						}
+					
+						EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
+						
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
+					
 						break;
 				}
 			}
 		}
 
-
+		
+        EditorGUILayout.EndFadeGroup();
 		showEvents = EditorGUILayout.Foldout(showEvents, "EVENTS");
 
 		if (showEvents)
