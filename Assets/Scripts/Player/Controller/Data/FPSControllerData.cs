@@ -21,9 +21,6 @@ public class FPSControllerData : ScriptableObject
 	[Tooltip("Max speed the controller can reach regardless of any other factor")]
 	public float m_absoluteMaxSpeed = 30f;
 
-	[Tooltip("Mimic the camera leaning in the direction the controller is moving")]
-	public bool m_leanOnMove;
-
 	[Tooltip("Curve reprisenting time to reach max speed in the air")]
 	public AnimationCurve m_airAccelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 
@@ -145,6 +142,9 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("Curve reprisenting length of Dash (x axis) and Speed of Dash (y axis)")]
 	public AnimationCurve m_dashSpeedCurve;
+	
+	[Tooltip("Max speed of dash. 1 in the y axis of dashSpeedCurve represents this variable")]
+	public float m_dashMaxSpeed;
 	
 	[Tooltip("Time (seconds) until dash is available")]
 	public float m_dashCooldown = 2;
@@ -278,7 +278,17 @@ public class FPSControllerData : ScriptableObject
 	
 
 	#endregion
-
+	
+	#region VISUALS VARIABLES
+	
+	public float m_screenShakeAmplitude;
+	public float m_screenShakeDuration;
+	
+	[Tooltip("Mimic the camera leaning in the direction the controller is moving")]
+	public bool m_leanOnMove;
+	
+	#endregion
+	
 	#region MISC VARIABLES
 
 	[Tooltip("Controls sensitivity of mouse")]

@@ -142,6 +142,9 @@ GameObject:
   - component: {fileID: 127369196}
   - component: {fileID: 127369195}
   - component: {fileID: 127369194}
+  - component: {fileID: 127369200}
+  - component: {fileID: 127369199}
+  - component: {fileID: 127369198}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -382,7 +385,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127369169}
-  m_LocalRotation: {x: -0, y: -0.31277853, z: -0, w: 0.94982606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.2326474, y: 0.5, z: 1.3401756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -392,7 +395,7 @@ Transform:
   - {fileID: 250482727}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -36.454, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &127369174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6fe1bba4a1d048aa655c740af9f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debugMode: 0
+  m_debugMode: 1
   m_data: {fileID: 11400000, guid: 05465e67cdb47a74d881e7636408f55a, type: 2}
   _defMovement: {fileID: 127369187}
   _sprint: {fileID: 127369197}
@@ -413,9 +416,9 @@ MonoBehaviour:
   _crouch: {fileID: 127369196}
   _slide: {fileID: 127369195}
   _dash: {fileID: 127369194}
-  _wallClimb: {fileID: 0}
-  _wallJump: {fileID: 0}
-  _wallRun: {fileID: 0}
+  _wallClimb: {fileID: 127369198}
+  _wallJump: {fileID: 127369199}
+  _wallRun: {fileID: 127369200}
   _stamina: {fileID: 127369193}
   m_mechanics:
   - {fileID: 127369187}
@@ -425,9 +428,9 @@ MonoBehaviour:
   - {fileID: 127369195}
   - {fileID: 127369194}
   - {fileID: 127369193}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 127369200}
+  - {fileID: 127369199}
+  - {fileID: 127369198}
   m_currentMechanic: {fileID: 0}
   m_playerCam: {fileID: 851155032}
   m_playerCamParent: {fileID: 250482727}
@@ -543,6 +546,8 @@ MonoBehaviour:
     m_onWallClimbEnd:
       m_PersistentCalls:
         m_Calls: []
+  _perl: {fileID: 0}
+  m_shakeTimer: 0
   _isGrounded: 0
   _isInputing: 0
   _disableGroundCheck: 0
@@ -647,6 +652,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6ee225b646ad4e489909f43341ae094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6707eecf2f0704091f7e6c310c1cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db65f48c4aa6664da0652a07141ce13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_con: {fileID: 0}
+  m_data: {fileID: 0}
+  m_inState: 0
+--- !u!114 &127369200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40185b9ddbbd634f82c20a9206bf12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_con: {fileID: 0}
@@ -918,7 +968,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1272,7 +1322,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 90
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1301,6 +1351,7 @@ GameObject:
   - component: {fileID: 866665107}
   - component: {fileID: 866665106}
   - component: {fileID: 866665105}
+  - component: {fileID: 866665108}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1384,6 +1435,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &866665108
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866665103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &930862163
 GameObject:
   m_ObjectHideFlags: 0

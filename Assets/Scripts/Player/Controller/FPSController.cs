@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class FPSController : MonoBehaviour
 {
 	public bool m_debugMode;
-	
+
 	public FPSControllerData m_data;
 
 	#region Variables
@@ -159,13 +159,13 @@ public class FPSController : MonoBehaviour
 	#region WALL INTERACT VARIABLES
 
 	public RaycastHit _rightWallHit, _backWallHit, _frontWallHit, _leftWallHit;
-	
+
 	public Vector3 _wallNormal;
 
 	public Vector3 _lastWallNormal;
 
 	public float _wallRunTime, _wallRunDecayTimer, _wallClimbTime, _wallJumpTime;
-	
+
 	public bool _canWallCheck = true, _hasWallRun;
 
 
@@ -193,6 +193,13 @@ public class FPSController : MonoBehaviour
 	public WallClimbEvents m_wallClimbEvents;
 	#endregion
 
+	#region VISUALS VARIABLES
+	public CinemachineBasicMultiChannelPerlin _perl;
+
+	public float m_shakeTimer;
+
+	#endregion
+
 	#region MISC VARIABLES
 
 	public bool _isGrounded, _isInputing;
@@ -214,6 +221,7 @@ public class FPSController : MonoBehaviour
 		_cc = GetComponent<CharacterController>();
 		_inputManager = GetComponent<InputManager>();
 		_cineCam = GetComponentInChildren<CinemachineVirtualCamera>();
+		_perl = GetComponentInChildren<CinemachineBasicMultiChannelPerlin>();
 		_crouch = GetComponent<Crouch>();
 	}
 
@@ -252,12 +260,17 @@ public class FPSController : MonoBehaviour
 			Look();
 		}
 		
-		if(m_currentMechanic)
+		if(m_data.m_leanOnMove)
+		{
+			LeanPlayer();
+		}
+
+		if (m_currentMechanic)
 		{
 			m_currentMechanic.UpdateState();
 		}
-		
-		
+
+
 		if (_move != Vector3.zero)
 		{
 			_cc.Move(_move * Time.deltaTime);
@@ -268,6 +281,16 @@ public class FPSController : MonoBehaviour
 
 	public void CallTimers()
 	{
+		if (m_shakeTimer > 0)
+		{
+			m_shakeTimer -= Time.deltaTime;
+			_perl.m_AmplitudeGain = Mathf.Lerp(0, m_data.m_screenShakeAmplitude, m_shakeTimer / m_data.m_screenShakeDuration);
+			if (m_shakeTimer <= 0f)
+			{
+				_perl.m_AmplitudeGain = 0f;
+			}
+		}
+
 		if (_currentDashCount < m_data.m_maxDashCount)
 		{
 			_dashCooldownTimer -= Time.deltaTime;
@@ -443,7 +466,7 @@ public class FPSController : MonoBehaviour
 
 		if (_dash)
 		{
-			if (_inputManager.m_Dash.InputPressed)
+			if (_inputManager.m_Dash.InputPressed && _currentDashCount >= m_data.m_maxDashCount)
 			{
 				m_currentMechanic.SwapState(_dash);
 			}
@@ -453,7 +476,6 @@ public class FPSController : MonoBehaviour
 
 	public MovementMechanic CheckInput(InputType type, MovementMechanic mm)
 	{
-		Debug.Log(mm);
 		if (type == InputType.toggle)
 		{
 			if (m_currentMechanic == mm)
@@ -491,7 +513,7 @@ public class FPSController : MonoBehaviour
 
 		//Perform the rotations
 		m_playerCam.transform.localRotation = Quaternion.Euler(_xRotation, desiredX, 0);
-		m_orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+		m_orientation.transform.rotation = Quaternion.Euler(0, desiredX, 0);
 	}
 
 	#endregion
@@ -631,6 +653,25 @@ public class FPSController : MonoBehaviour
 		_cc.Move(_yVelocity * Time.deltaTime);
 	}
 
+	public bool CheckSlideStart()
+	{
+		if (m_data.m_slideStartType == SlideStartType.Standing)
+		{
+			return true;
+		}
+		else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
+		{
+			return true;
+		}
+		else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	#endregion
 
@@ -705,6 +746,29 @@ public class FPSController : MonoBehaviour
 	}
 	#endregion
 
+	#region VISUALS FUNCTIONS
+
+	public void ShakeCam(float _intensity, float _time)
+	{
+		m_data.m_screenShakeAmplitude = _intensity;
+		_perl.m_AmplitudeGain = m_data.m_screenShakeAmplitude;
+
+		if (m_shakeTimer < _time)
+		{
+			m_shakeTimer = _time;
+			m_data.m_screenShakeDuration = _time;
+		}
+	}
+	
+	public void LeanPlayer()
+	{
+		float x = _currentSpeed / _currentMaxSpeed;
+		
+		m_playerCamParent.rotation = Quaternion.Euler(-_inputManager.Movement.x * x, 0, -_inputManager.Movement.y * x);
+	}
+	
+	#endregion
+
 	#region DEBUG FUNCTIONS
 
 	private void OnDrawGizmos()
@@ -735,23 +799,5 @@ public class FPSController : MonoBehaviour
 
 	#endregion
 
-	public bool CheckSlideStart()
-	{
-		if (m_data.m_slideStartType == SlideStartType.Standing)
-		{
-			return true;
-		}
-		else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
-		{
-			return true;
-		}
-		else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+
 }

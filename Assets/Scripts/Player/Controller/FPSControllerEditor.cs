@@ -164,6 +164,7 @@ public class FPSControllerEditor : Editor
 						
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_shakeTimer"));
 					
 						break;
 				}

@@ -61,8 +61,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_absoluteMaxSpeed: 30
-  m_leanOnMove: 0
+  m_absoluteMaxSpeed: 100
   m_airAccelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -223,40 +222,50 @@ MonoBehaviour:
   m_slideCooldown: 2
   m_slideStartType: 1
   m_canDash: 1
-  m_dashType: 1
+  m_dashType: 2
   m_dashSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 6.5647283
+      outSlope: 6.5647283
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.033771105
     - serializedVersion: 3
-      time: 0.043628372
-      value: 0.9403128
-      inSlope: 0.03592168
-      outSlope: 0.03592168
+      time: 0.049999997
+      value: 0.94299287
+      inSlope: 0.2033143
+      outSlope: 0.2033143
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.16157421
+      outWeight: 0.4684178
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.16
+      value: 0.9499993
+      inSlope: 0.11202406
+      outSlope: 0.11202406
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.45276
+    - serializedVersion: 3
+      time: 0.19999999
+      value: 0
+      inSlope: -6.0295444
+      outSlope: -6.0295444
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.037413757
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_dashMaxSpeed: 70
   m_dashCooldown: 2
   m_maxDashCount: 1
   m_canWallInteract: 1
@@ -296,5 +305,8 @@ MonoBehaviour:
   m_wallRunStaminaCost: 100
   m_wallJumpStaminaCost: 0
   m_wallClimbStaminaCost: 50
+  m_screenShakeAmplitude: 0
+  m_screenShakeDuration: 0
+  m_leanOnMove: 1
   m_sensitivity: 1
   m_sensMultiplier: 1

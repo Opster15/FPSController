@@ -9,7 +9,7 @@ using System;
 [CustomEditor(typeof(FPSControllerData))]
 public class FPSControllerDataEditor : Editor
 {
-	private List<string> parentTabs = new() { "Movement", "Gravity", "Misc" };
+	private List<string> parentTabs = new() { "Movement", "Gravity", "Visuals", "Misc" };
 	private int currentTab = 0;
 	private List<string> wallTabs = new() { "Detection" };
 	private int currentWallTab = 0;
@@ -20,13 +20,13 @@ public class FPSControllerDataEditor : Editor
 	{
 		serializedObject.Update();
 		FPSControllerData x = target as FPSControllerData;
-		
-		EditorGUILayout.BeginVertical("box",GUILayout.Height(50));
+
+		EditorGUILayout.BeginVertical("box", GUILayout.Height(50));
 		EditorGUILayout.Space(4f);
 		currentTab = GUILayout.SelectionGrid(currentTab, parentTabs.ToArray(), 5);
 		EditorGUILayout.Space(4f);
 		EditorGUILayout.EndVertical();
-		
+
 		CheckBool(x.m_canJump, "Jump", parentTabs);
 		CheckBool(x.m_useStamina, "Stamina", parentTabs);
 		CheckBool(x.m_canCrouch, "Crouch", parentTabs);
@@ -37,9 +37,9 @@ public class FPSControllerDataEditor : Editor
 		CheckBool(x.m_canWallRun, "Wall Run", wallTabs);
 		CheckBool(x.m_canWallJump, "Wall Jump", wallTabs);
 		CheckBool(x.m_canWallClimb, "Wall Climb", wallTabs);
-		
-		
-		EditorGUILayout.BeginVertical("box",GUILayout.Height(350));
+
+
+		EditorGUILayout.BeginVertical("box", GUILayout.Height(350));
 		if (currentTab >= 0 || currentTab < parentTabs.Count)
 		{
 			switch (parentTabs[currentTab])
@@ -48,20 +48,20 @@ public class FPSControllerDataEditor : Editor
 					EditorGUILayout.LabelField("GROUND MOVEMENT VARIABLES", EditorStyles.boldLabel);
 
 					EditorGUI.indentLevel++;
-					
+
 					EditorGUIUtility.labelWidth = 170f;
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseMaxSpeed"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_absoluteMaxSpeed"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundAccelerationCurve"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groundDecelerationCurve"));
-						
+
 					EditorGUI.indentLevel--;
-					
+
 					if (x.m_canSprint)
 					{
 						EditorGUILayout.LabelField("SPRINT VARIABLES", EditorStyles.boldLabel);
 						EditorGUI.indentLevel++;
-					    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintInputType"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintInputType"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintMaxSpeed"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintCurve"));
 
@@ -73,7 +73,7 @@ public class FPSControllerDataEditor : Editor
 					}
 
 					// EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMove"));
-					
+
 					EditorGUILayout.LabelField("AIR MOVEMENT VARIABLES", EditorStyles.boldLabel);
 
 					EditorGUI.indentLevel++;
@@ -103,6 +103,12 @@ public class FPSControllerDataEditor : Editor
 					EditorGUI.indentLevel--;
 
 					break;
+				case "Visuals":
+					EditorGUILayout.LabelField("VISUALS VARIABLES", EditorStyles.boldLabel);
+					
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMove"));
+					
+					break;
 				case "Misc":
 					EditorGUILayout.LabelField("MISCELLANEOUS VARIABLES", EditorStyles.boldLabel);
 					EditorGUI.indentLevel++;
@@ -116,7 +122,7 @@ public class FPSControllerDataEditor : Editor
 					break;
 				case "Stamina":
 					EditorGUILayout.LabelField("STAMINA VARIABLES", EditorStyles.boldLabel);
-					
+
 					EditorGUIUtility.labelWidth = 170f;
 					EditorGUI.indentLevel++;
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaUsingMechanics"));
@@ -173,7 +179,7 @@ public class FPSControllerDataEditor : Editor
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_defaultCamYPos"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchCamYPos"));
 					EditorGUI.indentLevel--;
-					
+
 					if (x.m_canCrouch)
 					{
 						x.m_canCrouch = ShowRemoveButton("Crouch", true);
@@ -182,10 +188,10 @@ public class FPSControllerDataEditor : Editor
 							x.m_canSlide = false;
 						}
 					}
-					
+
 					break;
 				case "Slide":
-					
+
 					EditorGUILayout.LabelField("SLIDE VARIABLES", EditorStyles.boldLabel);
 					EditorGUI.indentLevel++;
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideInputType"));
@@ -200,7 +206,7 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideStaminaCost"));
 					}
 					EditorGUI.indentLevel--;
-					
+
 					if (x.m_canSlide)
 					{
 						x.m_canSlide = ShowRemoveButton("Slide", true);
@@ -212,6 +218,7 @@ public class FPSControllerDataEditor : Editor
 
 					EditorGUI.indentLevel++;
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashType"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashMaxSpeed"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxDashCount"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashSpeedCurve"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashCooldown"));
@@ -229,13 +236,13 @@ public class FPSControllerDataEditor : Editor
 
 					break;
 				case "Wall":
-					
+
 					EditorGUILayout.BeginVertical();
 					currentWallTab = GUILayout.SelectionGrid(currentWallTab, wallTabs.ToArray(), 4);
 					EditorGUILayout.Space(5f);
 					EditorGUILayout.EndVertical();
 
-					
+
 					EditorGUILayout.BeginVertical(GUILayout.Height(150));
 					if (currentWallTab >= 0 || currentWallTab < wallTabs.Count)
 					{
@@ -310,9 +317,9 @@ public class FPSControllerDataEditor : Editor
 								break;
 						}
 					}
-					
+
 					EditorGUILayout.EndVertical();
-					
+
 
 					if (x.m_canWallInteract)
 					{
@@ -328,7 +335,7 @@ public class FPSControllerDataEditor : Editor
 						if (x.m_canWallJump)
 						{
 							x.m_canWallJump = ShowRemoveButton("Wall Jump", false);
-							if(!x.m_canWallJump && currentWallTab > 0)
+							if (!x.m_canWallJump && currentWallTab > 0)
 							{
 								currentWallTab--;
 							}
@@ -337,7 +344,7 @@ public class FPSControllerDataEditor : Editor
 						if (x.m_canWallRun)
 						{
 							x.m_canWallRun = ShowRemoveButton("Wall Run", false);
-							if(!x.m_canWallRun && currentWallTab > 0)
+							if (!x.m_canWallRun && currentWallTab > 0)
 							{
 								currentWallTab--;
 							}
@@ -346,7 +353,7 @@ public class FPSControllerDataEditor : Editor
 						if (x.m_canWallClimb)
 						{
 							x.m_canWallClimb = ShowRemoveButton("Wall Climb", false);
-							if(!x.m_canWallClimb && currentWallTab > 0)
+							if (!x.m_canWallClimb && currentWallTab > 0)
 							{
 								currentWallTab--;
 							}
@@ -355,9 +362,9 @@ public class FPSControllerDataEditor : Editor
 					break;
 			}
 		}
-		
+
 		EditorGUILayout.EndVertical();
-		
+
 		EditorGUILayout.TextArea("", GUI.skin.horizontalSlider);
 		EditorGUILayout.Space(5f);
 
