@@ -196,8 +196,11 @@ public class FPSController : MonoBehaviour
 	#region VISUALS VARIABLES
 	public CinemachineBasicMultiChannelPerlin _perl;
 
-	public float m_shakeTimer;
-
+	public float _shakeTimer;
+	
+	public float _headBobAmp, _headBobFreq;
+	
+	public bool _isBobbing;
 	#endregion
 
 	#region MISC VARIABLES
@@ -281,11 +284,11 @@ public class FPSController : MonoBehaviour
 
 	public void CallTimers()
 	{
-		if (m_shakeTimer > 0)
+		if (_shakeTimer > 0)
 		{
-			m_shakeTimer -= Time.deltaTime;
-			_perl.m_AmplitudeGain = Mathf.Lerp(0, m_data.m_screenShakeAmplitude, m_shakeTimer / m_data.m_screenShakeDuration);
-			if (m_shakeTimer <= 0f)
+			_shakeTimer -= Time.deltaTime;
+			_perl.m_AmplitudeGain = Mathf.Lerp(0, m_data.m_screenShakeAmplitude, _shakeTimer / m_data.m_screenShakeDuration);
+			if (_shakeTimer <= 0f)
 			{
 				_perl.m_AmplitudeGain = 0f;
 			}
@@ -753,9 +756,9 @@ public class FPSController : MonoBehaviour
 		m_data.m_screenShakeAmplitude = _intensity;
 		_perl.m_AmplitudeGain = m_data.m_screenShakeAmplitude;
 
-		if (m_shakeTimer < _time)
+		if (_shakeTimer < _time)
 		{
-			m_shakeTimer = _time;
+			_shakeTimer = _time;
 			m_data.m_screenShakeDuration = _time;
 		}
 	}
@@ -766,6 +769,9 @@ public class FPSController : MonoBehaviour
 		
 		m_playerCamParent.rotation = Quaternion.Euler(-_inputManager.Movement.x * x, 0, -_inputManager.Movement.y * x);
 	}
+	
+	
+	
 	
 	#endregion
 
