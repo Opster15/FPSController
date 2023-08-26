@@ -242,6 +242,8 @@ public class FPSController : MonoBehaviour
 		m_currentMechanic = _defMovement;
 
 		m_currentMechanic.EnterState();
+		
+		SetFOV(m_data.m_defaultFOV, .1f);
 	}
 	#endregion
 
@@ -584,14 +586,14 @@ public class FPSController : MonoBehaviour
 
 		if (_isInputing)
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+			_currentSpeed = _currentMaxSpeed * m_data.m_airAccelerationCurve.Evaluate(_timeMoving);
 			_timeMoving += Time.deltaTime;
-			_move.z += (_currentSpeed * _input.z) * m_data.m_airControl;
-			_move.x += (_currentSpeed * _input.x) * m_data.m_airControl;
+			_move.z = (_currentSpeed * _input.z);
+			_move.x = (_currentSpeed * _input.x);
 		}
 		else
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_groundDecelerationCurve.Evaluate(_timeMoving);
+			_currentSpeed = _currentMaxSpeed * m_data.m_airDecelerationCurve.Evaluate(_timeMoving);
 			if (_timeMoving == 0)
 			{
 				_move.x = 0;
@@ -765,12 +767,27 @@ public class FPSController : MonoBehaviour
 	
 	public void LeanPlayer()
 	{
-		float x = _currentSpeed / _currentMaxSpeed;
+		float x = m_data.m_leanOnMoveAmount * (_currentSpeed / _currentMaxSpeed);
 		
 		m_playerCamParent.rotation = Quaternion.Euler(-_inputManager.Movement.x * x, 0, -_inputManager.Movement.y * x);
 	}
 	
+	public void SetFOV(float targetFOV, float duration)
+	{
+		StartCoroutine(ChangeFOV(targetFOV,duration));
+	}
 	
+	public IEnumerator ChangeFOV(float targetFOV, float duration)
+	{
+		float startFOV = _cineCam.m_Lens.FieldOfView;
+		float time = 0;
+		while(time < duration)
+		{
+			_cineCam.m_Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, time / duration);
+			yield return null;
+			time += Time.deltaTime;
+		}
+	}
 	
 	
 	#endregion

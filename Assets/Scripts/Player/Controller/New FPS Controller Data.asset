@@ -307,6 +307,8 @@ MonoBehaviour:
   m_wallClimbStaminaCost: 50
   m_screenShakeAmplitude: 0
   m_screenShakeDuration: 0
+  m_defaultFOV: 90
   m_leanOnMove: 1
+  m_leanOnMoveAmount: 1
   m_sensitivity: 1
   m_sensMultiplier: 1

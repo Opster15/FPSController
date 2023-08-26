@@ -141,7 +141,7 @@ public class FPSControllerData : ScriptableObject
 	public DashType m_dashType;
 	
 	[Tooltip("Curve reprisenting length of Dash (x axis) and Speed of Dash (y axis)")]
-	public AnimationCurve m_dashSpeedCurve;
+	public AnimationCurve m_dashSpeedCurve= new(new Keyframe(0,0),new Keyframe(.1f,1));
 	
 	[Tooltip("Max speed of dash. 1 in the y axis of dashSpeedCurve represents this variable")]
 	public float m_dashMaxSpeed;
@@ -284,8 +284,14 @@ public class FPSControllerData : ScriptableObject
 	public float m_screenShakeAmplitude;
 	public float m_screenShakeDuration;
 	
-	[Tooltip("Mimic the camera leaning in the direction the controller is moving")]
+	[Tooltip("Default FOV of the cinemachine camera")]
+	public float m_defaultFOV = 90f;
+	
+	[Tooltip("Leaning camera in the direction of movement")]
 	public bool m_leanOnMove;
+	
+	[Tooltip("Max angle of rotation when leaning")]
+	public float m_leanOnMoveAmount = 1f;
 	
 	#endregion
 	

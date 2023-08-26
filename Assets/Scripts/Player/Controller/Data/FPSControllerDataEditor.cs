@@ -77,6 +77,7 @@ public class FPSControllerDataEditor : Editor
 					EditorGUILayout.LabelField("AIR MOVEMENT VARIABLES", EditorStyles.boldLabel);
 
 					EditorGUI.indentLevel++;
+					if(x.m_airControl == 0) EditorGUILayout.HelpBox("Controller will not move while in the air if Air Control is set to 0", MessageType.Warning);
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airControl"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airAccelerationCurve"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_airDecelerationCurve"));
@@ -90,8 +91,9 @@ public class FPSControllerDataEditor : Editor
 					break;
 				case "Gravity":
 					EditorGUILayout.LabelField("GRAVITY VARIABLES", EditorStyles.boldLabel);
-
+					
 					EditorGUI.indentLevel++;
+					if(x.m_baseGravityForce > 0) EditorGUILayout.HelpBox("Base Gravity Force should be negative", MessageType.Warning);
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_baseGravityForce"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_gravityCurve"));
 
@@ -106,7 +108,14 @@ public class FPSControllerDataEditor : Editor
 				case "Visuals":
 					EditorGUILayout.LabelField("VISUALS VARIABLES", EditorStyles.boldLabel);
 					
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_defaultFOV"));
+					
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMove"));
+					
+					if(x.m_leanOnMove)
+					{
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_leanOnMoveAmount"));
+					}
 					
 					break;
 				case "Misc":
@@ -125,6 +134,7 @@ public class FPSControllerDataEditor : Editor
 
 					EditorGUIUtility.labelWidth = 170f;
 					EditorGUI.indentLevel++;
+					if(x.m_staminaUsingMechanics == 0)EditorGUILayout.HelpBox("No mechanics are using stamina", MessageType.Warning);
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaUsingMechanics"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxStamina"));
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_staminaRechargeRate"));
@@ -143,8 +153,10 @@ public class FPSControllerDataEditor : Editor
 					if (x.m_canJump)
 					{
 						EditorGUI.indentLevel++;
+						if(x.m_whatIsGround == 0) EditorGUILayout.HelpBox("What Is Ground shouldnt be nothing", MessageType.Warning);
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsGround"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpForce"));
+						if(x.m_maxJumpCount <= 0) EditorGUILayout.HelpBox("Max Jump Count should be higher than 0", MessageType.Warning);
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxJumpCount"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_cyoteTime"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxYVelocity"));
@@ -251,7 +263,9 @@ public class FPSControllerDataEditor : Editor
 							case "Detection":
 								EditorGUILayout.LabelField("WALL INTERACTION VARIABLES", EditorStyles.boldLabel);
 								EditorGUI.indentLevel++;
+								if(x.m_whatIsWall == 0) EditorGUILayout.HelpBox("What Is Wall shouldn't be nothing", MessageType.Warning);
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("m_whatIsWall"));
+								if(x.m_wallCheckDirection == 0) EditorGUILayout.HelpBox("You're not checking for any walls", MessageType.Warning);
 								EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckDirection"));
 								if (x.m_wallCheckDirection != 0)
 								{
@@ -265,6 +279,7 @@ public class FPSControllerDataEditor : Editor
 									EditorGUI.indentLevel++;
 									EditorGUIUtility.labelWidth = 170f;
 									EditorGUILayout.LabelField("WALLRUN VARIABLES", EditorStyles.boldLabel);
+									if(x.m_wallRunCheckDirection == 0) EditorGUILayout.HelpBox("You're not checking for any walls to wall run", MessageType.Warning);
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunCheckDirection"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxSpeed"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunMaxLookAngle"));
@@ -287,9 +302,11 @@ public class FPSControllerDataEditor : Editor
 								{
 									EditorGUILayout.LabelField("WALL JUMP VARIABLES", EditorStyles.boldLabel);
 									EditorGUI.indentLevel++;
+									EditorGUIUtility.labelWidth = 170f;
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpSideForce"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpUpForce"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallCheckTime"));
+									if(x.m_maxWallJumpCount <= 0) EditorGUILayout.HelpBox("Max Wall Jump Count should be higher than 0", MessageType.Warning);
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxWallJumpCount"));
 									if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallJump) && x.m_useStamina)
 									{
@@ -304,6 +321,7 @@ public class FPSControllerDataEditor : Editor
 									EditorGUILayout.LabelField("WALL CLIMB VARIABLES", EditorStyles.boldLabel);
 									EditorGUI.indentLevel++;
 									EditorGUIUtility.labelWidth = 170f;
+									if(x.m_wallClimbCheckDirection == 0) EditorGUILayout.HelpBox("You're not checking for any walls to wall climb", MessageType.Warning);
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbCheckDirection"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbType"));
 									EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbMaxSpeed"));
