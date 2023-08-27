@@ -17,10 +17,10 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("Curve reprisenting time to reach 0 speed")]
 	public AnimationCurve m_groundDecelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
-
+	
 	[Tooltip("Max speed the controller can reach regardless of any other factor")]
 	public float m_absoluteMaxSpeed = 30f;
-
+	
 	[Tooltip("Curve reprisenting time to reach max speed in the air")]
 	public AnimationCurve m_airAccelerationCurve = new(new Keyframe(0,0),new Keyframe(.5f,1));
 
@@ -78,12 +78,6 @@ public class FPSControllerData : ScriptableObject
 	
 	[Tooltip("Time after becoming airborne when you can still jump")]
 	public float m_cyoteTime = .5f;
-	
-	[Tooltip("Increases the max speed after jumping")]
-	public bool m_jumpAddsSpeed;
-
-	[Tooltip("Amount increased per jump")]
-	public float m_jumpSpeedIncrease = 1f;
 
 	[Tooltip("Max upwards velocity that can be applied to the controller")]
 	public float m_maxYVelocity = 50f;

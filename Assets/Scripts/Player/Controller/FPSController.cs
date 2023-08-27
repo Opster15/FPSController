@@ -588,8 +588,8 @@ public class FPSController : MonoBehaviour
 		{
 			_currentSpeed = _currentMaxSpeed * m_data.m_airAccelerationCurve.Evaluate(_timeMoving);
 			_timeMoving += Time.deltaTime;
-			_move.z = (_currentSpeed * _input.z);
-			_move.x = (_currentSpeed * _input.x);
+			_move.z += (_currentSpeed * _input.z) * m_data.m_airControl;
+			_move.x += (_currentSpeed * _input.x) * m_data.m_airControl;
 		}
 		else
 		{
@@ -607,23 +607,8 @@ public class FPSController : MonoBehaviour
 				_move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
 			}
 		}
-
+		
 		_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
-	}
-
-
-	public void IncreaseSpeed(float speedIncrease)
-	{
-		if (_currentMaxSpeed >= m_data.m_absoluteMaxSpeed)
-		{
-			return;
-		}
-		_currentMaxSpeed += speedIncrease;
-	}
-
-	public void DecreaseSpeed(float speedDecrease)
-	{
-		_currentMaxSpeed -= speedDecrease * Time.deltaTime;
 	}
 
 	public void AddYVelocityForce()

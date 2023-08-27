@@ -15,7 +15,7 @@ public class FPSControllerDataEditor : Editor
 	private int currentWallTab = 0;
 
 	bool showAdd;
-
+	
 	override public void OnInspectorGUI()
 	{
 		serializedObject.Update();
@@ -160,12 +160,7 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxJumpCount"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_cyoteTime"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_maxYVelocity"));
-
-						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpAddsSpeed"));
-						if (x.m_jumpAddsSpeed)
-						{
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpSpeedIncrease"));
-						}
+						
 						if (x.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && x.m_useStamina)
 						{
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpStaminaCost"));

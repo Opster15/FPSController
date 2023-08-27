@@ -81,11 +81,6 @@ public class Jump : MovementMechanic
 		m_con._isGrounded = false;
 		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_jumpForce * m_con._currentGravityForce);
 
-		if (m_data.m_jumpAddsSpeed)
-		{
-			m_con.IncreaseSpeed(m_data.m_jumpSpeedIncrease);
-		}
-
 	}
 
 	#endregion
