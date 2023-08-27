@@ -92,25 +92,25 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 10.000001
-      outSlope: 10.000001
+      inSlope: 1
+      outSlope: 1
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.099999994
+      time: 1
       value: 1
-      inSlope: 10.000001
-      outSlope: 10.000001
+      inSlope: 1
+      outSlope: 1
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_airControl: 0.1
+  m_airControl: 0.01
   m_baseGravityForce: -35
   m_wallRunGravityForce: 0
   m_gravityCurve:
@@ -182,8 +182,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   m_cyoteTime: 0
-  m_jumpAddsSpeed: 0
-  m_jumpSpeedIncrease: 1
   m_maxYVelocity: 50
   m_canCrouch: 1
   m_crouchMaxSpeed: 4
@@ -308,7 +306,7 @@ MonoBehaviour:
   m_screenShakeAmplitude: 0
   m_screenShakeDuration: 0
   m_defaultFOV: 90
-  m_leanOnMove: 1
+  m_leanOnMove: 0
   m_leanOnMoveAmount: 1
   m_sensitivity: 1
   m_sensMultiplier: 1
