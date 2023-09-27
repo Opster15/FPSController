@@ -216,7 +216,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_infiniteSlide: 1
+  m_infiniteSlide: 0
   m_slideCooldown: 2
   m_slideStartType: 1
   m_canDash: 1
