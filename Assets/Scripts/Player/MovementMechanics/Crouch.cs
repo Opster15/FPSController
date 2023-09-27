@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Crouch : MovementMechanic
 {
+	bool _bufferCrouch;
+	
 	#region States
 	public override void EnterState()
 	{
@@ -14,9 +16,16 @@ public class Crouch : MovementMechanic
 	
 	public override void ExitState()
 	{
-		base.ExitState();
-		
-		StopCrouch();
+		if(CanUncrouch())
+		{
+			base.ExitState();
+			
+			StopCrouch();
+		}
+		else
+		{
+			
+		}
 	}
 	
 	public override void SwapState(MovementMechanic newState)
@@ -68,10 +77,27 @@ public class Crouch : MovementMechanic
 		m_con._cc.center = new Vector3(0, 0, 0);
 		
 		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_defaultCamYPos;
-
 		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
 	}
-
+	
+	public bool CanUncrouch()
+	{
+		//TODO add variable to data thats uncrouch check position & uncrouch check size
+		if (Physics.CheckSphere(transform.position + (Vector3.up * .55f), .5f))
+		{
+			
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.DrawSphere(transform.position + (Vector3.up * .55f), .5f);
+	}
    
 	#endregion
 

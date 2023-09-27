@@ -25,12 +25,16 @@ public class Slide : MovementMechanic
 
 		SlideMovement();
 		
-		m_con._slideTimer += Time.deltaTime;
-		
-		if (m_con._slideTimer > m_data.m_slideMovementCurve.keys[^1].time && !m_data.m_infiniteSlide)
+		if( !m_data.m_infiniteSlide)
 		{
-			SwapState(m_con._defMovement);
+			m_con._slideTimer += Time.deltaTime;
+			
+			if (m_con._slideTimer > m_data.m_slideMovementCurve.keys[^1].time)
+			{
+				SwapState(m_con._defMovement);
+			}
 		}
+		
 		
 	}
 
@@ -88,7 +92,10 @@ public class Slide : MovementMechanic
 		
 		m_con.m_slideEvents.m_onSliding.Invoke();
 		
-		m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_slideMovementCurve.Evaluate(m_con._slideTimer);
+		if(!m_data.m_infiniteSlide)
+		{
+			m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_slideMovementCurve.Evaluate(m_con._slideTimer);
+		}
 		
 		//Facing slide only applies force in the facing direction you started the slide in
 		//Multi Direction Slide applies force in the direction you're moving
