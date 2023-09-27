@@ -438,6 +438,7 @@ public class FPSController : MonoBehaviour
 				{
 					if (((m_data.m_wallRunCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
 					{
+						Debug.Log("A");
 						m_currentMechanic.SwapState(_wallRun);
 					}
 				}
@@ -728,6 +729,12 @@ public class FPSController : MonoBehaviour
 			_currentWalls &= ~directionCheck;
 		}
 
+	}
+	
+	public void StopWallCheck()
+	{
+		_canWallCheck = false;
+		_currentWalls = 0;
 	}
 
 	public void ResetWallCheck()

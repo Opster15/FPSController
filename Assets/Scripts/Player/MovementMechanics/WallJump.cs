@@ -62,7 +62,7 @@ public class WallJump : MovementMechanic
 		
 		
 		m_con._wallJumpTime = .25f;
-		m_con._canWallCheck = false;
+		m_con.StopWallCheck();
 	}
 
 	#endregion

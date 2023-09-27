@@ -110,7 +110,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_airControl: 0.01
+  m_airControl: 1
   m_baseGravityForce: -35
   m_wallRunGravityForce: 0
   m_gravityCurve:
@@ -308,5 +308,5 @@ MonoBehaviour:
   m_defaultFOV: 90
   m_leanOnMove: 0
   m_leanOnMoveAmount: 1
-  m_sensitivity: 1
+  m_sensitivity: 2
   m_sensMultiplier: 1
