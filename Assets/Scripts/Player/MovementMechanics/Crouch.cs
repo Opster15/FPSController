@@ -19,12 +19,11 @@ public class Crouch : MovementMechanic
 		if(CanUncrouch())
 		{
 			base.ExitState();
-			
 			StopCrouch();
 		}
 		else
 		{
-			
+			_bufferCrouch = true;
 		}
 	}
 	
@@ -41,6 +40,16 @@ public class Crouch : MovementMechanic
 	public override void UpdateState()
 	{
 		//base.UpdateState();
+		if(_bufferCrouch)
+		{
+			Debug.Log("a");
+			if(CanUncrouch())
+			{
+				_bufferCrouch = false;
+				ExitState();
+				return;
+			}
+		}
 
 		m_con.GroundMovement();
 	}
@@ -85,7 +94,6 @@ public class Crouch : MovementMechanic
 		//TODO add variable to data thats uncrouch check position & uncrouch check size
 		if (Physics.CheckSphere(transform.position + (Vector3.up * .55f), .5f))
 		{
-			
 			return false;
 		}
 		else

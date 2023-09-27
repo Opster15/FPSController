@@ -14,9 +14,12 @@ public class Slide : MovementMechanic
 
 	public override void ExitState()
 	{
-		base.ExitState();
-		
-		StopSlide();
+		if(CanUncrouch())
+		{
+			base.ExitState();
+			
+			StopSlide();
+		}
 	}
 
 	public override void UpdateState()
@@ -25,7 +28,7 @@ public class Slide : MovementMechanic
 
 		SlideMovement();
 		
-		if( !m_data.m_infiniteSlide)
+		if(!m_data.m_infiniteSlide)
 		{
 			m_con._slideTimer += Time.deltaTime;
 			
@@ -34,8 +37,6 @@ public class Slide : MovementMechanic
 				SwapState(m_con._defMovement);
 			}
 		}
-		
-		
 	}
 
 	public override void SwapState(MovementMechanic newState)
@@ -54,7 +55,6 @@ public class Slide : MovementMechanic
 
 	public void StartSlide()
 	{
-		
 		m_con.m_slideEvents.m_onSlideStart.Invoke();
 		m_con._slide.m_inState = true;
 		m_con._forwardDirection = m_con.m_orientation.forward;
@@ -119,5 +119,19 @@ public class Slide : MovementMechanic
 			}
 		}
 	}
+	
+	public bool CanUncrouch()
+	{
+		//TODO add variable to data thats uncrouch check position & uncrouch check size
+		if (Physics.CheckSphere(transform.position + (Vector3.up * .55f), .5f))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
 	#endregion
 }
