@@ -14,18 +14,16 @@ public class Slide : MovementMechanic
 
 	public override void ExitState()
 	{
-		if(CanUncrouch())
-		{
-			base.ExitState();
-			
-			StopSlide();
-		}
+		base.ExitState();
+		StopSlide();
+		
+		m_con.m_slideEvents.m_onSlideEnd.Invoke();
 	}
-
+	
 	public override void UpdateState()
 	{
 		//base.UpdateState();
-
+		
 		SlideMovement();
 		
 		if(!m_data.m_infiniteSlide)
@@ -38,15 +36,23 @@ public class Slide : MovementMechanic
 			}
 		}
 	}
-
+	
 	public override void SwapState(MovementMechanic newState)
 	{
 		if(newState == m_con._slide)
 		{
+			base.SwapState(m_con._defMovement);
 			return;
 		}
 		
-		base.SwapState(newState);
+		if(CanUncrouch())
+		{
+			base.SwapState(newState);
+		}
+		else
+		{
+			base.SwapState(m_con._crouch);
+		}
 	}
 
 	#endregion

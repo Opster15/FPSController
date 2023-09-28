@@ -16,15 +16,9 @@ public class Crouch : MovementMechanic
 	
 	public override void ExitState()
 	{
-		if(CanUncrouch())
-		{
-			base.ExitState();
-			StopCrouch();
-		}
-		else
-		{
-			_bufferCrouch = true;
-		}
+		base.ExitState();
+		StopCrouch();
+		m_con.m_crouchEvents.m_onCrouchEnd.Invoke();
 	}
 	
 	public override void SwapState(MovementMechanic newState)
@@ -34,23 +28,25 @@ public class Crouch : MovementMechanic
 			base.SwapState(m_con._defMovement);
 			return;
 		}
-		base.SwapState(newState);
+		
+		if(CanUncrouch())
+		{
+			_bufferCrouch = false;
+			base.SwapState(newState);
+		}
+		else
+		{
+			_bufferCrouch = true;
+		}
 	}
 	
 	public override void UpdateState()
 	{
-		//base.UpdateState();
 		if(_bufferCrouch)
 		{
-			Debug.Log("a");
-			if(CanUncrouch())
-			{
-				_bufferCrouch = false;
-				ExitState();
-				return;
-			}
+			SwapState(m_con._defMovement);
 		}
-
+		
 		m_con.GroundMovement();
 	}
 

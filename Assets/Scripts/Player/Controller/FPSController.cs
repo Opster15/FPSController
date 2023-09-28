@@ -378,7 +378,7 @@ public class FPSController : MonoBehaviour
 
 		if (_crouch)
 		{
-			if (_slide)
+			if (_slide && !_crouch.m_inState)
 			{
 				if (_inputManager.m_crouch.InputPressed && _isGrounded)
 				{
