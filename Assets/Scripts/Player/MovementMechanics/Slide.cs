@@ -32,7 +32,14 @@ public class Slide : MovementMechanic
 			
 			if (m_con._slideTimer > m_data.m_slideMovementCurve.keys[^1].time)
 			{
-				SwapState(m_con._defMovement);
+				if(m_data.m_slideEndType == SlideEndType.EndSlideDefaultMovement)
+				{
+					SwapState(m_con._defMovement);
+				}
+				else
+				{
+					SwapState(m_con._crouch);
+				}
 			}
 		}
 	}

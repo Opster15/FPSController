@@ -356,7 +356,7 @@ public class FPSController : MonoBehaviour
 
 		if (m_data.m_leanOnMove)
 		{
-			//LeanPlayer();
+			LeanPlayer();
 		}
 
 		_isInputing = _input.x != 0 || _input.y != 0;

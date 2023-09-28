@@ -125,6 +125,9 @@ public class FPSControllerData : ScriptableObject
 	[Tooltip("Determines from which state the controller can start sliding from.")]
 	public SlideStartType m_slideStartType;
 	
+	[Tooltip("Determines what state is entered once a slide timer has ended.")]
+	public SlideEndType m_slideEndType;
+	
 	#endregion
 
 	#region DASH VARIABLES

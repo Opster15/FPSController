@@ -180,7 +180,7 @@ MonoBehaviour:
   m_maxJumpCount: 1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   m_cyoteTime: 0
   m_maxYVelocity: 50
   m_canCrouch: 1
@@ -216,9 +216,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_infiniteSlide: 0
+  m_infiniteSlide: 1
   m_slideCooldown: 2
   m_slideStartType: 1
+  m_slideEndType: 0
   m_canDash: 1
   m_dashType: 2
   m_dashSpeedCurve:
@@ -289,7 +290,7 @@ MonoBehaviour:
   m_canWallClimb: 1
   m_wallClimbCheckDirection: 1
   m_wallClimbType: 1
-  m_wallClimbMaxSpeed: 10
+  m_wallClimbMaxSpeed: 3
   m_maxWallClimbTime: 2
   m_useStamina: 1
   m_maxStamina: 100
