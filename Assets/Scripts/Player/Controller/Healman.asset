@@ -240,7 +240,7 @@ MonoBehaviour:
   DashMaxSpeed: 0
   DashCooldown: 2
   MaxDashCount: 1
-  CanWallInteract: 1
+  CanWallInteract: 0
   WhatIsWall:
     serializedVersion: 2
     m_Bits: 128
@@ -260,7 +260,7 @@ MonoBehaviour:
   WallJumpUpForce: 3
   WallJumpSideForce: 3
   WallCheckTime: 0.25
-  CanWallClimb: 1
+  CanWallClimb: 0
   WallClimbCheckDirection: 1
   WallClimbType: 0
   WallClimbMaxSpeed: 10
