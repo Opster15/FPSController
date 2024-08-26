@@ -7,8 +7,8 @@ public class Stamina : MovementMechanic
 	public override void Start()
 	{
 		base.Start();
-		m_con._currentStamina = m_data.m_maxStamina;
-		m_con._staminaDelayTimer = m_data.m_staminaRechargeDelay;
+		Con._currentStamina = Data.MaxStamina;
+		Con._staminaDelayTimer = Data.StaminaRechargeDelay;
 	}
 
 	public void Update()
@@ -18,44 +18,44 @@ public class Stamina : MovementMechanic
 
 	public void StaminaDelayTimer()
 	{
-		if(m_con._staminaDelayTimer <= 0)
+		if(Con._staminaDelayTimer <= 0)
 		{
 			RechargeStamina();
 		}
 		else
 		{
-			m_con._staminaDelayTimer -= Time.deltaTime;
+			Con._staminaDelayTimer -= Time.deltaTime;
 		}
 	}
 
 	public void ResetStaminaDelay()
 	{
-		m_con._staminaDelayTimer = m_data.m_staminaRechargeDelay;
+		Con._staminaDelayTimer = Data.StaminaRechargeDelay;
 	}
 
 	public void RechargeStamina()
 	{
-		if (m_con._currentStamina >= m_data.m_maxStamina) 
+		if (Con._currentStamina >= Data.MaxStamina) 
 		{
-			m_con._currentStamina = m_data.m_maxStamina;
+			Con._currentStamina = Data.MaxStamina;
 			return; 
 		}
 		
-		m_con._currentStamina += m_data.m_staminaRechargeRate * Time.deltaTime;
+		Con._currentStamina += Data.StaminaRechargeRate * Time.deltaTime;
 	}
 
 	public bool ReduceStamina(float value, bool overTime)
 	{
 		if(overTime)
 		{
-			if(m_con._currentStamina - value * Time.deltaTime < 0)
+			if(Con._currentStamina - value * Time.deltaTime < 0)
 			{
 				return false;
 			}
 		}
 		else
 		{
-			if(m_con._currentStamina - value < 0)
+			if(Con._currentStamina - value < 0)
 			{
 				return false;
 			}
@@ -64,22 +64,22 @@ public class Stamina : MovementMechanic
 		
 		if(overTime)
 		{
-			m_con._currentStamina -= value * Time.deltaTime;
+			Con._currentStamina -= value * Time.deltaTime;
 			
-			if(m_con._currentStamina <= 0)
+			if(Con._currentStamina <= 0)
 			{
-				m_con._currentStamina = 0;
+				Con._currentStamina = 0;
 			}
 			ResetStaminaDelay();
 			return true;
 		}
 		else
 		{
-			m_con._currentStamina -= value;
+			Con._currentStamina -= value;
 			
-			if(m_con._currentStamina <= 0)
+			if(Con._currentStamina <= 0)
 			{
-				m_con._currentStamina = 0;
+				Con._currentStamina = 0;
 			}
 			ResetStaminaDelay();
 			return true;

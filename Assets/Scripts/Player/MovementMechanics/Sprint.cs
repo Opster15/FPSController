@@ -16,17 +16,17 @@ public class Sprint : MovementMechanic
 	public override void UpdateState()
 	{
 		//base.UpdateState();
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint) && m_con._stamina)
+		if (Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.Sprint) && Con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_sprintStaminaCost, true))
+			if (!Con._stamina.ReduceStamina(Data.SprintStaminaCost, true))
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 		}
 		
-		m_con.m_sprintEvents.m_onSprinting.Invoke();
-		m_con.GroundMovement();
+		Con.SprintingEvents.OnSprinting.Invoke();
+		Con.GroundMovement();
 	}
 	
 	public override void ExitState()
@@ -39,17 +39,17 @@ public class Sprint : MovementMechanic
 
 	public void StartSprint()
 	{
-		m_con._timeMoving = 0;
+		Con._timeMoving = 0;
 		
-		m_con._currentMaxSpeed = m_data.m_sprintMaxSpeed;
+		Con._currentMaxSpeed = Data.SprintMaxSpeed;
 		
-		m_con.m_sprintEvents.m_onEnterSprint.Invoke();
+		Con.SprintingEvents.OnEnterSprint.Invoke();
 	}
 
 	public void StopSprint()
 	{
-		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
+		Con._currentMaxSpeed = Data.BaseMaxSpeed;
 		
-		m_con.m_sprintEvents.m_onExitSprint.Invoke();
+		Con.SprintingEvents.OnExitSprint.Invoke();
 	}
 }

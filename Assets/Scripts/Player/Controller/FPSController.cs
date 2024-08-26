@@ -8,11 +8,11 @@ using UnityEngine.Events;
 
 public class FPSController : MonoBehaviour
 {
-	public bool m_debugMode;
+	public bool DebugMode;
 
-	public FPSControllerData m_data;
+	public FPSControllerData Data;
 
-	#region Variables
+	#region 	Variables
 
 	#region Movement Mechanics
 	public DefaultMovement _defMovement;
@@ -35,25 +35,25 @@ public class FPSController : MonoBehaviour
 
 	public Stamina _stamina;
 
-	public MovementMechanic[] m_mechanics = new MovementMechanic[6];
+	public MovementMechanic[] Mechanics = new MovementMechanic[10];
 
-	public MovementMechanic m_currentMechanic;
+	public MovementMechanic CurrentMechanic;
 
 	#endregion
 
 	#region ASSIGNABLE VARIABLES
 
 	[Tooltip("Transform of Camera")]
-	public Transform m_playerCam;
+	public Transform PlayerCam;
 	[Tooltip("Parent Transform of Camera")]
-	public Transform m_playerCamParent;
+	public Transform PlayerCamParent;
 	[Tooltip("Empty game object that rotates with controller")]
-	public Transform m_orientation;
+	public Transform Orientation;
 
 
-	public CinemachineVirtualCamera _cineCam;
-	public InputManager _inputManager;
-	public CharacterController _cc;
+	public CinemachineVirtualCamera CineCam;
+	public InputManager InputManager;
+	public CharacterController Cc;
 
 	#endregion
 
@@ -69,16 +69,16 @@ public class FPSController : MonoBehaviour
 	[System.Serializable]
 	public class MoveEvents
 	{
-		public UnityEvent m_onMove, m_onMoveStop;
+		public UnityEvent OnMove, OnMoveStop;
 	}
-	public MoveEvents m_moveEvents;
+	public MoveEvents MovementEvents;
 
 	[System.Serializable]
 	public class SprintEvents
 	{
-		public UnityEvent m_onEnterSprint, m_onSprinting, m_onExitSprint;
+		public UnityEvent OnEnterSprint, OnSprinting, OnExitSprint;
 	}
-	public SprintEvents m_sprintEvents;
+	public SprintEvents SprintingEvents;
 	#endregion
 
 	#region GRAVITY VARIABLES
@@ -114,9 +114,9 @@ public class FPSController : MonoBehaviour
 	[System.Serializable]
 	public class JumpEvents
 	{
-		public UnityEvent m_onJump, m_onJumpLand;
+		public UnityEvent OnJump, OnJumpLand;
 	}
-	public JumpEvents m_jumpEvents;
+	public JumpEvents JumpingEvents;
 	#endregion
 
 	#region CROUCHING/SLIDE VARIABLES
@@ -129,16 +129,16 @@ public class FPSController : MonoBehaviour
 	[System.Serializable]
 	public class CrouchEvents
 	{
-		public UnityEvent m_onCrouchStart, m_onCrouchEnd;
+		public UnityEvent OnCrouchStart, OnCrouchEnd;
 	}
-	public CrouchEvents m_crouchEvents;
+	public CrouchEvents CrouchingEvents;
 
 	[System.Serializable]
 	public class SlideEvents
 	{
-		public UnityEvent m_onSlideStart, m_onSliding, m_onSlideEnd;
+		public UnityEvent OnSlideStart, OnSliding, OnSlideEnd;
 	}
-	public SlideEvents m_slideEvents;
+	public SlideEvents SlidingEvents;
 
 	#endregion
 
@@ -151,9 +151,9 @@ public class FPSController : MonoBehaviour
 	[System.Serializable]
 	public class DashEvents
 	{
-		public UnityEvent m_onDashStart, m_onDashing, m_onDashEnd;
+		public UnityEvent OnDashStart, OnDashing, OnDashEnd;
 	}
-	public DashEvents m_dashEvents;
+	public DashEvents DashingEvents;
 	#endregion
 
 	#region WALL INTERACT VARIABLES
@@ -174,32 +174,32 @@ public class FPSController : MonoBehaviour
 	[System.Serializable]
 	public class WallRunEvents
 	{
-		public UnityEvent m_onWallRunStart, m_onWallRunning, m_onWallRunEnd;
+		public UnityEvent OnWallRunStart, OnWallRunning, OnWallRunEnd;
 	}
-	public WallRunEvents m_wallRunEvents;
+	public WallRunEvents WallRunningEvents;
 
 	[System.Serializable]
 	public class WallJumpEvents
 	{
-		public UnityEvent m_onWallJumpStart, m_onWallJumpEnd;
+		public UnityEvent OnWallJumpStart, OnWallJumpEnd;
 	}
-	public WallJumpEvents m_wallJumpEvents;
+	public WallJumpEvents WallJumpingEvents;
 
 	[System.Serializable]
 	public class WallClimbEvents
 	{
-		public UnityEvent m_onWallClimbStart, m_onWallClimbing, m_onWallClimbEnd;
+		public UnityEvent OnWallClimbStart, OnWallClimbing, OnWallClimbEnd;
 	}
-	public WallClimbEvents m_wallClimbEvents;
+	public WallClimbEvents WallClimbingEvents;
 	#endregion
 
 	#region VISUALS VARIABLES
 	public CinemachineBasicMultiChannelPerlin _perl;
 
-	public float _shakeTimer;
+	public float ShakeTimer;
 	
-	public float _headBobAmp, _headBobFreq;
-	
+	public float HeadBobAmp, HeadBobFreq;
+
 	public bool _isBobbing;
 	#endregion
 
@@ -221,9 +221,9 @@ public class FPSController : MonoBehaviour
 	#region START & AWAKE FUNCTIONS
 	void Awake()
 	{
-		_cc = GetComponent<CharacterController>();
-		_inputManager = GetComponent<InputManager>();
-		_cineCam = GetComponentInChildren<CinemachineVirtualCamera>();
+		Cc = GetComponent<CharacterController>();
+		InputManager = GetComponent<InputManager>();
+		CineCam = GetComponentInChildren<CinemachineVirtualCamera>();
 		_perl = GetComponentInChildren<CinemachineBasicMultiChannelPerlin>();
 		_crouch = GetComponent<Crouch>();
 	}
@@ -232,18 +232,18 @@ public class FPSController : MonoBehaviour
 	{
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-		_currentMaxSpeed = m_data.m_baseMaxSpeed;
-		_currentDashCount = m_data.m_maxDashCount;
-		_dashCooldownTimer = m_data.m_dashCooldown;
-		_forwardDirection = m_orientation.forward;
-		_currentGravityForce = m_data.m_baseGravityForce;
+		_currentMaxSpeed = Data.BaseMaxSpeed;
+		_currentDashCount = Data.MaxDashCount;
+		_dashCooldownTimer = Data.DashCooldown;
+		_forwardDirection = Orientation.forward;
+		_currentGravityForce = Data.BaseGravityForce;
 		_canLook = true;
 
-		m_currentMechanic = _defMovement;
+		CurrentMechanic = _defMovement;
 
-		m_currentMechanic.EnterState();
-		
-		SetFOV(m_data.m_defaultFOV, .1f);
+		CurrentMechanic.EnterState();
+
+		SetFOV(Data.DefaultFOV, .1f);
 	}
 	#endregion
 
@@ -264,21 +264,21 @@ public class FPSController : MonoBehaviour
 		{
 			Look();
 		}
-		
-		if(m_data.m_leanOnMove)
+
+		if (Data.LeanOnMove)
 		{
 			LeanPlayer();
 		}
 
-		if (m_currentMechanic)
+		if (CurrentMechanic)
 		{
-			m_currentMechanic.UpdateState();
+			CurrentMechanic.UpdateState();
 		}
 
 
 		if (_move != Vector3.zero)
 		{
-			_cc.Move(_move * Time.deltaTime);
+			Cc.Move(_move * Time.deltaTime);
 		}
 
 		AddYVelocityForce();
@@ -286,23 +286,23 @@ public class FPSController : MonoBehaviour
 
 	public void CallTimers()
 	{
-		if (_shakeTimer > 0)
+		if (ShakeTimer > 0)
 		{
-			_shakeTimer -= Time.deltaTime;
-			_perl.m_AmplitudeGain = Mathf.Lerp(0, m_data.m_screenShakeAmplitude, _shakeTimer / m_data.m_screenShakeDuration);
-			if (_shakeTimer <= 0f)
+			ShakeTimer -= Time.deltaTime;
+			_perl.m_AmplitudeGain = Mathf.Lerp(0, Data.ScreenShakeAmplitude, ShakeTimer / Data.ScreenShakeDuration);
+			if (ShakeTimer <= 0f)
 			{
 				_perl.m_AmplitudeGain = 0f;
 			}
 		}
 
-		if (_currentDashCount < m_data.m_maxDashCount)
+		if (_currentDashCount < Data.MaxDashCount)
 		{
 			_dashCooldownTimer -= Time.deltaTime;
 			if (_dashCooldownTimer <= 0)
 			{
 				_currentDashCount++;
-				_dashCooldownTimer = m_data.m_dashCooldown;
+				_dashCooldownTimer = Data.DashCooldown;
 			}
 		}
 
@@ -331,7 +331,7 @@ public class FPSController : MonoBehaviour
 		if (_wallJumpTime > 0)
 		{
 			_wallJumpTime -= Time.deltaTime;
-			
+
 			if (_wallJumpTime < 0)
 			{
 				ResetWallCheck();
@@ -350,11 +350,11 @@ public class FPSController : MonoBehaviour
 			_lastInput = _input;
 		}
 		//sets _input depending on your player m_orientation
-		_input = new(_inputManager.Movement.x, 0f, _inputManager.Movement.y);
-		_input = m_orientation.transform.TransformDirection(_input);
+		_input = new(InputManager.Movement.x, 0f, InputManager.Movement.y);
+		_input = Orientation.transform.TransformDirection(_input);
 		_input = Vector3.ClampMagnitude(_input, 1f);
 
-		if (m_data.m_leanOnMove)
+		if (Data.LeanOnMove)
 		{
 			LeanPlayer();
 		}
@@ -363,50 +363,50 @@ public class FPSController : MonoBehaviour
 
 		if (_sprint)
 		{
-			if (_inputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
+			if (InputManager.m_sprint.InputPressed && _isGrounded && _isInputing)
 			{
-				m_currentMechanic.SwapState(CheckInput(m_data.m_sprintInputType, _sprint));
+				CurrentMechanic.SwapState(CheckInput(Data.SprintInputType, _sprint));
 			}
-			else if (_sprint.m_inState)
+			else if (_sprint.InState)
 			{
-				if (_inputManager.m_sprint.InputReleased && m_data.m_sprintInputType == InputType.hold || (!_isGrounded || !_isInputing))
+				if (InputManager.m_sprint.InputReleased && Data.SprintInputType == InputType.hold || (!_isGrounded || !_isInputing))
 				{
-					m_currentMechanic.SwapState(_defMovement);
+					CurrentMechanic.SwapState(_defMovement);
 				}
 			}
 		}
 
 		if (_crouch)
 		{
-			if (_slide && !_crouch.m_inState)
+			if (_slide && !_crouch.InState)
 			{
-				if (_inputManager.m_crouch.InputPressed && _isGrounded)
+				if (InputManager.m_crouch.InputPressed && _isGrounded)
 				{
 					if (CheckSlideStart())
 					{
-						m_currentMechanic.SwapState(CheckInput(m_data.m_slideInputType, _slide));
+						CurrentMechanic.SwapState(CheckInput(Data.SlideInputType, _slide));
 					}
 				}
-				else if (_slide.m_inState)
+				else if (_slide.InState)
 				{
-					if (_inputManager.m_crouch.InputReleased && m_data.m_slideInputType == InputType.hold || !_isGrounded)
+					if (InputManager.m_crouch.InputReleased && Data.SlideInputType == InputType.hold || !_isGrounded)
 					{
-						m_currentMechanic.SwapState(_defMovement);
+						CurrentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
 
-			if (!_slide.m_inState)
+			if (!_slide.InState)
 			{
-				if (_inputManager.m_crouch.InputPressed && _isGrounded)
+				if (InputManager.m_crouch.InputPressed && _isGrounded)
 				{
-					m_currentMechanic.SwapState(CheckInput(m_data.m_crouchInputType, _crouch));
+					CurrentMechanic.SwapState(CheckInput(Data.CrouchInputType, _crouch));
 				}
-				else if (_crouch.m_inState)
+				else if (_crouch.InState)
 				{
-					if (_inputManager.m_crouch.InputReleased && m_data.m_crouchInputType == InputType.hold || !_isGrounded)
+					if (InputManager.m_crouch.InputReleased && Data.CrouchInputType == InputType.hold || !_isGrounded)
 					{
-						m_currentMechanic.SwapState(_defMovement);
+						CurrentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
@@ -414,56 +414,56 @@ public class FPSController : MonoBehaviour
 
 		if (_wallJump)
 		{
-			if (_wallRun.m_inState && _inputManager.m_jump.InputPressed)
+			if (_wallRun.InState && InputManager.m_jump.InputPressed)
 			{
-				m_currentMechanic.SwapState(_wallJump);
+				CurrentMechanic.SwapState(_wallJump);
 			}
 		}
 
 		if (_jump)
 		{
-			if (_inputManager.m_jump.InputPressed && _jumpCounter <= 0)
+			if (InputManager.m_jump.InputPressed && _jumpCounter <= 0)
 			{
-				m_currentMechanic.SwapState(_jump);
+				CurrentMechanic.SwapState(_jump);
 			}
 		}
 
-		if (m_data.m_canWallInteract)
+		if (Data.CanWallInteract)
 		{
 			WallDetect();
 
 			if (_wallRun)
 			{
-				if (!_wallRun.m_inState)
+				if (!_wallRun.InState)
 				{
-					if (((m_data.m_wallRunCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0 && _jump.m_inState && _jumpCounter < 0)
+					if (((Data.WallRunCheckDirection & _currentWalls) != 0) && InputManager.m_movementInput.y > 0 && _jump.InState && _jumpCounter < 0)
 					{
-						m_currentMechanic.SwapState(_wallRun);
+						CurrentMechanic.SwapState(_wallRun);
 					}
 				}
 				else
 				{
-					if ((m_data.m_wallRunCheckDirection & _currentWalls) == 0)
+					if ((Data.WallRunCheckDirection & _currentWalls) == 0)
 					{
-						m_currentMechanic.SwapState(_defMovement);
+						CurrentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
 
 			if (_wallClimb)
 			{
-				if (!_wallClimb.m_inState)
+				if (!_wallClimb.InState)
 				{
-					if (((m_data.m_wallClimbCheckDirection & _currentWalls) != 0) && _inputManager.m_movementInput.y > 0)
+					if (((Data.WallClimbCheckDirection & _currentWalls) != 0) && InputManager.m_movementInput.y > 0)
 					{
-						m_currentMechanic.SwapState(_wallClimb);
+						CurrentMechanic.SwapState(_wallClimb);
 					}
 				}
 				else
 				{
-					if ((m_data.m_wallClimbCheckDirection & _currentWalls) == 0 || _inputManager.m_movementInput.y <= 0)
+					if ((Data.WallClimbCheckDirection & _currentWalls) == 0 || InputManager.m_movementInput.y <= 0)
 					{
-						m_currentMechanic.SwapState(_defMovement);
+						CurrentMechanic.SwapState(_defMovement);
 					}
 				}
 			}
@@ -471,9 +471,9 @@ public class FPSController : MonoBehaviour
 
 		if (_dash)
 		{
-			if (_inputManager.m_Dash.InputPressed && _currentDashCount >= m_data.m_maxDashCount)
+			if (InputManager.m_Dash.InputPressed && _currentDashCount >= Data.MaxDashCount)
 			{
-				m_currentMechanic.SwapState(_dash);
+				CurrentMechanic.SwapState(_dash);
 			}
 		}
 
@@ -483,7 +483,7 @@ public class FPSController : MonoBehaviour
 	{
 		if (type == InputType.toggle)
 		{
-			if (m_currentMechanic == mm)
+			if (CurrentMechanic == mm)
 			{
 				return _defMovement;
 			}
@@ -505,11 +505,11 @@ public class FPSController : MonoBehaviour
 	private float desiredX;
 	private void Look()
 	{
-		float mouseX = _inputManager.m_mousePositionInput.x * m_data.m_sensitivity * Time.fixedDeltaTime * m_data.m_sensMultiplier;
-		float mouseY = _inputManager.m_mousePositionInput.y * m_data.m_sensitivity * Time.fixedDeltaTime * m_data.m_sensMultiplier;
+		float mouseX = InputManager.m_mousePositionInput.x * Data.Sensitivity * Time.fixedDeltaTime * Data.SensMultiplier;
+		float mouseY = InputManager.m_mousePositionInput.y * Data.Sensitivity * Time.fixedDeltaTime * Data.SensMultiplier;
 
 		//Find current look rotation
-		Vector3 rot = m_playerCam.transform.localRotation.eulerAngles;
+		Vector3 rot = PlayerCam.transform.localRotation.eulerAngles;
 		desiredX = rot.y + mouseX;
 
 		//Rotate, and also make sure we dont over- or under-rotate.
@@ -517,8 +517,8 @@ public class FPSController : MonoBehaviour
 		_xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
 		//Perform the rotations
-		m_playerCam.transform.localRotation = Quaternion.Euler(_xRotation, desiredX, 0);
-		m_orientation.transform.rotation = Quaternion.Euler(0, desiredX, 0);
+		PlayerCam.transform.localRotation = Quaternion.Euler(_xRotation, desiredX, 0);
+		Orientation.transform.rotation = Quaternion.Euler(0, desiredX, 0);
 	}
 
 	#endregion
@@ -528,13 +528,13 @@ public class FPSController : MonoBehaviour
 	{
 		if (_isInputing)
 		{
-			if (_sprint && _sprint.m_inState)
+			if (_sprint && _sprint.InState)
 			{
-				_currentSpeed = _currentMaxSpeed * m_data.m_sprintCurve.Evaluate(_timeMoving);
+				_currentSpeed = _currentMaxSpeed * Data.SprintCurve.Evaluate(_timeMoving);
 			}
 			else
 			{
-				_currentSpeed = _currentMaxSpeed * m_data.m_groundAccelerationCurve.Evaluate(_timeMoving);
+				_currentSpeed = _currentMaxSpeed * Data.GroundAccelerationCurve.Evaluate(_timeMoving);
 			}
 			_timeMoving += Time.deltaTime;
 			_move.z = _currentSpeed * _input.z;
@@ -542,7 +542,7 @@ public class FPSController : MonoBehaviour
 		}
 		else
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_groundDecelerationCurve.Evaluate(_timeMoving);
+			_currentSpeed = _currentMaxSpeed * Data.GroundDecelerationCurve.Evaluate(_timeMoving);
 			if (_timeMoving <= 0)
 			{
 				_move.x = 0;
@@ -551,7 +551,7 @@ public class FPSController : MonoBehaviour
 			}
 			else
 			{
-				_timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, m_data.m_groundDecelerationCurve.keys[^1].time);
+				_timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, Data.GroundDecelerationCurve.keys[^1].time);
 				_move.z = _currentSpeed * Mathf.Clamp(_lastInput.z, -1, 1);
 				_move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
 			}
@@ -564,9 +564,9 @@ public class FPSController : MonoBehaviour
 	{
 		if (_wallJump)
 		{
-			if (_wallJump.m_inState)
+			if (_wallJump.InState)
 			{
-				_move += _wallNormal * m_data.m_wallJumpSideForce;
+				_move += _wallNormal * Data.WallJumpSideForce;
 				_move += _forwardDirection * _currentMaxSpeed;
 
 				_wallJumpTime -= 1f * Time.deltaTime;
@@ -586,14 +586,14 @@ public class FPSController : MonoBehaviour
 
 		if (_isInputing)
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_airAccelerationCurve.Evaluate(_timeMoving);
+			_currentSpeed = _currentMaxSpeed * Data.AirAccelerationCurve.Evaluate(_timeMoving);
 			_timeMoving += Time.deltaTime;
-			_move.z += (_currentSpeed * _input.z) * m_data.m_airControl;
-			_move.x += (_currentSpeed * _input.x) * m_data.m_airControl;
+			_move.z += (_currentSpeed * _input.z) * Data.AirControl;
+			_move.x += (_currentSpeed * _input.x) * Data.AirControl;
 		}
 		else
 		{
-			_currentSpeed = _currentMaxSpeed * m_data.m_airDecelerationCurve.Evaluate(_timeMoving);
+			_currentSpeed = _currentMaxSpeed * Data.AirDecelerationCurve.Evaluate(_timeMoving);
 			if (_timeMoving == 0)
 			{
 				_move.x = 0;
@@ -602,18 +602,18 @@ public class FPSController : MonoBehaviour
 			}
 			else
 			{
-				_timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, m_data.m_airDecelerationCurve.keys[^1].time);
+				_timeMoving = Mathf.Clamp(_timeMoving - Time.deltaTime, 0, Data.AirDecelerationCurve.keys[^1].time);
 				_move.z = _currentSpeed * Mathf.Clamp(_lastInput.z, -1, 1);
 				_move.x = _currentSpeed * Mathf.Clamp(_lastInput.x, -1, 1);
 			}
 		}
-		
+
 		_move = Vector3.ClampMagnitude(_move, _currentMaxSpeed);
 	}
 
 	public void AddYVelocityForce()
 	{
-		_yVelocity.y += _currentGravityForce * Time.deltaTime * m_data.m_gravityCurve.Evaluate(_timeFalling);
+		_yVelocity.y += _currentGravityForce * Time.deltaTime * Data.GravityCurve.Evaluate(_timeFalling);
 
 		if (_isGrounded)
 		{
@@ -624,7 +624,7 @@ public class FPSController : MonoBehaviour
 		{
 			if (_dash)
 			{
-				if (_dash.m_inState) { return; }
+				if (_dash.InState) { return; }
 			}
 
 			_timeFalling += Time.deltaTime;
@@ -635,25 +635,25 @@ public class FPSController : MonoBehaviour
 			_yVelocity.y = _currentGravityForce;
 		}
 
-		if (_yVelocity.y > m_data.m_maxYVelocity)
+		if (_yVelocity.y > Data.MaxYVelocity)
 		{
-			_yVelocity.y = m_data.m_maxYVelocity;
+			_yVelocity.y = Data.MaxYVelocity;
 		}
 
-		_cc.Move(_yVelocity * Time.deltaTime);
+		Cc.Move(_yVelocity * Time.deltaTime);
 	}
 
 	public bool CheckSlideStart()
 	{
-		if (m_data.m_slideStartType == SlideStartType.Standing)
+		if (Data.SlideStartType == SlideStartType.Standing)
 		{
 			return true;
 		}
-		else if (m_data.m_slideStartType == SlideStartType.Moving && _isInputing)
+		else if (Data.SlideStartType == SlideStartType.Moving && _isInputing)
 		{
 			return true;
 		}
-		else if (m_data.m_slideStartType == SlideStartType.Sprinting && _sprint.m_inState)
+		else if (Data.SlideStartType == SlideStartType.Sprinting && _sprint.InState)
 		{
 			return true;
 		}
@@ -669,13 +669,13 @@ public class FPSController : MonoBehaviour
 
 	public void CheckGrounded()
 	{
-		_isGrounded = _cc.isGrounded;
+		_isGrounded = Cc.isGrounded;
 
 		if (_isGrounded && _currentJumpCount != 0)
 		{
 			_hasWallRun = false;
-			_currentGravityForce = m_data.m_baseGravityForce;
-			_cyoteTimer = m_data.m_cyoteTime;
+			_currentGravityForce = Data.BaseGravityForce;
+			_cyoteTimer = Data.CyoteTime;
 			_currentJumpCount = 0;
 		}
 	}
@@ -692,24 +692,24 @@ public class FPSController : MonoBehaviour
 	{
 		if (_canWallCheck)
 		{
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
+			if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Left))
 			{
-				IsWall(-m_orientation.right, _leftWallHit, WallCheckDirections.Left);
+				IsWall(-Orientation.right, _leftWallHit, WallCheckDirections.Left);
 			}
 
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
+			if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Right))
 			{
-				IsWall(m_orientation.right, _rightWallHit, WallCheckDirections.Right);
+				IsWall(Orientation.right, _rightWallHit, WallCheckDirections.Right);
 			}
 
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
+			if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Forward))
 			{
-				IsWall(m_orientation.forward, _frontWallHit, WallCheckDirections.Forward);
+				IsWall(Orientation.forward, _frontWallHit, WallCheckDirections.Forward);
 			}
 
-			if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
+			if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Backward))
 			{
-				IsWall(-m_orientation.forward, _backWallHit, WallCheckDirections.Backward);
+				IsWall(-Orientation.forward, _backWallHit, WallCheckDirections.Backward);
 			}
 		}
 	}
@@ -717,7 +717,7 @@ public class FPSController : MonoBehaviour
 	public void IsWall(Vector3 directionVec, RaycastHit hit, WallCheckDirections directionCheck)
 	{
 		bool x;
-		x = Physics.Raycast(m_orientation.transform.position, directionVec, out hit, m_data.m_wallCheckDist, m_data.m_whatIsWall);
+		x = Physics.Raycast(Orientation.transform.position, directionVec, out hit, Data.WallCheckDist, Data.WhatIsWall);
 		if (x)
 		{
 			_wallNormal = hit.normal;
@@ -729,7 +729,7 @@ public class FPSController : MonoBehaviour
 		}
 
 	}
-	
+
 	public void StopWallCheck()
 	{
 		_canWallCheck = false;
@@ -746,67 +746,68 @@ public class FPSController : MonoBehaviour
 
 	public void ShakeCam(float _intensity, float _time)
 	{
-		m_data.m_screenShakeAmplitude = _intensity;
-		_perl.m_AmplitudeGain = m_data.m_screenShakeAmplitude;
+		Data.ScreenShakeAmplitude = _intensity;
+		_perl.m_AmplitudeGain = Data.ScreenShakeAmplitude;
 
-		if (_shakeTimer < _time)
+		if (ShakeTimer < _time)
 		{
-			_shakeTimer = _time;
-			m_data.m_screenShakeDuration = _time;
+			ShakeTimer = _time;
+			Data.ScreenShakeDuration = _time;
 		}
 	}
-	
+
 	public void LeanPlayer()
 	{
-		float x = m_data.m_leanOnMoveAmount * (_currentSpeed / _currentMaxSpeed);
-		
-		m_playerCamParent.rotation = Quaternion.Euler(-_inputManager.Movement.x * x, 0, -_inputManager.Movement.y * x);
+		float x = Data.LeanOnMoveAmount * (_currentSpeed / _currentMaxSpeed);
+
+		PlayerCamParent.rotation = Quaternion.Euler(-InputManager.Movement.x * x, 0, -InputManager.Movement.y * x);
 	}
-	
+
 	public void SetFOV(float targetFOV, float duration)
 	{
-		StartCoroutine(ChangeFOV(targetFOV,duration));
+		StartCoroutine(ChangeFOV(targetFOV, duration));
 	}
-	
+
 	public IEnumerator ChangeFOV(float targetFOV, float duration)
 	{
-		float startFOV = _cineCam.m_Lens.FieldOfView;
+		float startFOV = CineCam.m_Lens.FieldOfView;
 		float time = 0;
-		while(time < duration)
+		while (time < duration)
 		{
-			_cineCam.m_Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, time / duration);
+			CineCam.m_Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, time / duration);
 			yield return null;
 			time += Time.deltaTime;
 		}
 	}
-	
-	
+
+
 	#endregion
 
 	#region DEBUG FUNCTIONS
 
 	private void OnDrawGizmos()
 	{
+		if (!Data) { return; }
 		Gizmos.color = Color.red;
 
-		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Forward))
+		if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Forward))
 		{
-			Gizmos.DrawRay(transform.position, m_orientation.forward * m_data.m_wallCheckDist);
+			Gizmos.DrawRay(transform.position, Orientation.forward * Data.WallCheckDist);
 		}
 
-		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Right))
+		if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Right))
 		{
-			Gizmos.DrawRay(transform.position, m_orientation.right * m_data.m_wallCheckDist);
+			Gizmos.DrawRay(transform.position, Orientation.right * Data.WallCheckDist);
 		}
 
-		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Left))
+		if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Left))
 		{
-			Gizmos.DrawRay(transform.position, -m_orientation.right * m_data.m_wallCheckDist);
+			Gizmos.DrawRay(transform.position, -Orientation.right * Data.WallCheckDist);
 		}
 
-		if (m_data.m_wallCheckDirection.HasFlag(WallCheckDirections.Backward))
+		if (Data.WallCheckDirection.HasFlag(WallCheckDirections.Backward))
 		{
-			Gizmos.DrawRay(transform.position, -m_orientation.forward * m_data.m_wallCheckDist);
+			Gizmos.DrawRay(transform.position, -Orientation.forward * Data.WallCheckDist);
 		}
 
 	}

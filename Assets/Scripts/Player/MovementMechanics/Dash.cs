@@ -21,7 +21,7 @@ public class Dash : MovementMechanic
 	{
 		base.ExitState();
 		
-		m_con.m_dashEvents.m_onDashEnd.Invoke();
+		Con.DashingEvents.OnDashEnd.Invoke();
 	}
 	
 	#endregion
@@ -30,22 +30,22 @@ public class Dash : MovementMechanic
 	
 	public void DashCheck()
 	{
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
+		if (Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.Dash))
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_dashStaminaCost, false))
+			if (!Con._stamina.ReduceStamina(Data.DashStaminaCost, false))
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 		}
 		
-		m_con.m_dashEvents.m_onDashStart.Invoke();
+		Con.DashingEvents.OnDashStart.Invoke();
 		
-		m_con._currentDashCount--;
+		Con._currentDashCount--;
 		
-		m_con._startTime = m_data.m_dashSpeedCurve.keys[^1].time;
+		Con._startTime = Data.DashSpeedCurve.keys[^1].time;
 		
-		switch (m_data.m_dashType)
+		switch (Data.DashType)
 		{
 			case DashType.FacingDash:
 				StartCoroutine(FacingDash());
@@ -64,65 +64,65 @@ public class Dash : MovementMechanic
 
 	public IEnumerator FacingDash()
 	{
-		while (m_con._startTime > 0)
+		while (Con._startTime > 0)
 		{
-			m_con._startTime -= Time.deltaTime;
+			Con._startTime -= Time.deltaTime;
 			
-			m_con._currentSpeed = m_data.m_dashSpeedCurve.Evaluate(m_con._startTime) * m_data.m_dashMaxSpeed;
+			Con._currentSpeed = Data.DashSpeedCurve.Evaluate(Con._startTime) * Data.DashMaxSpeed;
 
-			m_con._move = m_con._currentSpeed * m_con.m_orientation.transform.forward;
+			Con._move = Con._currentSpeed * Con.Orientation.transform.forward;
 			
 			
-			m_con.m_dashEvents.m_onDashing.Invoke();
+			Con.DashingEvents.OnDashing.Invoke();
 			
 			
 			yield return null;
 		}
 
-		SwapState(m_con._defMovement);
+		SwapState(Con._defMovement);
 	}
 
 	public IEnumerator TrueFacingDash()
 	{
-		while (m_con._startTime > 0)
+		while (Con._startTime > 0)
 		{
-			m_con._startTime -= Time.deltaTime;
+			Con._startTime -= Time.deltaTime;
 			
-			m_con._currentSpeed = m_data.m_dashSpeedCurve.Evaluate(m_con._startTime) * m_data.m_dashMaxSpeed;
+			Con._currentSpeed = Data.DashSpeedCurve.Evaluate(Con._startTime) * Data.DashMaxSpeed;
 
-			m_con._move = m_con._currentSpeed * m_con.m_playerCam.transform.forward;
+			Con._move = Con._currentSpeed * Con.PlayerCam.transform.forward;
 			
 			
-			m_con.m_dashEvents.m_onDashing.Invoke();
+			Con.DashingEvents.OnDashing.Invoke();
 			yield return null;
 		}
 
-		SwapState(m_con._defMovement);
+		SwapState(Con._defMovement);
 	}
 
 	public IEnumerator DirectionalDash()
 	{
-		while (m_con._startTime > 0)
+		while (Con._startTime > 0)
 		{
-			m_con._startTime -= Time.deltaTime;
+			Con._startTime -= Time.deltaTime;
 			
-			m_con._currentSpeed = m_data.m_dashSpeedCurve.Evaluate(m_con._startTime) * m_data.m_dashMaxSpeed;
+			Con._currentSpeed = Data.DashSpeedCurve.Evaluate(Con._startTime) * Data.DashMaxSpeed;
 			
-			if ((m_con._input.x == 0 && m_con._input.z == 0))
+			if ((Con._input.x == 0 && Con._input.z == 0))
 			{
-				m_con._move = m_con._currentSpeed * m_con.m_orientation.transform.forward;
+				Con._move = Con._currentSpeed * Con.Orientation.transform.forward;
 			}
 			else
 			{
-				m_con._move.x = m_con._currentSpeed * m_con._input.x;
-				m_con._move.z = m_con._currentSpeed * m_con._input.z;
+				Con._move.x = Con._currentSpeed * Con._input.x;
+				Con._move.z = Con._currentSpeed * Con._input.z;
 			}
 			
-			m_con.m_dashEvents.m_onDashing.Invoke();
+			Con.DashingEvents.OnDashing.Invoke();
 			yield return null;
 		}
 
-		SwapState(m_con._defMovement);
+		SwapState(Con._defMovement);
 	}
 
 	#endregion

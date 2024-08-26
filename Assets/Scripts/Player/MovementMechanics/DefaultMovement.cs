@@ -14,15 +14,15 @@ public class DefaultMovement : MovementMechanic
     public override void UpdateState()
     {
         //base.UpdateState();
-        if (m_con._isGrounded)
+        if (Con._isGrounded)
         {
-            m_con.GroundMovement();
+            Con.GroundMovement();
         }
         else
         {
-            m_con.AirMovement();
+            Con.AirMovement();
         }
-
+    
     }
 
 

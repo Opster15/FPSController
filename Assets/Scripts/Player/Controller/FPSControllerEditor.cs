@@ -19,55 +19,63 @@ public class FPSControllerEditor : Editor
 
 	bool showEvents;
 	
-	public AnimBool m_debugMode;
+	public AnimBool DebugMode;
 	
 	private void OnEnable()
 	{
 		x = target as FPSController;
-
-		for(int i = 0; i < x.m_mechanics.Length; i++) 
+		
+		if(x.Data)
 		{
-			if (x.m_mechanics[i] != null)
+			for(int i = 0; i < x.Mechanics.Length; i++) 
 			{
-				RemoveMechanic(i);
+				if (x.Mechanics[i] != null)
+				{
+					RemoveMechanic(i);
+				}
+				else
+				{
+					AddMechanic(i);
+				}
 			}
-			else
-			{
-				AddMechanic(i);
-			}
+			DebugMode = new AnimBool();
+			DebugMode.valueChanged.AddListener(Repaint);
 		}
-		m_debugMode = new AnimBool();
-        m_debugMode.valueChanged.AddListener(Repaint);
-	}
+		}
+		
 
 
 	override public void OnInspectorGUI()
 	{
 		serializedObject.Update();
 		
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_data"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_currentMechanic"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCam"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_playerCamParent"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_orientation"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_debugMode"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("Data"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("PlayerCam"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("PlayerCamParent"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("Orientation"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("DebugMode"));
 		
-
-		if (x.m_data != null)
+		
+		if (x.Data != null)
 		{
-			CheckBool(x.m_data.m_canJump, "Jump");
-			CheckBool(x.m_data.m_canCrouch, "Crouch/Slide");
-			CheckBool(x.m_data.m_canDash, "Dash");
-			CheckBool(x.m_data.m_canWallInteract, "Wall Interact");
-			CheckBool(x.m_data.m_useStamina, "Stamina");
+			CheckBool(x.Data.CanJump, "Jump");
+			CheckBool(x.Data.CanCrouch, "Crouch/Slide");
+			CheckBool(x.Data.CanDash, "Dash");
+			CheckBool(x.Data.CanWallInteract, "Wall Interact");
+			CheckBool(x.Data.UseStamina, "Stamina");
 		}
+		// Debug.Log(DebugMode);
+		// Debug.Log(DebugMode.target);
+		// Debug.Log(x.DebugMode);
 		
-		m_debugMode.target = x.m_debugMode;
-        
+		DebugMode.target = x.DebugMode;
+		
 
-		if (EditorGUILayout.BeginFadeGroup(m_debugMode.faded))
+		if (EditorGUILayout.BeginFadeGroup(DebugMode.faded))
 		{
 			EditorGUILayout.BeginVertical();
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("CurrentMechanic"));
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("Mechanics"));
 			currentTab = GUILayout.SelectionGrid(currentTab, tabs.ToArray(), 4);
 			EditorGUILayout.Space(5f);
 			EditorGUILayout.EndVertical();
@@ -123,7 +131,7 @@ public class FPSControllerEditor : Editor
 					case "Crouch/Slide":
 						EditorGUILayout.LabelField("CROUCH VARIABLES", EditorStyles.boldLabel);
 
-						if (x._crouch && x.m_data.m_canSlide)
+						if (x._crouch && x.Data.CanSlide)
 						{
 							EditorGUILayout.LabelField("DEBUG", EditorStyles.boldLabel);
 							EditorGUILayout.PropertyField(serializedObject.FindProperty("_slideTimer"));
@@ -164,7 +172,7 @@ public class FPSControllerEditor : Editor
 						
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isGrounded"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_isInputing"));
-						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_shakeTimer"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("ShakeTimer"));
 					
 						break;
 				}
@@ -172,57 +180,57 @@ public class FPSControllerEditor : Editor
 		}
 
 		
-        EditorGUILayout.EndFadeGroup();
+		EditorGUILayout.EndFadeGroup();
 		showEvents = EditorGUILayout.Foldout(showEvents, "EVENTS");
 
 		if (showEvents)
 		{
 			EditorGUI.indentLevel++;
-			EditorGUILayout.PropertyField(serializedObject.FindProperty("m_moveEvents"));
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("MovementEvents"));
 			
 			if (x._sprint)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_sprintEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("SprintingEvents"));
 			}
 			
 			if (x._jump)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_jumpEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("JumpingEvents"));
 			}
 
 			if (x._crouch)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_crouchEvents"));
-				if (x.m_data.m_canSlide)
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("CrouchingEvents"));
+				if (x.Data.CanSlide)
 				{
-					EditorGUILayout.PropertyField(serializedObject.FindProperty("m_slideEvents"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("SlidingEvents"));
 				}
 			}
 
 			if (x._dash)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_dashEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("DashingEvents"));
 			}
 
 
-			if (x.m_data.m_canWallRun)
+			if (x.Data.CanWallRun)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallRunEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("WallRunningEvents"));
 			}
 
-			if (x.m_data.m_canWallJump)
+			if (x.Data.CanWallJump)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallJumpEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("WallJumpingEvents"));
 			}
 
-			if (x.m_data.m_canWallClimb)
+			if (x.Data.CanWallClimb)
 			{
-				EditorGUILayout.PropertyField(serializedObject.FindProperty("m_wallClimbEvents"));
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("WallClimbingEvents"));
 			}
 
 			EditorGUI.indentLevel--;
 		}
-
+		
 		serializedObject.ApplyModifiedProperties();
 	}
 
@@ -269,69 +277,69 @@ public class FPSControllerEditor : Editor
 		{
 			case 0:
 				x._defMovement = x.AddComponent<DefaultMovement>();
-				x.m_mechanics[i] = x._defMovement;
+				x.Mechanics[i] = x._defMovement;
 				break;
 			case 1:
-				if (x.m_data.m_canSprint)
+				if (x.Data.CanSprint)
 				{
 					x._sprint = x.AddComponent<Sprint>();
-					x.m_mechanics[i] = x._sprint;
+					x.Mechanics[i] = x._sprint;
 				}
 				break;
 			case 2:
-				if (x.m_data.m_canJump)
+				if (x.Data.CanJump)
 				{
 					x._jump = x.AddComponent<Jump>();
-					x.m_mechanics[i] = x._jump;
+					x.Mechanics[i] = x._jump;
 				}
 				break;
 			case 3:
-				if (x.m_data.m_canCrouch)
+				if (x.Data.CanCrouch)
 				{
 					x._crouch = x.AddComponent<Crouch>();
-					x.m_mechanics[i] = x._crouch;
+					x.Mechanics[i] = x._crouch;
 				}
 				break;
 			case 4:
-				if (x.m_data.m_canSlide)
+				if (x.Data.CanSlide)
 				{
 					x._slide = x.AddComponent<Slide>();
-					x.m_mechanics[i] = x._slide;
+					x.Mechanics[i] = x._slide;
 				}
 				break;
 			case 5:
-				if (x.m_data.m_canDash)
+				if (x.Data.CanDash)
 				{
 					x._dash = x.AddComponent<Dash>();
-					x.m_mechanics[i] = x._dash;
+					x.Mechanics[i] = x._dash;
 				}
 				break;
 			case 6:
-				if (x.m_data.m_useStamina)
+				if (x.Data.UseStamina)
 				{
 					x._stamina = x.AddComponent<Stamina>();
-					x.m_mechanics[i] = x._stamina;
+					x.Mechanics[i] = x._stamina;
 				}
 				break;
 			case 7:
-				if (x.m_data.m_canWallRun)
+				if (x.Data.CanWallRun)
 				{
 					x._wallRun = x.AddComponent<WallRun>();
-					x.m_mechanics[i] = x._wallRun;
+					x.Mechanics[i] = x._wallRun;
 				}
 				break;
 			case 8:
-				if (x.m_data.m_canWallJump)
+				if (x.Data.CanWallJump)
 				{
 					x._wallJump = x.AddComponent<WallJump>();
-					x.m_mechanics[i] = x._wallJump;
+					x.Mechanics[i] = x._wallJump;
 				}
 				break;
 			case 9:
-				if (x.m_data.m_canWallClimb)
+				if (x.Data.CanWallClimb)
 				{
 					x._wallClimb = x.AddComponent<WallClimb>();
-					x.m_mechanics[i] = x._wallClimb;
+					x.Mechanics[i] = x._wallClimb;
 				}
 				break;
 		}
@@ -342,61 +350,61 @@ public class FPSControllerEditor : Editor
 		switch (i)
 		{
 			case 0:
-				if(x.m_data == null)
+				if(x.Data == null)
 				{
 					DestroyImmediate(x.GetComponent<DefaultMovement>());
 				}
 				break;
 			case 1:
-				if (!x.m_data.m_canSprint)
+				if (!x.Data.CanSprint)
 				{
 					DestroyImmediate(x.GetComponent<Sprint>());
 				}
 				break;
 			case 2:
-				if (!x.m_data.m_canJump)
+				if (!x.Data.CanJump)
 				{
 					DestroyImmediate(x.GetComponent<Jump>());
 				}
 				break;
 			case 3:
-				if (!x.m_data.m_canCrouch)
+				if (!x.Data.CanCrouch)
 				{
 					DestroyImmediate(x.GetComponent<Crouch>());
 				}
 				break;
 			case 4:
-				if (!x.m_data.m_canSlide)
+				if (!x.Data.CanSlide)
 				{
 					DestroyImmediate(x.GetComponent<Slide>());
 				}
 				break;
 			case 5:
-				if (!x.m_data.m_canDash)
+				if (!x.Data.CanDash)
 				{
 					DestroyImmediate(x.GetComponent<Dash>());
 				}
 				break;
 			case 6:
-				if (!x.m_data.m_useStamina)
+				if (!x.Data.UseStamina)
 				{
 					DestroyImmediate(x.GetComponent<Stamina>());
 				}
 				break;
 			case 7:
-				if(!x.m_data.m_canWallRun)
+				if(!x.Data.CanWallRun)
 				{
 					DestroyImmediate(x.GetComponent<WallRun>());
 				}
 				break;
 			case 8:
-				if(!x.m_data.m_canWallJump)
+				if(!x.Data.CanWallJump)
 				{
 					DestroyImmediate(x.GetComponent<WallJump>());
 				}
 				break;
 			case 9:
-				if(!x.m_data.m_canWallClimb)
+				if(!x.Data.CanWallClimb)
 				{
 					DestroyImmediate(x.GetComponent<WallClimb>());
 				}

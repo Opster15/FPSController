@@ -17,7 +17,7 @@ public class Slide : MovementMechanic
 		base.ExitState();
 		StopSlide();
 		
-		m_con.m_slideEvents.m_onSlideEnd.Invoke();
+		Con.SlidingEvents.OnSlideEnd.Invoke();
 	}
 	
 	public override void UpdateState()
@@ -26,19 +26,19 @@ public class Slide : MovementMechanic
 		
 		SlideMovement();
 		
-		if(!m_data.m_infiniteSlide)
+		if(!Data.InfiniteSlide)
 		{
-			m_con._slideTimer += Time.deltaTime;
+			Con._slideTimer += Time.deltaTime;
 			
-			if (m_con._slideTimer > m_data.m_slideMovementCurve.keys[^1].time)
+			if (Con._slideTimer > Data.SlideMovementCurve.keys[^1].time)
 			{
-				if(m_data.m_slideEndType == SlideEndType.EndSlideDefaultMovement)
+				if(Data.SlideEndType == SlideEndType.EndSlideDefaultMovement)
 				{
-					SwapState(m_con._defMovement);
+					SwapState(Con._defMovement);
 				}
 				else
 				{
-					SwapState(m_con._crouch);
+					SwapState(Con._crouch);
 				}
 			}
 		}
@@ -46,9 +46,9 @@ public class Slide : MovementMechanic
 	
 	public override void SwapState(MovementMechanic newState)
 	{
-		if(newState == m_con._slide)
+		if(newState == Con._slide)
 		{
-			base.SwapState(m_con._defMovement);
+			base.SwapState(Con._defMovement);
 			return;
 		}
 		
@@ -58,7 +58,7 @@ public class Slide : MovementMechanic
 		}
 		else
 		{
-			base.SwapState(m_con._crouch);
+			base.SwapState(Con._crouch);
 		}
 	}
 
@@ -68,67 +68,67 @@ public class Slide : MovementMechanic
 
 	public void StartSlide()
 	{
-		m_con.m_slideEvents.m_onSlideStart.Invoke();
-		m_con._slide.m_inState = true;
-		m_con._forwardDirection = m_con.m_orientation.forward;
-		m_con._currentMaxSpeed = m_data.m_slideMaxSpeed;
-		m_con._slideTimer = 0;
-		m_con._slideCooldownTimer = m_data.m_slideCooldown;
+		Con.SlidingEvents.OnSlideStart.Invoke();
+		Con._slide.InState = true;
+		Con._forwardDirection = Con.Orientation.forward;
+		Con._currentMaxSpeed = Data.SlideMaxSpeed;
+		Con._slideTimer = 0;
+		Con._slideCooldownTimer = Data.SlideCooldown;
 		
-		m_con._cc.height = m_data.m_crouchHeight;
-		m_con._cc.center = new Vector3(0, m_data.m_crouchCenter, 0);
+		Con.Cc.height = Data.CrouchHeight;
+		Con.Cc.center = new Vector3(0, Data.CrouchCenter, 0);
 		
-		m_con.m_playerCamParent.localPosition = Vector3.up * m_data.m_crouchCamYPos;
+		Con.PlayerCamParent.localPosition = Vector3.up * Data.CrouchCamYPos;
 	}
 
 	public void StopSlide()
 	{
-		m_con.m_slideEvents.m_onSlideEnd.Invoke();
+		Con.SlidingEvents.OnSlideEnd.Invoke();
 	
 		
-		m_con._cc.center = new Vector3(0, 0, 0);
-		m_con._cc.height = 2f;
+		Con.Cc.center = new Vector3(0, 0, 0);
+		Con.Cc.height = 2f;
 		
-		m_con.m_playerCamParent.localPosition = Vector3.up * m_data.m_defaultCamYPos;
+		Con.PlayerCamParent.localPosition = Vector3.up * Data.DefaultCamYPos;
 	}
 
 	public void SlideMovement()
 	{
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && m_con._stamina)
+		if (Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.Slide) && Con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_slideStaminaCost,true))
+			if (!Con._stamina.ReduceStamina(Data.SlideStaminaCost,true))
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 		}
 		
-		m_con.m_slideEvents.m_onSliding.Invoke();
+		Con.SlidingEvents.OnSliding.Invoke();
 		
-		if(!m_data.m_infiniteSlide)
+		if(!Data.InfiniteSlide)
 		{
-			m_con._currentSpeed = m_con._currentMaxSpeed * m_data.m_slideMovementCurve.Evaluate(m_con._slideTimer);
+			Con._currentSpeed = Con._currentMaxSpeed * Data.SlideMovementCurve.Evaluate(Con._slideTimer);
 		}
 		
 		//Facing slide only applies force in the facing direction you started the slide in
 		//Multi Direction Slide applies force in the direction you're moving
-		if (m_data.m_slideType == SlideType.FacingSlide)
+		if (Data.SlideType == SlideType.FacingSlide)
 		{
-			m_con._move = m_con._currentSpeed * m_con._forwardDirection;
-			m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
+			Con._move = Con._currentSpeed * Con._forwardDirection;
+			Con._move = Vector3.ClampMagnitude(Con._move, Con._currentMaxSpeed);
 		}
-		else if (m_data.m_slideType == SlideType.MultiDirectionalSlide)
+		else if (Data.SlideType == SlideType.MultiDirectionalSlide)
 		{
-			if (m_con._isInputing)
+			if (Con._isInputing)
 			{
-				m_con._move.z = m_con._currentSpeed * m_con._input.z;
-				m_con._move.x = m_con._currentSpeed * m_con._input.x;
-				m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
+				Con._move.z = Con._currentSpeed * Con._input.z;
+				Con._move.x = Con._currentSpeed * Con._input.x;
+				Con._move = Vector3.ClampMagnitude(Con._move, Con._currentMaxSpeed);
 			}
 			else
 			{
-				m_con._move = m_con._currentSpeed * m_con._forwardDirection;
-				m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
+				Con._move = Con._currentSpeed * Con._forwardDirection;
+				Con._move = Vector3.ClampMagnitude(Con._move, Con._currentMaxSpeed);
 			}
 		}
 	}

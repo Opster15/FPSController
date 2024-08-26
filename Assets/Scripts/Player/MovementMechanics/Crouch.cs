@@ -18,14 +18,14 @@ public class Crouch : MovementMechanic
 	{
 		base.ExitState();
 		StopCrouch();
-		m_con.m_crouchEvents.m_onCrouchEnd.Invoke();
+		Con.CrouchingEvents.OnCrouchEnd.Invoke();
 	}
 	
 	public override void SwapState(MovementMechanic newState)
 	{
-		if(newState == m_con._slide)
+		if(newState == Con._slide)
 		{
-			base.SwapState(m_con._defMovement);
+			base.SwapState(Con._defMovement);
 			return;
 		}
 		
@@ -44,10 +44,10 @@ public class Crouch : MovementMechanic
 	{
 		if(_bufferCrouch)
 		{
-			SwapState(m_con._defMovement);
+			SwapState(Con._defMovement);
 		}
 		
-		m_con.GroundMovement();
+		Con.GroundMovement();
 	}
 
 	#endregion
@@ -61,28 +61,28 @@ public class Crouch : MovementMechanic
 		//makes controller crouch and set position to be 
 		//at the ground
 
-		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_crouchCamYPos;
+		Con.PlayerCamParent.transform.localPosition = Vector3.up * Data.CrouchCamYPos;
 		
-		m_con._cc.height = m_data.m_crouchHeight;
-		m_con._cc.center = new Vector3(0, m_data.m_crouchCenter, 0);
+		Con.Cc.height = Data.CrouchHeight;
+		Con.Cc.center = new Vector3(0, Data.CrouchCenter, 0);
 		
-		m_con._crouch.m_inState = true;
-		m_con._currentMaxSpeed = m_data.m_crouchMaxSpeed;
+		Con._crouch.InState = true;
+		Con._currentMaxSpeed = Data.CrouchMaxSpeed;
 		
-		m_con.m_crouchEvents.m_onCrouchStart.Invoke();
+		Con.CrouchingEvents.OnCrouchStart.Invoke();
 	}
 
 	public void StopCrouch()
 	{
 		//resets height,center and scale of controller
 		//sets position of controller to be at standing position
-		m_con.m_crouchEvents.m_onCrouchEnd.Invoke();
+		Con.CrouchingEvents.OnCrouchEnd.Invoke();
 		
-		m_con._cc.height = 2f;
-		m_con._cc.center = new Vector3(0, 0, 0);
+		Con.Cc.height = 2f;
+		Con.Cc.center = new Vector3(0, 0, 0);
 		
-		m_con.m_playerCamParent.transform.localPosition = Vector3.up * m_data.m_defaultCamYPos;
-		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
+		Con.PlayerCamParent.transform.localPosition = Vector3.up * Data.DefaultCamYPos;
+		Con._currentMaxSpeed = Data.BaseMaxSpeed;
 	}
 	
 	public bool CanUncrouch()

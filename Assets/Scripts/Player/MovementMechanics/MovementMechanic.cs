@@ -6,19 +6,19 @@ using UnityEngine.Events;
 public class MovementMechanic : MonoBehaviour
 {
     [HideInInspector]
-    public FPSController m_con;
-
+    public FPSController Con;
+    
     [HideInInspector]
-    public FPSControllerData m_data;
+    public FPSControllerData Data;
 
-    public bool m_inState;
-
+    public bool InState;
+    
     public virtual void Awake()
     {
-        m_con = GetComponent<FPSController>();
-        m_data = m_con.m_data;
+        Con = GetComponent<FPSController>();
+        Data = Con.Data;
     }
-
+    
     public virtual void Start()
     {
         
@@ -26,13 +26,13 @@ public class MovementMechanic : MonoBehaviour
 
     public virtual void EnterState()
     {
-        m_inState = true;
-        m_con.m_currentMechanic = this;
+        InState = true;
+        Con.CurrentMechanic = this;
     }
 
     public virtual void ExitState()
     {
-        m_inState = false;
+        InState = false;
     }
 
     public virtual void UpdateState()

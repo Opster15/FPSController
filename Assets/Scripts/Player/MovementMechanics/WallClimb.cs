@@ -13,11 +13,11 @@ public class WallClimb : MovementMechanic
 	
 	public override void UpdateState()
 	{
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && m_con._stamina)
+		if (Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallClimb) && Con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallClimbStaminaCost,true))
+			if (!Con._stamina.ReduceStamina(Data.WallClimbStaminaCost,true))
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 		}
@@ -35,36 +35,36 @@ public class WallClimb : MovementMechanic
 
 	public void StartWallClimb()
 	{
-		m_con._wallClimbTime = m_data.m_maxWallClimbTime;
+		Con._wallClimbTime = Data.MaxWallClimbTime;
 		
-		m_con.m_wallClimbEvents.m_onWallClimbStart.Invoke();
+		Con.WallClimbingEvents.OnWallClimbStart.Invoke();
 	}
 
 	public void EndWallClimb()
 	{
-		m_con.m_wallClimbEvents.m_onWallClimbEnd.Invoke();
+		Con.WallClimbingEvents.OnWallClimbEnd.Invoke();
 	}
 
 	public void WallClimbMovement()
 	{
-		if (m_con._wallClimbTime <= 0)
+		if (Con._wallClimbTime <= 0)
 		{
-			SwapState(m_con._defMovement);
+			SwapState(Con._defMovement);
 			return;
 		}
 		else
 		{
-			m_con._wallClimbTime -= Time.deltaTime;
+			Con._wallClimbTime -= Time.deltaTime;
 		}
 
-		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_wallClimbMaxSpeed * m_data.m_baseGravityForce);
+		Con._yVelocity.y = Mathf.Sqrt(-Data.WallClimbMaxSpeed * Data.BaseGravityForce);
 
-		if(m_data.m_wallClimbType == WallClimbType.lockedUpward)
+		if(Data.WallClimbType == WallClimbType.lockedUpward)
 		{
-			m_con._move = Vector3.zero;
+			Con._move = Vector3.zero;
 		}
 		
-		m_con.m_wallClimbEvents.m_onWallClimbing.Invoke();
+		Con.WallClimbingEvents.OnWallClimbing.Invoke();
 	}
 
 	#endregion

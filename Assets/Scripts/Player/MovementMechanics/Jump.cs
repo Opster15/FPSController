@@ -15,9 +15,9 @@ public class Jump : MovementMechanic
 		}
 		else
 		{
-			if (!m_con._isGrounded) { return; }
+			if (!Con._isGrounded) { return; }
 			
-			SwapState(m_con._defMovement);
+			SwapState(Con._defMovement);
 		}
 	}
 
@@ -25,15 +25,15 @@ public class Jump : MovementMechanic
 	{
 		//base.UpdateState();
 		
-		if (m_con._isGrounded && m_con._jumpCounter <= 0)
+		if (Con._isGrounded && Con._jumpCounter <= 0)
 		{
-			m_con.m_jumpEvents.m_onJumpLand.Invoke();
+			Con.JumpingEvents.OnJumpLand.Invoke();
 			
-			SwapState(m_con._defMovement);
+			SwapState(Con._defMovement);
 		}
 		else
 		{
-			m_con.AirMovement();
+			Con.AirMovement();
 		}
 	}
 
@@ -42,20 +42,20 @@ public class Jump : MovementMechanic
 	#region JUMP FUNCTIONS
 	public bool JumpCheck()
 	{
-		if (m_con._currentJumpCount < m_data.m_maxJumpCount)
+		if (Con._currentJumpCount < Data.MaxJumpCount)
 		{
-			if (m_data.m_maxJumpCount == 1)
+			if (Data.MaxJumpCount == 1)
 			{
-				if (m_con._isGrounded)
+				if (Con._isGrounded)
 				{
 					return true;
 				}
-				else if(m_con._cyoteTimer > 0)
+				else if(Con._cyoteTimer > 0)
 				{
 					return true;
 				}
 			}
-			else if (m_data.m_maxJumpCount > 1)
+			else if (Data.MaxJumpCount > 1)
 			{
 				return true;
 			}
@@ -66,20 +66,20 @@ public class Jump : MovementMechanic
 
 	private void StartJump()
 	{
-		if(m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && m_con._stamina)
+		if(Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && Con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_jumpStaminaCost, false))
+			if (!Con._stamina.ReduceStamina(Data.JumpStaminaCost, false))
 			{
 				return;
 			}
 		}
 
-		m_con.m_jumpEvents.m_onJump.Invoke();
+		Con.JumpingEvents.OnJump.Invoke();
 
-		m_con._currentJumpCount++;
-		m_con._jumpCounter = m_con._jumpCooldown;
-		m_con._isGrounded = false;
-		m_con._yVelocity.y = Mathf.Sqrt(-m_data.m_jumpForce * m_con._currentGravityForce);
+		Con._currentJumpCount++;
+		Con._jumpCounter = Con._jumpCooldown;
+		Con._isGrounded = false;
+		Con._yVelocity.y = Mathf.Sqrt(-Data.JumpForce * Con._currentGravityForce);
 
 	}
 

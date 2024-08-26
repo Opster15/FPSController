@@ -21,11 +21,11 @@ public class WallRun : MovementMechanic
 	public override void UpdateState()
 	{
 		
-		if (m_data.m_staminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && m_con._stamina)
+		if (Data.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.WallRun) && Con._stamina)
 		{
-			if (!m_con._stamina.ReduceStamina(m_data.m_wallRunStaminaCost,true))
+			if (!Con._stamina.ReduceStamina(Data.WallRunStaminaCost,true))
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 		}
@@ -42,59 +42,59 @@ public class WallRun : MovementMechanic
 	#region WALL RUN
 	public void WallRunMovement()
 	{
-		if(m_data.m_maxWallRunTime > 0)
+		if(Data.MaxWallRunTime > 0)
 		{
-			if(m_con._wallRunTime <= 0)
+			if(Con._wallRunTime <= 0)
 			{
-				SwapState(m_con._defMovement);
+				SwapState(Con._defMovement);
 				return;
 			}
 			else
 			{
-				m_con._wallRunTime -= Time.deltaTime;
+				Con._wallRunTime -= Time.deltaTime;
 			}
 		}
 		
-		m_con.m_wallRunEvents.m_onWallRunning.Invoke();
+		Con.WallRunningEvents.OnWallRunning.Invoke();
 		
-		if(m_data.m_wallRunDecay)
+		if(Data.WallRunDecay)
 		{
-			if(m_con._wallRunDecayTimer < m_data.m_wallRunDecayTime)
+			if(Con._wallRunDecayTimer < Data.WallRunDecayTime)
 			{
-				m_con._wallRunDecayTimer += Time.deltaTime;
-				m_con._currentGravityForce = m_data.m_baseGravityForce * (m_con._wallRunDecayTimer / m_data.m_wallRunDecayTime);
+				Con._wallRunDecayTimer += Time.deltaTime;
+				Con._currentGravityForce = Data.BaseGravityForce * (Con._wallRunDecayTimer / Data.WallRunDecayTime);
 			}
 		}
 
-		m_con._forwardDirection = Vector3.Cross(m_con._wallNormal, Vector3.up);
+		Con._forwardDirection = Vector3.Cross(Con._wallNormal, Vector3.up);
 
-		if (Vector3.Dot(m_con._forwardDirection, m_con.m_orientation.transform.forward) < .5f)
+		if (Vector3.Dot(Con._forwardDirection, Con.Orientation.transform.forward) < .5f)
 		{
-			m_con._forwardDirection = -m_con._forwardDirection;
+			Con._forwardDirection = -Con._forwardDirection;
 		}
 
-		if (m_con._input.z > (m_con._forwardDirection.z - m_data.m_wallRunMaxLookAngle) && m_con._input.z < (m_con._forwardDirection.z + m_data.m_wallRunMaxLookAngle))
+		if (Con._input.z > (Con._forwardDirection.z - Data.WallRunMaxLookAngle) && Con._input.z < (Con._forwardDirection.z + Data.WallRunMaxLookAngle))
 		{
-			m_con._move += m_con._forwardDirection;
+			Con._move += Con._forwardDirection;
 		}
-		else if (m_con._input.z < (m_con._forwardDirection.z - m_data.m_wallRunMaxLookAngle) && m_con._input.z > (m_con._forwardDirection.z + m_data.m_wallRunMaxLookAngle))
+		else if (Con._input.z < (Con._forwardDirection.z - Data.WallRunMaxLookAngle) && Con._input.z > (Con._forwardDirection.z + Data.WallRunMaxLookAngle))
 		{
-			SwapState(m_con._defMovement);
+			SwapState(Con._defMovement);
 		}
 
-		m_con._move.x += m_con._input.x * m_data.m_airControl;
+		Con._move.x += Con._input.x * Data.AirControl;
 
-		m_con._move = Vector3.ClampMagnitude(m_con._move, m_con._currentMaxSpeed);
+		Con._move = Vector3.ClampMagnitude(Con._move, Con._currentMaxSpeed);
 	}
 	
 	public bool WallRunCheck()
 	{
-		if (m_con._hasWallRun)
+		if (Con._hasWallRun)
 		{
 			
 			
-			float wallAngle = Vector3.Angle(m_con._wallNormal, m_con._lastWallNormal);
-			if (wallAngle >= m_data.m_maxWallAngle)
+			float wallAngle = Vector3.Angle(Con._wallNormal, Con._lastWallNormal);
+			if (wallAngle >= Data.MaxWallAngle)
 			{
 				return true;
 			}
@@ -105,47 +105,47 @@ public class WallRun : MovementMechanic
 		}
 		else
 		{
-			m_con._hasWallRun = true;
+			Con._hasWallRun = true;
 			return true;
 		}
 	}
 	
 	public void StartWallRun()
 	{
-		m_con._currentMaxSpeed = m_data.m_wallRunMaxSpeed;
-		m_con._currentJumpCount = 1;
-		m_con._wallRunTime = m_data.m_maxWallRunTime;
+		Con._currentMaxSpeed = Data.WallRunMaxSpeed;
+		Con._currentJumpCount = 1;
+		Con._wallRunTime = Data.MaxWallRunTime;
 
-		if (m_data.m_canWallJump)
+		if (Data.CanWallJump)
 		{
-			m_con._currentJumpCount--;
-			if (m_con._currentJumpCount < 0)
+			Con._currentJumpCount--;
+			if (Con._currentJumpCount < 0)
 			{
-				m_con._currentJumpCount = 0;
+				Con._currentJumpCount = 0;
 			}
 		}
 
-		m_con._yVelocity = new(0, 0, 0);
+		Con._yVelocity = new(0, 0, 0);
 
-		m_con._currentGravityForce = m_data.m_wallRunGravityForce;
-		m_con._cineCam.m_Lens.Dutch = m_con._currentWalls.HasFlag(WallCheckDirections.Right) ? 3f : -3f;
+		Con._currentGravityForce = Data.WallRunGravityForce;
+		Con.CineCam.m_Lens.Dutch = Con._currentWalls.HasFlag(WallCheckDirections.Right) ? 3f : -3f;
 		
-		m_con.m_wallRunEvents.m_onWallRunStart.Invoke();
+		Con.WallRunningEvents.OnWallRunStart.Invoke();
 	}
 
 	public void EndWallRun()
 	{
 		
-		m_con._cineCam.m_Lens.Dutch = 0;
+		Con.CineCam.m_Lens.Dutch = 0;
 		
-		m_con._lastWallNormal = m_con._wallNormal;
+		Con._lastWallNormal = Con._wallNormal;
 		
 
-		m_con._currentMaxSpeed = m_data.m_baseMaxSpeed;
+		Con._currentMaxSpeed = Data.BaseMaxSpeed;
 		
-		m_con._currentGravityForce = m_data.m_baseGravityForce;
+		Con._currentGravityForce = Data.BaseGravityForce;
 		
-		m_con.m_wallRunEvents.m_onWallRunEnd.Invoke();
+		Con.WallRunningEvents.OnWallRunEnd.Invoke();
 	}
 
 	#endregion

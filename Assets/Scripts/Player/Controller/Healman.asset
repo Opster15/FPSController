@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe02b5cd239302d4a93f40ed33f13de4, type: 3}
-  m_Name: New FPS Controller Data
+  m_Name: Healman
   m_EditorClassIdentifier: 
   BaseMaxSpeed: 11
   GroundAccelerationCurve:
@@ -19,20 +19,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 2.508651
+      outSlope: 2.508651
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
+      time: 0.3986206
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.04204656
+      outSlope: -0.04204656
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.14071292
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -43,20 +43,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 6.7202625
+      outSlope: 6.7202625
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
+      time: 0.14880371
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 6.7202625
+      outSlope: 6.7202625
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -110,8 +110,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  AirControl: 0.5
-  BaseGravityForce: -15
+  AirControl: 0.05
+  BaseGravityForce: -50
   WallRunGravityForce: 0
   GravityCurve:
     serializedVersion: 2
@@ -119,20 +119,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 9.088252
+      outSlope: 9.088252
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0.11
+      value: 0.9997077
+      inSlope: 9.088252
+      outSlope: 9.088252
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -167,7 +167,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   CanJump: 1
-  JumpForce: 3
+  JumpForce: 2
   MaxJumpCount: 1
   WhatIsGround:
     serializedVersion: 2
@@ -211,7 +211,7 @@ MonoBehaviour:
   SlideCooldown: 1
   SlideStartType: 0
   SlideEndType: 0
-  CanDash: 1
+  CanDash: 0
   DashType: 0
   DashSpeedCurve:
     serializedVersion: 2
@@ -244,16 +244,16 @@ MonoBehaviour:
   WhatIsWall:
     serializedVersion: 2
     m_Bits: 128
-  WallCheckDirection: -1
+  WallCheckDirection: 1
   WallCheckDist: 1
-  CanWallRun: 1
-  WallRunCheckDirection: 12
+  CanWallRun: 0
+  WallRunCheckDirection: 0
   WallRunMaxSpeed: 10
   MaxWallRunTime: 2
   WallRunDecay: 0
   WallRunDecayTime: 1
   MaxWallAngle: 5
-  CanWallJump: 1
+  CanWallJump: 0
   WallJumpCheckDirection: 0
   MaxWallJumpCount: 4
   WallRunMaxLookAngle: 10
