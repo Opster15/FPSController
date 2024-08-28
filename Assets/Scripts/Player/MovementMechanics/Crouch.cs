@@ -79,7 +79,7 @@ public class Crouch : MovementMechanic
 		Con.CrouchingEvents.OnCrouchEnd.Invoke();
 		
 		Con.Cc.height = 2f;
-		Con.Cc.center = new Vector3(0, 0, 0);
+		Con.Cc.center = new Vector3(0, 1, 0);
 		
 		Con.PlayerCamParent.transform.localPosition = Vector3.up * Data.DefaultCamYPos;
 		Con._currentMaxSpeed = Data.BaseMaxSpeed;
@@ -88,7 +88,7 @@ public class Crouch : MovementMechanic
 	public bool CanUncrouch()
 	{
 		//TODO add variable to data thats uncrouch check position & uncrouch check size
-		if (Physics.CheckSphere(transform.position + (Vector3.up * .55f), .5f))
+		if (Physics.CheckSphere(transform.position + (Vector3.up * 1.55f), .5f))
 		{
 			return false;
 		}
@@ -100,7 +100,7 @@ public class Crouch : MovementMechanic
 	
 	private void OnDrawGizmosSelected()
 	{
-		Gizmos.DrawSphere(transform.position + (Vector3.up * .55f), .5f);
+		Gizmos.DrawSphere(transform.position + (Vector3.up * 1.55f), .5f);
 	}
    
 	#endregion

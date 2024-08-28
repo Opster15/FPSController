@@ -238,7 +238,9 @@ public class FPSController : MonoBehaviour
 		_forwardDirection = Orientation.forward;
 		_currentGravityForce = Data.BaseGravityForce;
 		_canLook = true;
-
+		
+		PlayerCamParent.transform.localPosition = Vector3.up * Data.DefaultCamYPos;
+		
 		CurrentMechanic = _defMovement;
 
 		CurrentMechanic.EnterState();
@@ -476,6 +478,8 @@ public class FPSController : MonoBehaviour
 				CurrentMechanic.SwapState(_dash);
 			}
 		}
+		
+		
 
 	}
 

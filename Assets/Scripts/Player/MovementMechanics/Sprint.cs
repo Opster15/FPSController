@@ -25,6 +25,12 @@ public class Sprint : MovementMechanic
 			}
 		}
 		
+		if(Data.SprintType == SprintType.fowardOnly && Con.InputManager.Movement.y < 1)
+		{
+			SwapState(Con._defMovement);
+			return;
+		}
+		
 		Con.SprintingEvents.OnSprinting.Invoke();
 		Con.GroundMovement();
 	}

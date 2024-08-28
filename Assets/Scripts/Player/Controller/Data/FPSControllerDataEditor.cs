@@ -62,6 +62,7 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.LabelField("SPRINT VARIABLES", EditorStyles.boldLabel);
 						EditorGUI.indentLevel++;
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("SprintInputType"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("SprintType"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("SprintMaxSpeed"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("SprintCurve"));
 

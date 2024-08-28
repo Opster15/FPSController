@@ -86,7 +86,7 @@ public class Slide : MovementMechanic
 		Con.SlidingEvents.OnSlideEnd.Invoke();
 	
 		
-		Con.Cc.center = new Vector3(0, 0, 0);
+		Con.Cc.center = new Vector3(0, 1, 0);
 		Con.Cc.height = 2f;
 		
 		Con.PlayerCamParent.localPosition = Vector3.up * Data.DefaultCamYPos;

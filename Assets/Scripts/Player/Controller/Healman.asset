@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe02b5cd239302d4a93f40ed33f13de4, type: 3}
   m_Name: Healman
   m_EditorClassIdentifier: 
-  BaseMaxSpeed: 11
+  BaseMaxSpeed: 8
   GroundAccelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -137,17 +137,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CrouchInputType: 0
+  CrouchInputType: 1
   SlideInputType: 0
   SprintInputType: 0
   CanSprint: 1
-  SprintMaxSpeed: 20
+  SprintType: 0
+  SprintMaxSpeed: 12
   SprintCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.69999695
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -177,18 +178,18 @@ MonoBehaviour:
   CanCrouch: 1
   CrouchMaxSpeed: 4
   CrouchHeight: 1
-  CrouchCenter: -0.5
-  DefaultCamYPos: 0.5
-  CrouchCamYPos: -0.5
+  CrouchCenter: 0.5
+  DefaultCamYPos: 1.5
+  CrouchCamYPos: 0.5
   CanSlide: 1
   SlideType: 0
-  SlideMaxSpeed: 16
+  SlideMaxSpeed: 12
   SlideMovementCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -197,7 +198,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.5
-      value: 1
+      value: 0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -209,7 +210,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   InfiniteSlide: 0
   SlideCooldown: 1
-  SlideStartType: 0
+  SlideStartType: 2
   SlideEndType: 0
   CanDash: 0
   DashType: 0
