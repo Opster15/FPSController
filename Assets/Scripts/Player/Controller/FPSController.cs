@@ -111,6 +111,9 @@ public class FPSController : MonoBehaviour
 
 	public float _cyoteTimer;
 
+	[Tooltip("True if the player has let go of jump to reduce upwards velocity")]
+	public bool _jumpHoldCheck;
+
 	[System.Serializable]
 	public class JumpEvents
 	{
@@ -197,7 +200,7 @@ public class FPSController : MonoBehaviour
 	public CinemachineBasicMultiChannelPerlin _perl;
 
 	public float ShakeTimer;
-	
+
 	public float HeadBobAmp, HeadBobFreq;
 
 	public bool _isBobbing;
@@ -238,9 +241,9 @@ public class FPSController : MonoBehaviour
 		_forwardDirection = Orientation.forward;
 		_currentGravityForce = Data.BaseGravityForce;
 		_canLook = true;
-		
+
 		PlayerCamParent.transform.localPosition = Vector3.up * Data.DefaultCamYPos;
-		
+
 		CurrentMechanic = _defMovement;
 
 		CurrentMechanic.EnterState();
@@ -265,11 +268,6 @@ public class FPSController : MonoBehaviour
 		if (_canLook)
 		{
 			Look();
-		}
-
-		if (Data.LeanOnMove)
-		{
-			LeanPlayer();
 		}
 
 		if (CurrentMechanic)
@@ -356,9 +354,9 @@ public class FPSController : MonoBehaviour
 		_input = Orientation.transform.TransformDirection(_input);
 		_input = Vector3.ClampMagnitude(_input, 1f);
 
-		if (Data.LeanOnMove)
+		if (Data.TiltOnMove)
 		{
-			LeanPlayer();
+			MovementTilt();
 		}
 
 		_isInputing = _input.x != 0 || _input.y != 0;
@@ -424,6 +422,16 @@ public class FPSController : MonoBehaviour
 
 		if (_jump)
 		{
+			if (_jump.InState && Data.JumpType == JumpType.holdToJumpHigher)
+			{
+				if (_jumpHoldCheck) { return; }
+				if (!InputManager.m_jump.InputHeld)
+				{
+					_jumpHoldCheck = true;
+					_yVelocity.y *= Data.JumpHoldReductionMultiplier;
+				}
+			}
+
 			if (InputManager.m_jump.InputPressed && _jumpCounter <= 0)
 			{
 				CurrentMechanic.SwapState(_jump);
@@ -478,8 +486,11 @@ public class FPSController : MonoBehaviour
 				CurrentMechanic.SwapState(_dash);
 			}
 		}
-		
-		
+
+		if (InputManager.LeftLean.InputPressed)
+		{
+			// StartCoroutine(LeanPlayer(true,1f));
+		}
 
 	}
 
@@ -760,9 +771,9 @@ public class FPSController : MonoBehaviour
 		}
 	}
 
-	public void LeanPlayer()
+	public void MovementTilt()
 	{
-		float x = Data.LeanOnMoveAmount * (_currentSpeed / _currentMaxSpeed);
+		float x = Data.TiltOnMoveAmount * (_currentSpeed / _currentMaxSpeed);
 
 		PlayerCamParent.rotation = Quaternion.Euler(-InputManager.Movement.x * x, 0, -InputManager.Movement.y * x);
 	}
@@ -783,6 +794,21 @@ public class FPSController : MonoBehaviour
 			time += Time.deltaTime;
 		}
 	}
+
+	// public IEnumerator LeanPlayer(bool leftLean, float duration)
+	// {
+	// 	float targetLeanRotation = leftLean ? -15 : 15;
+
+	// 	float startX = 0;
+	// 	float time = 0;
+	// 	while (time < duration)
+	// 	{
+	// 		PlayerCamParent.rotation = new(Mathf.Lerp(startX, targetLeanRotation, time / duration),PlayerCamParent.rotation.y,PlayerCamParent.rotation.z);
+	// 		yield return null;
+	// 		time += Time.deltaTime;
+	// 	}
+	// }
+
 
 
 	#endregion

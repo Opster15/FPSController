@@ -111,11 +111,11 @@ public class FPSControllerDataEditor : Editor
 					
 					EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultFOV"));
 					
-					EditorGUILayout.PropertyField(serializedObject.FindProperty("LeanOnMove"));
+					EditorGUILayout.PropertyField(serializedObject.FindProperty("TiltOnMove"));
 					
-					if(x.LeanOnMove)
+					if(x.TiltOnMove)
 					{
-						EditorGUILayout.PropertyField(serializedObject.FindProperty("LeanOnMoveAmount"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("TiltOnMoveAmount"));
 					}
 					
 					break;
@@ -154,6 +154,8 @@ public class FPSControllerDataEditor : Editor
 					if (x.CanJump)
 					{
 						EditorGUI.indentLevel++;
+						
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("JumpType"));
 						if(x.WhatIsGround == 0) EditorGUILayout.HelpBox("What Is Ground shouldnt be nothing", MessageType.Warning);
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("WhatIsGround"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("JumpForce"));
@@ -161,6 +163,11 @@ public class FPSControllerDataEditor : Editor
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("MaxJumpCount"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("CyoteTime"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("MaxYVelocity"));
+						
+						if(x.JumpType == JumpType.holdToJumpHigher)
+						{
+							EditorGUILayout.PropertyField(serializedObject.FindProperty("JumpHoldReductionMultiplier"));
+						}
 						
 						if (x.StaminaUsingMechanics.HasFlag(StaminaUsingMechanics.Jump) && x.UseStamina)
 						{

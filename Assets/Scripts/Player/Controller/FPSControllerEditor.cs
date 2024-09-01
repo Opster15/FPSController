@@ -117,6 +117,7 @@ public class FPSControllerEditor : Editor
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_cyoteTimer"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_currentJumpCount"));
 						EditorGUILayout.PropertyField(serializedObject.FindProperty("_disableGroundCheck"));
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("_jumpHoldCheck"));
 					
 						break;
 					case "Stamina":

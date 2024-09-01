@@ -24,7 +24,6 @@ public class Jump : MovementMechanic
 	public override void UpdateState()
 	{
 		//base.UpdateState();
-		
 		if (Con._isGrounded && Con._jumpCounter <= 0)
 		{
 			Con.JumpingEvents.OnJumpLand.Invoke();
@@ -37,8 +36,15 @@ public class Jump : MovementMechanic
 		}
 	}
 
-	#endregion
+	public override void ExitState()
+	{
+		base.ExitState();
+		
+		Con._jumpHoldCheck = false;
+	}
 
+	#endregion
+	
 	#region JUMP FUNCTIONS
 	public bool JumpCheck()
 	{
@@ -82,7 +88,9 @@ public class Jump : MovementMechanic
 		Con._yVelocity.y = Mathf.Sqrt(-Data.JumpForce * Con._currentGravityForce);
 
 	}
-
+	
+	
+	
 	#endregion
 
 }

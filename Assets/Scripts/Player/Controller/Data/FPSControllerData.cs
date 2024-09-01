@@ -67,9 +67,11 @@ public class FPSControllerData : ScriptableObject
 	#endregion
 
 	#region JUMPING VARIABLES
-
+	
 	public bool CanJump;
 
+	public JumpType JumpType;
+	
 	[Tooltip("Jump force applied upwards to controller")]
 	public float JumpForce = 3f;
 
@@ -84,7 +86,9 @@ public class FPSControllerData : ScriptableObject
 
 	[Tooltip("Max upwards velocity that can be applied to the controller")]
 	public float MaxYVelocity = 50f;
-
+	
+	[Tooltip("Muliplies the current y velocity of the player when letting go of jump")]
+	public float JumpHoldReductionMultiplier = .5f;
 
 	#endregion
 
@@ -287,11 +291,13 @@ public class FPSControllerData : ScriptableObject
 	[Tooltip("Default FOV of the cinemachine camera")]
 	public float DefaultFOV = 90f;
 
-	[Tooltip("Leaning camera in the direction of movement")]
-	public bool LeanOnMove;
+	[Tooltip("Tilting camera in the direction of movement")]
+	public bool TiltOnMove;
 
-	[Tooltip("Max angle of rotation when leaning")]
-	public float LeanOnMoveAmount = 1f;
+	[Tooltip("Max angle of rotation when tilting")]
+	public float TiltOnMoveAmount = 1f;
+	
+	
 
 	#endregion
 

@@ -168,6 +168,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   CanJump: 1
+  JumpType: 1
   JumpForce: 2
   MaxJumpCount: 1
   WhatIsGround:
@@ -175,6 +176,7 @@ MonoBehaviour:
     m_Bits: 64
   CyoteTime: 0.5
   MaxYVelocity: 50
+  JumpHoldReductionMultiplier: 0.5
   CanCrouch: 1
   CrouchMaxSpeed: 4
   CrouchHeight: 1
@@ -281,7 +283,7 @@ MonoBehaviour:
   ScreenShakeAmplitude: 0
   ScreenShakeDuration: 0
   DefaultFOV: 90
-  LeanOnMove: 0
-  LeanOnMoveAmount: 1
+  TiltOnMove: 0
+  TiltOnMoveAmount: 1
   Sensitivity: 1
   SensMultiplier: 1
